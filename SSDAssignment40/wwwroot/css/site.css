@@ -1,0 +1,84 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+
+@font-face {
+    font-family: Proxima-Nova-Regular;
+    src: url(../fonts/Proxima-Nova-Regular.ttf);
+}
+
+@font-face {
+    font-family: "NeutraText-Bold";
+    src: url(../fonts/NeutraText-Bold.otf);
+}
+
+
+body {
+    padding-bottom: 20px;
+    background-color: white;
+    font-family: NeutraText-Bold;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+nav, footer {
+   font-family: Proxima-Nova-Regular;
+   font-weight: bold;
+   font-size: 16px;
+}
+
+nav span, nav a{
+    border-bottom: 2px solid transparent;
+}
+
+#org_logo{
+    border: none;
+    padding: 0;
+    padding-right: 25px;
+}
+
+nav span:hover, nav a:hover {
+    border-color: #4154BD;
+    transition: border-color ease-out 0.7s;
+    color: black !important;
+}
+
+#nav_bar {
+    margin-top: -10px;
+    background-color: #f4f4f4 !important;
+}
+
+#header_nav {
+    background-color: #f4f4f4 !important;
+    padding-bottom: 15px;
+}
+
+

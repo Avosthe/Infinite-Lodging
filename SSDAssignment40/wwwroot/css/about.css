@@ -1,0 +1,260 @@
+﻿@font-face {
+    font-family: 'Lobster-Regular';
+    src: url(../fonts/Lobster-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'SIMPLIFICA Typeface';
+    src: url(../fonts/SIMPLIFICA-Typeface.ttf);
+}
+
+@font-face {
+    font-family: "YanoneKaffeesatz-Bold";
+    src: url(../fonts/YanoneKaffeesatz-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Coda-Regular";
+    src: url(../fonts/Coda-Regular.ttf);
+}
+
+
+@font-face {
+    font-family: "Tungsten-Light";
+    src: url(../fonts/Tungsten-Light.ttf);
+}
+
+@font-face {
+    font-family: "Neutra-TF-Light";
+    src: url(../fonts/Tungsten-Light.ttf);
+}
+
+@font-face {
+    font-family: "NeutraText-Bold";
+    src: url(../fonts/NeutraText-Bold.otf);
+}
+
+@font-face {
+    font-family: "Tungsten-Bold";
+    src: url(../fonts/Tungsten-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Exo-ExtraBold";
+    src: url(../fonts/Exo-ExtraBold.otf);
+}
+
+@font-face {
+    font-family: "Brandon-Grotesque-Black-Italic";
+    src: url(../fonts/Brandon-Grotesque-Black-Italic.ttf);
+}
+
+@font-face {
+    font-family: "Gotham-Bold-Regular";
+    src: url(../fonts/Gotham-Bold-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Proxima-Nova-Regular";
+    src: url(../fonts/Proxima-Nova-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Nunito-Regular";
+    src: url(../fonts/Nunito-Regular.ttf);
+}
+
+h1 {
+    font-family: Proxima-Nova-Regular;
+    font-weight: bold;
+}
+
+.full-screen-modal {
+    position: fixed;
+    display: block;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    background-color: #f4f7f6;
+    visibility: hidden;
+    overflow: scroll;
+    opacity: 0;
+    transition: all 0.8s;
+    min-width: 920px;
+}
+
+.overlay {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+#meet-the-boss {
+    margin: 0;
+    height: 400px;
+    background: url(../images/cto-bg.jpeg);
+    text-align: center;
+    margin-top: -38px;
+}
+
+#meet-the-boss h1{
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    padding-top: 20px;
+    font-family: Proxima-Nova-Regular;
+}
+
+#cto-img {
+    width: 275px;
+    height: 275px;
+    border-radius: 50%;
+    background: url(../images/cto-picture.jpg);
+    background-size: cover;
+    margin: 0 auto;
+}
+
+#cto-img div{
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+#cto-img div:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+#cto-img p{
+    color: white;
+    text-align: center;
+}
+
+#cto-img p:first-of-type{
+    padding-top: 100px;
+    font-family: Tungsten-Light;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+#cto-img p:last-of-type{
+    font-family: SIMPLIFICA Typeface;
+    font-size: 20px;
+    color: silver;
+    font-weight: bold;
+}
+
+/* CTO Information */
+
+#cto-information {
+    background-color: #f4f4f4;
+    opacity: 1;
+    overflow-x: hidden;
+}
+
+#close2 {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 100;
+    opacity: 0;
+}
+
+.cto-info{
+    display: inline-block;
+    height: 100%;
+}
+
+#cto-info-left{
+    width: 40%;
+    text-align: left;
+    padding-top: 5%;
+}
+
+#cto-info-left img{
+    padding-top: 40px;
+}
+
+#cto-info-left h1{
+    clear: both;
+}
+
+#cto-info-right{
+    float: right;
+    width: 50%;
+}
+
+#cto-info-right img:last-of-type{
+    width: 100%;
+    display: none;
+}
+
+#cto-swaggy-picture{
+    width: 75%;
+    height: 100vh;
+    border-radius: 15%;
+}
+
+@keyframes cto-zoom-in{
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1.25);
+    }
+}
+
+.cto-slide-right{
+    animation: slideFromRight 1s;
+}
+
+.cto-zoom-in{
+    animation: cto-zoom-in 30s;
+}
+
+#cto-information h1 {
+    padding-top: 20px;
+    font-family: Proxima-Nova-Regular;
+    color: black;
+    text-align: left;
+    font-size: 50px;
+    margin: 0;
+}
+
+#cto-information h2 {
+    font-family: Tungsten-Bold;
+    color: #645c5c;
+    font-size: 25px;
+    text-align: left;
+    clear: both;
+}
+
+#cto-information hr{
+    border: none;
+    border-top: 1.5px solid black;
+    width: 20%;
+    float: left;
+}
+
+#cto-information p{
+    padding-top: 15px;
+    text-align: left;
+    line-height: 2em;
+    clear: both;
+    font-family: Proxima-Nova-Regular;
+
+}
+
+
+@media screen and (max-width: 1290px) {
+
+    #cto-info-right img:first-of-type {
+        display: none;
+    }
+
+    #cto-info-right img:last-of-type {
+        display: initial;
+    }
+}
