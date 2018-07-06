@@ -45,6 +45,10 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required]
+            [Display(Name = "Username")]
+            [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Please enter valid username.")]
+            public string UserName { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -115,7 +119,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new Lodger { UserName = Input.Email, Email = Input.Email };
+                var user = new Lodger { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
