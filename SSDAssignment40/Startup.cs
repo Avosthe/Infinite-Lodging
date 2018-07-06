@@ -37,7 +37,7 @@ namespace SSDAssignment40
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<Lodger, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 

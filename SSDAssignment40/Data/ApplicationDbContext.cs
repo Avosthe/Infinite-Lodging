@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SSDAssignment40.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Lodger>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
