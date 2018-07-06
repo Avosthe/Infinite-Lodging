@@ -1,5 +1,4 @@
-﻿@using SSDAssignment40.Data
-@inject SignInManager<Lodger> SignInManager
+﻿@inject SignInManager<SSDAssignment40.Data.Lodger> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

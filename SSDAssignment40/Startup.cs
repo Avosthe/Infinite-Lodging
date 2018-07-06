@@ -40,6 +40,12 @@ namespace SSDAssignment40
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<Lodger>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthentication().AddFacebook(fbOptions =>
+            {
+                fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                fbOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+
+            });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
