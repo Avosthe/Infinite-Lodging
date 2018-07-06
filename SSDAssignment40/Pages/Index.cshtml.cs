@@ -11,20 +11,12 @@ namespace SSDAssignment40.Pages
 {
     public class IndexModel : PageModel
     {
-
-        //public IndexModel(ApplicationDbContext DBLodgers)
-        //{
-        //    _DBLodgers = DBLodgers;
-        //}
         [TempData]
         public string userAlertMessage { get; set; }
 
-        //public ApplicationDbContext _DBLodgers;
-
-        public List<Lodger> Lodgers { get; set; }
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            //Lodgers = await _DBLodgers.Lodger.ToListAsync();
+
         }
     }
 }

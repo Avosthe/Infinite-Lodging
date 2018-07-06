@@ -14,6 +14,5 @@ namespace SSDAssignment40.Data
 
         }
 
-        public DbSet<Lodger> Lodger { get; set; }
     }
 }
