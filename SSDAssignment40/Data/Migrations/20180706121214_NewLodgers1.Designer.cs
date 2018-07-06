@@ -65,7 +65,7 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +85,7 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -103,7 +103,7 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerRole<string>", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -116,7 +116,7 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerToken<string>", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -204,7 +204,7 @@ namespace SSDAssignment40.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerClaim<string>", b =>
                 {
                     b.HasOne("SSDAssignment40.Data.Lodger")
                         .WithMany()
@@ -212,7 +212,7 @@ namespace SSDAssignment40.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerLogin<string>", b =>
                 {
                     b.HasOne("SSDAssignment40.Data.Lodger")
                         .WithMany()
@@ -220,7 +220,7 @@ namespace SSDAssignment40.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
@@ -233,7 +233,7 @@ namespace SSDAssignment40.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.LodgerToken<string>", b =>
                 {
                     b.HasOne("SSDAssignment40.Data.Lodger")
                         .WithMany()

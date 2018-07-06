@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace SSDAssignment40
 {
@@ -37,7 +38,7 @@ namespace SSDAssignment40
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<Lodger, IdentityRole>()
+            services.AddDefaultIdentity<Lodger>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
