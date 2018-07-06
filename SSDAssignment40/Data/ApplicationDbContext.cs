@@ -11,6 +11,9 @@ namespace SSDAssignment40.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
+
+        public DbSet<Lodger> Lodger { get; set; }
     }
 }
