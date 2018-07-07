@@ -75,6 +75,11 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
+                if (_userManager.FindByEmailAsync(Input.Email) != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
+                    return Page();
+                }
                 var user = new Lodger { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -97,10 +102,10 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
 
                     return LocalRedirect(returnUrl);
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
             }
 
             // If we got this far, something failed, redisplay form
