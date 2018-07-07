@@ -96,11 +96,11 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                 }
                 else if (result.IsNotAllowed)
                 {
-                    ModelState.AddModelError(string.Empty, "Please verify your email first!");
+                    ModelState.AddModelError(string.Empty, "Please verify your email address first!");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
                     return Page();
                 }
             }

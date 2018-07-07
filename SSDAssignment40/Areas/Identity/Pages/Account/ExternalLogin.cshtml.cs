@@ -39,6 +39,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
 
         [TempData]
         public string ErrorMessage { get; set; }
+        [TempData]
+        public string userAlertMessage { get; set; }
 
         public class InputModel
         {
@@ -126,8 +128,9 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        userAlertMessage = "Please verify your email address first before logging in!";
                         return LocalRedirect(returnUrl);
                     }
                 }

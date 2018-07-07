@@ -93,7 +93,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                         $"<br/>" +
                         $"Please confirm your account at ∞Lodging by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.<br/>");
 
-                    userAlertMessage = "Please verify your email before logging in!";
+                    userAlertMessage = "Please verify your email address first before logging in!";
 
                     return LocalRedirect(returnUrl);
                 }
