@@ -38,6 +38,9 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        [TempData]
+        public string userAlertMessage { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -86,9 +89,12 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"<img src='https://image.ibb.co/dyXbEy/test.png'/>" +
+                        $"<br/>" +
+                        $"Please confirm your account at ∞Lodging by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.<br/>");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    userAlertMessage = "Please verify your email before logging in!";
+
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

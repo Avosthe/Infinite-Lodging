@@ -38,8 +38,12 @@ namespace SSDAssignment40
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<Lodger, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<Lodger, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
             services.AddAuthentication().AddFacebook(fbOptions =>
             {
                 fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
@@ -51,8 +55,6 @@ namespace SSDAssignment40
                 ggOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
             services.AddTransient<IEmailSender, EmailSender>();
-
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -94,6 +94,10 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
+                else if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError(string.Empty, "Please verify your email first!");
+                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
