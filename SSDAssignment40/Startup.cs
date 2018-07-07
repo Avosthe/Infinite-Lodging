@@ -45,6 +45,10 @@ namespace SSDAssignment40
                 fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 fbOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
 
+            }).AddGoogle(ggOptions =>
+            {
+                ggOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                ggOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
 
 
