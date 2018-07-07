@@ -81,4 +81,8 @@ nav span:hover, nav a:hover {
     padding-bottom: 15px;
 }
 
+.hidden {
+    opacity: 0;
+    transition: opacity 2s linear;
+}
 
