@@ -75,7 +75,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                if (_userManager.FindByEmailAsync(Input.Email) != null)
+                Lodger x = await _userManager.FindByEmailAsync(Input.Email);
+                if (x != null && (await _userManager.IsEmailConfirmedAsync(x)))
                 {
                     ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
                     return Page();
@@ -94,10 +95,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"<img src='https://image.ibb.co/dyXbEy/test.png'/>" +
-                        $"<br/>" +
-                        $"Please confirm your account at ∞Lodging by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.<br/>");
-
+                        $"<div style=width: 70%; margin: 0 auto;'><p><img style='display: block; margin-left: auto; margin-right: auto;' src='https://image.ibb.co/dyXbEy/test.png' alt='Infinite Lodging' width='198' height='94' /></p><h3 style='text-align: center;'>For security reasons, please verify your email.</h3><p style='text-align: center;'><a href='{HtmlEncoder.Default.Encode(callbackUrl)}'><img src='https://image.ibb.co/gEX9mo/Logo_Makr_0k_Wnu_O.png' alt='Confirm Email' width='344' height='43' /></a></p><p style='text-align: center;'>&nbsp;</p><span style='color: #808080; font-size: small;'><em>This message was sent to {Input.Email}. You are receiving this because you're a &infin;Lodging member, or you've signed up to receive email from us. Manage your preferences or unsubscribe. </em></span></div>");
                     userAlertMessage = "Please verify your email address first before logging in!";
 
                     return LocalRedirect(returnUrl);

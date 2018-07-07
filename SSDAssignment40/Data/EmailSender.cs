@@ -33,7 +33,6 @@ namespace SSDAssignment40.Data
             var to = new EmailAddress(email, "New User");
             var msg = MailHelper.CreateSingleEmail(from, to, subject, message, message);
             var resp = await client.SendEmailAsync(msg);
-            _logger.LogInformation("FIND ME");
             string x = await resp.Body.ReadAsStringAsync();
             _logger.LogInformation(x);
         }

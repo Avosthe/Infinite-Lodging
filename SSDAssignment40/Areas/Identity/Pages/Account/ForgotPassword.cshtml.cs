@@ -54,9 +54,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     values: new { code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
+                await _emailSender.SendEmailAsync(Input.Email, "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
