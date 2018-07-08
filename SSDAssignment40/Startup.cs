@@ -13,6 +13,7 @@ using SSDAssignment40.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace SSDAssignment40
 {
@@ -55,6 +56,12 @@ namespace SSDAssignment40
                 ggOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ISmsSender, SmsSender>();
+            services.AddRecaptcha(new RecaptchaOptions
+            {
+                SiteKey = Configuration["reCaptcha:siteKey"],
+                SecretKey = Configuration["reCaptcha:secretKey"]
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

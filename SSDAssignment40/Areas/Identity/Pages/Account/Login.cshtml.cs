@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SSDAssignment40.Data;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace SSDAssignment40.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [ValidateRecaptcha]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<Lodger> _signInManager;
