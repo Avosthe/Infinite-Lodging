@@ -76,7 +76,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 Lodger x = await _userManager.FindByEmailAsync(Input.Email);
-                if (x != null && (await _userManager.IsEmailConfirmedAsync(x)))
+                bool isConfirmed = await _userManager.IsEmailConfirmedAsync(x);
+                if (x is Lodger && isConfirmed)
                 {
                     ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
                     return Page();
