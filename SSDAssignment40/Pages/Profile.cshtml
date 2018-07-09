@@ -1,14 +1,33 @@
-﻿@page "{username}"
+﻿@page "{username}/{handler?}"
 @model SSDAssignment40.Pages.ProfileModel
 @{
     ViewData["Title"] = "Profile";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+@inject UserManager<Lodger> _userManager
 
 <h2>Profile</h2>
 
 <div class="container">
-     @Model.Username
+    @Model.Username
+    <form method="post" asp-page-handler="Edit">
+        <div class="form-group">
+            <label for="edit_Profile">Edit Profile: </label>
+            <input asp-for="UserID" type="hidden" value="@_userManager.GetUserName(User)" />
+            <button id="edit_Profile" class="btn btn-danger" type="submit"></button>
+        </div>
+    </form>
+    @{ 
+        if(Model.UserID != null)
+        {
+            <div class="alert alert-info">
+                @Model.UserID
+            </div>
+
+        }
+    }
+
+
     <br />
 </div>
 
