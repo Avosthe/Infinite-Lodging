@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace SSDAssignment40
 {
@@ -94,7 +95,6 @@ namespace SSDAssignment40
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseStatusCodePagesWithRedirects("/Errors/{0}");
-            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
