@@ -14,9 +14,15 @@ namespace SSDAssignment40.Pages
     {
         [FromRoute]
         public string Username { get; set; }
+        [BindProperty]
+        public string UserID { get; set; }
         public void OnGet()
         {
 
+        }
+        public void OnPostEdit()
+        {
+            return;
         }
     }
 }
