@@ -43,16 +43,5 @@ namespace SSDAssignment40.Data
             MailjetResponse response = await client.PostAsync(request);
             _logger.LogInformation(response.IsSuccessStatusCode.ToString());
         }
-
-        //public async Task Execute(string apiKey, string subject, string message, string email)
-        //{
-        //    var client = new SendGridClient(apiKey);
-        //    var from = new EmailAddress("accounts@infiniteLodging.org", "infiniteLodging");
-        //    var to = new EmailAddress(email, "New User");
-        //    var msg = MailHelper.CreateSingleEmail(from, to, subject, message, message);
-        //    var resp = await client.SendEmailAsync(msg);
-        //    string x = await resp.Body.ReadAsStringAsync();
-        //    _logger.LogInformation(x);
-        //}
     }
 }

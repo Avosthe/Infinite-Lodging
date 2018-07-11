@@ -1,0 +1,54 @@
+﻿@page "{handler?}"
+@model VerifyMobileModel
+@{
+
+    <div style="width: 50%; margin: 0 auto;">
+        @if (Model.MobileNumber == null)
+        {
+            <form method="post" asp-page-handler="Verify">
+                <div class="form-group">
+                    <label>Mobile Number <span style="color:red;">(*)</span></label>
+                    <br />
+                    <br />
+                    <input asp-for="InputMobileNumber" class="form-control" placeholder="Enter your mobile number" />
+                    <br />
+                    <span asp-validation-for="InputMobileNumber" class="text-danger"></span>
+                    <br />
+                    <br />
+                    <button type="submit">Send Verification Code</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form method="post" asp-page-handler="VerifyRandomCode">
+                <div class="form-group">
+                    <label>Verification Code<span style="color:red;">(*)</span></label>
+                    <br />
+                    <br />
+                    <input asp-for="InputRandomCode" class="form-control" placeholder="Enter the verification code you received." />
+                    <br />
+                    <span asp-validation-for="InputRandomCode" class="text-danger"></span>
+                    <br />
+                    <br />
+                    <button type="submit">Verify Random Code</button>
+                </div>
+            </form>
+        }
+    </div>
+
+    <div>
+        @foreach (var e in Model.ModelState.ToList())
+        {
+            <p>
+                Key: @e.Key
+            </p>
+            <p>
+                Value : @e.Value
+            </p>
+        }
+    </div>
+
+
+
+}

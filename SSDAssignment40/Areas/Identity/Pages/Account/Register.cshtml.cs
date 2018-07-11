@@ -41,6 +41,9 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
         [TempData]
         public string userAlertMessage { get; set; }
 
+        [TempData]
+        public string MobileNumber { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -65,25 +68,28 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            if (string.IsNullOrEmpty(MobileNumber)) return RedirectToPage("/Index", new { area = "" });
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                //Lodger x = await _userManager.FindByEmailAsync(Input.Email);
-                //if (x == null) goto code;
-                //bool isConfirmed = await _userManager.IsEmailConfirmedAsync(x);
-                //if (isConfirmed)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
-                //    return Page();
-                //}
-                code : 
+                Lodger x = await _userManager.FindByEmailAsync(Input.Email);
+                if (x == null) goto code;
+                bool isConfirmed = await _userManager.IsEmailConfirmedAsync(x);
+                if (isConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
+                    return Page();
+                }
+                code:
                 var user = new Lodger { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -103,10 +109,10 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
 
                     return LocalRedirect(returnUrl);
                 }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
 
             // If we got this far, something failed, redisplay form
