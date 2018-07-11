@@ -69,6 +69,11 @@ namespace SSDAssignment40
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account");
             });
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 44317;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +94,7 @@ namespace SSDAssignment40
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseStatusCodePagesWithRedirects("/Errors/{0}");
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
