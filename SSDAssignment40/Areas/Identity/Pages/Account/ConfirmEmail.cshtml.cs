@@ -34,6 +34,19 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                Lodger User = await _userManager.FindByIdAsync(userId);
+                string Email = await _userManager.GetEmailAsync(User);
+                List<Lodger> Lodgers = _userManager.Users.Where(l => l.Email == Email).ToList<Lodger>();
+                foreach(Lodger l in Lodgers)
+                {
+                    if (!(l.EmailConfirmed))
+                    {
+                        await _userManager.DeleteAsync(l);
+                    }
+                }
+            }
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");

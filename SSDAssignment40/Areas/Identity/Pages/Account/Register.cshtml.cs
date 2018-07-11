@@ -75,14 +75,14 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                Lodger x = await _userManager.FindByEmailAsync(Input.Email);
-                if (x == null) goto code;
-                bool isConfirmed = await _userManager.IsEmailConfirmedAsync(x);
-                if (isConfirmed)
-                {
-                    ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
-                    return Page();
-                }
+                //Lodger x = await _userManager.FindByEmailAsync(Input.Email);
+                //if (x == null) goto code;
+                //bool isConfirmed = await _userManager.IsEmailConfirmedAsync(x);
+                //if (isConfirmed)
+                //{
+                //    ModelState.AddModelError(string.Empty, "Sorry! The email address is already registered.");
+                //    return Page();
+                //}
                 code : 
                 var user = new Lodger { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
