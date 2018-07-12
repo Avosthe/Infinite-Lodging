@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SSDAssignment40.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace SSDAssignment40.Areas.Identity.Pages.Account
 {
@@ -41,9 +42,6 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
         [TempData]
         public string userAlertMessage { get; set; }
 
-        [TempData]
-        public string MobileNumber { get; set; }
-
         public class InputModel
         {
             [Required]
@@ -71,12 +69,14 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
         public IActionResult OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            if (string.IsNullOrEmpty(MobileNumber)) return RedirectToPage("/Index", new { area = "" });
+            if (!(HttpContext.Session.TryGetValue("MobileNumber", out byte[] ran))) return RedirectToPage("/Index", new { area = "" });
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            var phoneNumber = HttpContext.Session.GetString("MobileNumber");
+            if (phoneNumber == null) return RedirectToPage("/Index");
 
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     return Page();
                 }
                 code:
-                var user = new Lodger { UserName = Input.UserName, Email = Input.Email };
+                var user = new Lodger { UserName = Input.UserName, Email = Input.Email, PhoneNumber = phoneNumber, PhoneNumberConfirmed = true};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

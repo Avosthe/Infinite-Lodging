@@ -75,6 +75,9 @@ namespace SSDAssignment40
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                 options.HttpsPort = 44317;
             });
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,8 +98,8 @@ namespace SSDAssignment40
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseStatusCodePagesWithRedirects("/Errors/{0}");
-
             app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc();
         }

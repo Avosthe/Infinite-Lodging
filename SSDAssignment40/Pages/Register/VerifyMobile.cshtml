@@ -3,9 +3,12 @@
 @{
 
     <div style="width: 50%; margin: 0 auto;">
-        @if (Model.MobileNumber == null)
+        @if (!(HttpContext.Session.Keys.Contains("MobileNumber")))
         {
-            <form method="post" asp-page-handler="Verify">
+            <h1 style="text-align: center">Verify your mobile number</h1>
+            <br />
+            <br />
+            <form method="post">
                 <div class="form-group">
                     <label>Mobile Number <span style="color:red;">(*)</span></label>
                     <br />
@@ -21,14 +24,19 @@
         }
         else
         {
+            byte[] bMobileNumber;
+            HttpContext.Session.TryGetValue("MobileNumber", out bMobileNumber);
+            string MobileNumber = System.Text.Encoding.UTF8.GetString(bMobileNumber);
             <form method="post" asp-page-handler="VerifyRandomCode">
                 <div class="form-group">
                     <label>Verification Code<span style="color:red;">(*)</span></label>
                     <br />
+                    <p>A One-Time-Password has been sent to <strong>@MobileNumber</strong></p>
                     <br />
                     <input asp-for="InputRandomCode" class="form-control" placeholder="Enter the verification code you received." />
                     <br />
                     <span asp-validation-for="InputRandomCode" class="text-danger"></span>
+                    <span class="text-danger"></span>
                     <br />
                     <br />
                     <button type="submit">Verify Random Code</button>
@@ -36,19 +44,4 @@
             </form>
         }
     </div>
-
-    <div>
-        @foreach (var e in Model.ModelState.ToList())
-        {
-            <p>
-                Key: @e.Key
-            </p>
-            <p>
-                Value : @e.Value
-            </p>
-        }
-    </div>
-
-
-
 }
