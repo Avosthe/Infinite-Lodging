@@ -1,0 +1,60 @@
+﻿@page
+@model SSDAssignment40.Pages.ListingsCreatedModel
+
+@{
+    ViewData["Title"] = "Listings Created";
+}
+
+<h2>Listings Created</h2>
+
+<p>
+    <a asp-page="CreateListing">Create a New Listing</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Listing[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Listing[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Listing[0].Desc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Listing[0].Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Listing) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoverPic)
+            </td>
+            <td>
+                <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
+                <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
+                <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
