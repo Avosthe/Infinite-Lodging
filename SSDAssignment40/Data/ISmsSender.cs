@@ -7,6 +7,6 @@ namespace SSDAssignment40.Data
 {
     public interface ISmsSender
     {
-        Task SendSmsAsync(string number, string message);
+        bool SendSms(string number, string message);
     }
 }
