@@ -59,10 +59,17 @@ namespace SSDAssignment40.Pages
 
             if (ModelState.IsValid)
             {
-                HttpContext.Session.SetString("MobileNumber", InputMobileNumber);
+                HttpContext.Session.SetString("MobileNumber", "65" + InputMobileNumber);
 
-                // generate random code
-                HttpContext.Session.SetString("RandomCode", "123456");
+                Random randObj = new Random();
+                string verificationCode = randObj.Next(999999).ToString();
+
+                HttpContext.Session.SetString("RandomCode", verificationCode);
+                if(!(_smsSender.SendSms("65" + InputMobileNumber, $"Your verification code for InfiniteLodging is {verificationCode}")))
+                {
+                    HttpContext.Session.Remove("MobileNumber");
+                    return RedirectToPage("/Register/VerifyMobile");
+                }
 
                 return Page();
             }

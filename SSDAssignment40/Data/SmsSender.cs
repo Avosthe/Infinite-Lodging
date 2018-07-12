@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MessageBird;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,36 +13,60 @@ namespace SSDAssignment40.Data
 {
     public class SmsSender : ISmsSender
     {
-        private class Message
+
+        const string AccessKey = "ZwdyutkaI90t2VcEBdS0jBO2X";
+        //private class Message
+        //{
+        //    public string recipients { get; set; }
+        //    public string originator { get; set; }
+        //    public string body { get; set; }
+        //}
+
+        public ILogger _logger { get; set; }
+            public SmsSender(ILogger<SmsSender> logger)
         {
-            public string recipients { get; set; }
-            public string originator { get; set; }
-            public string body { get; set; }
+            _logger = logger;
         }
 
-        public async Task SendSmsAsync(string number, string message)
+        public bool SendSms(string number, string message)
         {
-            using (var client = new HttpClient())
+            Client client = Client.CreateDefault(AccessKey);
+            long recipient = Convert.ToInt64(number);
+            try
             {
-
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("AccessKey", "ZwdyutkaI90t2VcEBdS0jBO2X");
-                client.BaseAddress = new Uri("https://rest.messagebird.com/messages");
-                //serialize your json using newtonsoft json serializer then add it to the StringContent
-                Message payload = new Message()
-                {
-                    recipients = number,
-                    originator = "Infinite Lodging",
-                    body = message
-                };
-
-                var JsonContent = JsonConvert.SerializeObject(payload);
-
-                var content = new StringContent(JsonContent, Encoding.UTF8, "application/json");
-
-                var result = await client.PostAsync("https://rest.messagebird.com/messages", content);
-                string resultContent = await result.Content.ReadAsStringAsync();
-
+                MessageBird.Objects.Message Response = client.SendMessage("Infinite Lodging", message, new[] { recipient });
             }
+            catch(Exception e)
+            {
+                foreach(var key in e.Data)
+                {
+                    _logger.LogInformation($"Key: {key}, Value: {e.Data[key]}");
+                }
+                return false;
+            }
+
+            return true;
+            //using (var client = new HttpClient())
+            //{
+
+            //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("AccessKey", "ZwdyutkaI90t2VcEBdS0jBO2X");
+            //    client.BaseAddress = new Uri("https://rest.messagebird.com/messages");
+            //    //serialize your json using newtonsoft json serializer then add it to the StringContent
+            //    Message payload = new Message()
+            //    {
+            //        recipients = number,
+            //        originator = "Infinite Lodging",
+            //        body = message
+            //    };
+
+            //    var JsonContent = JsonConvert.SerializeObject(payload);
+
+            //    var content = new StringContent(JsonContent, Encoding.UTF8, "application/json");
+
+            //    var result = await client.PostAsync("https://rest.messagebird.com/messages", content);
+            //    string resultContent = await result.Content.ReadAsStringAsync();
+
+            //}
         }
     }
 }
