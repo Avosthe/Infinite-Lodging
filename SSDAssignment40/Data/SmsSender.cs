@@ -1,4 +1,6 @@
 ﻿using MessageBird;
+using MessageBird.Exceptions;
+using MessageBird.Objects;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -34,13 +36,17 @@ namespace SSDAssignment40.Data
             long recipient = Convert.ToInt64(number);
             try
             {
-                MessageBird.Objects.Message Response = client.SendMessage("Infinite Lodging", message, new[] { recipient });
+                MessageBird.Objects.Message Response = client.SendMessage("Inf Lodging", message, new[] { recipient });
             }
-            catch(Exception e)
+            catch(ErrorException e)
             {
-                foreach(var key in e.Data)
+                if (e.HasErrors)
                 {
-                    _logger.LogInformation($"Key: {key}, Value: {e.Data[key]}");
+                    foreach (Error error in e.Errors)
+                    {
+                        _logger.LogInformation($"{error.Code}, {error.Description}, {error.Parameter}");
+                        // error.Code, error.Description, error.Parameter
+                    }
                 }
                 return false;
             }

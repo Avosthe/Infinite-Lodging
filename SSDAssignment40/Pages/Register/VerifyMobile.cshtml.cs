@@ -65,7 +65,7 @@ namespace SSDAssignment40.Pages
                 string verificationCode = randObj.Next(999999).ToString();
 
                 HttpContext.Session.SetString("RandomCode", verificationCode);
-                if(!(_smsSender.SendSms("65" + InputMobileNumber, $"Your verification code for InfiniteLodging is {verificationCode}")))
+                if(!(_smsSender.SendSms("65" + InputMobileNumber, $"Your Verification Code for InfiniteLodging is {verificationCode}")))
                 {
                     HttpContext.Session.Remove("MobileNumber");
                     return RedirectToPage("/Register/VerifyMobile");
@@ -83,7 +83,7 @@ namespace SSDAssignment40.Pages
             {
                 if (HttpContext.Session.GetString("RandomCode").Equals(InputRandomCode))
                 {
-                    HttpContext.Session.Clear();
+                    HttpContext.Session.Remove("RandomCode");
                     return RedirectToPage("/Account/Register", new { area = "Identity" });
                 }
                 return Page();

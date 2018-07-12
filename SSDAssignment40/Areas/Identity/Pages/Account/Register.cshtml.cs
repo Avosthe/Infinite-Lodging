@@ -77,6 +77,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
         {
             var phoneNumber = HttpContext.Session.GetString("MobileNumber");
             if (phoneNumber == null) return RedirectToPage("/Index");
+            HttpContext.Session.Clear();
 
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
