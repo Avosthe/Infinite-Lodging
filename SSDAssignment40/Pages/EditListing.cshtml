@@ -1,0 +1,54 @@
+﻿@page
+@model SSDAssignment40.Pages.EditListingModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Editing Listing</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Listing.ListingId" />
+            <div class="form-group">
+                <label asp-for="Listing.Title" class="control-label"></label>
+                <input asp-for="Listing.Title" class="form-control" />
+                <span asp-validation-for="Listing.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Listing.Price" class="control-label"></label>
+                <input asp-for="Listing.Price" class="form-control" />
+                <span asp-validation-for="Listing.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Listing.Desc" class="control-label"></label>
+                <input asp-for="Listing.Desc" class="form-control" />
+                <span asp-validation-for="Listing.Desc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Listing.Location" class="control-label"></label>
+                <input asp-for="Listing.Location" class="form-control" />
+                <span asp-validation-for="Listing.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Listing.CoverPic" class="control-label"></label>
+                <input asp-for="Listing.CoverPic" class="form-control" />
+                <span asp-validation-for="Listing.CoverPic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./ListingsCreated">Back to Listings</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

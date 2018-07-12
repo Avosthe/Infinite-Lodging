@@ -1,0 +1,48 @@
+﻿@page
+@model SSDAssignment40.Pages.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Listing Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Listing.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Listing.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Listing.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Listing.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Listing.Desc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Listing.Desc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Listing.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Listing.Location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Listing.CoverPic)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Listing.CoverPic)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">Edit Listing Details</a> |
+    <a asp-page="./ListingsCreated">Back to Listings</a>
+</div>
