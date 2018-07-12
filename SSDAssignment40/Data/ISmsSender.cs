@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SSDAssignment40.Data
 {
-    interface ISmsSender
+    public interface ISmsSender
     {
         Task SendSmsAsync(string number, string message);
     }
