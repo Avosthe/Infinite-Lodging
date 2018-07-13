@@ -33,7 +33,8 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName).Replace("\\", ""));
+            var filename =  Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
+            var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
             using (var fileStream = new FileStream(file, FileMode.Create))
             {
                 await Upload.CopyToAsync(fileStream);
@@ -42,7 +43,7 @@ namespace SSDAssignment40.Pages
             {
                 return Page();
             }
-
+            Listing.CoverPic = filename;
             _context.Listing.Add(Listing);
             await _context.SaveChangesAsync();
 

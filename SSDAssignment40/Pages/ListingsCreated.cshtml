@@ -3,58 +3,85 @@
 
 @{
     ViewData["Title"] = "Listings Created";
+    int listingcount = Model.Listing.Count;
 }
 
 <h2>Listings Created</h2>
-
+<link rel="stylesheet" href="~/css/listingstyles.css" />
 <p>
     <a asp-page="CreateListing">Create a New Listing</a>
 </p>
 <table class="table">
-    <thead>
+    @*<thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Listing[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Listing[0].Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Listing[0].Desc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Listing[0].Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
+                    @Html.DisplayNameFor(model => model.Listing[0].Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Listing[0].Desc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Listing[0].Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
+                </th>
+        
+    </thead>*@
     <tbody>
-@foreach (var item in Model.Listing) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Desc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoverPic)
-            </td>
-            <td>
-                <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
-                <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
-                <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
-            </td>
-        </tr>
-}
+        @for (int i = 0; i < listingcount;)
+        { //loop 23 times counter = 23 counter -1 everytime a new item is displayed, when counter reaches multiples of 5, next line <tr>
+            <tr>
+                @if (listingcount - i < 5)
+                {
+                    for (int x = 0; x < listingcount - i; x++)
+                    {
+                        <td class="listingbox">
+                            <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
+                                <div class="imgcontainer">
+                                    <img src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                    @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
+                                </div>
+                            </a>
+                        </td>
+
+                    }
+                    break;
+                }
+                @if (listingcount - i >= 5)
+                {
+                    for (int x = 0; x < 5; x++)
+                    {
+                        <td class="listingbox">
+                            <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
+                                <img class="listingboximg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
+                            </a>
+                        </td>
+
+                    }
+                    i += 5;
+                }
+                @*<td>
+                        @Html.DisplayFor(modelItem => Model.Listing[Model.Listing.IndexOf(item)+1] )
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Desc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CoverPic)
+                    </td>
+                    <td>
+                        <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
+                        <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
+                        <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
+                    </td>*@
+            </tr>
+        }
     </tbody>
 </table>
+
+

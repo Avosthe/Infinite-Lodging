@@ -86,3 +86,23 @@ nav span:hover, nav a:hover {
     transition: opacity 2s linear;
 }
 
+.listingbox {
+    width: 200px;
+    height: 200px;
+    border: solid black;
+    overflow:hidden;
+}
+
+.listingboximg{
+    height:200px;
+    width:200px;
+}
+
+.imgcontainer{
+    background-color:aqua;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    height:200px;
+    width:200px;
+}

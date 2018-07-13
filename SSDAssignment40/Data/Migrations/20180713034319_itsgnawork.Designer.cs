@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180713034319_itsgnawork")]
+    partial class itsgnawork
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,28 +131,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
-                {
-                    b.Property<string>("BookingId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateEnd");
-
-                    b.Property<DateTime>("DateStart");
-
-                    b.Property<string>("ListingId");
-
-                    b.Property<string>("LodgerId");
-
-                    b.HasKey("BookingId");
-
-                    b.HasIndex("ListingId");
-
-                    b.HasIndex("LodgerId");
-
-                    b.ToTable("Booking");
-                });
-
             modelBuilder.Entity("SSDAssignment40.Data.Listing", b =>
                 {
                     b.Property<string>("ListingId")
@@ -242,30 +222,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
-                {
-                    b.Property<string>("ReviewId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateTime");
-
-                    b.Property<string>("ListingId");
-
-                    b.Property<string>("LodgerId");
-
-                    b.Property<int>("Rating");
-
-                    b.Property<string>("ReviewDesc");
-
-                    b.HasKey("ReviewId");
-
-                    b.HasIndex("ListingId");
-
-                    b.HasIndex("LodgerId");
-
-                    b.ToTable("Review");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -311,30 +267,8 @@ namespace SSDAssignment40.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.Listing", "Listing")
-                        .WithMany()
-                        .HasForeignKey("ListingId");
-
-                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
-                        .WithMany()
-                        .HasForeignKey("LodgerId");
-                });
-
             modelBuilder.Entity("SSDAssignment40.Data.Listing", b =>
                 {
-                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
-                        .WithMany()
-                        .HasForeignKey("LodgerId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.Listing", "Listing")
-                        .WithMany()
-                        .HasForeignKey("ListingId");
-
                     b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
                         .WithMany()
                         .HasForeignKey("LodgerId");
