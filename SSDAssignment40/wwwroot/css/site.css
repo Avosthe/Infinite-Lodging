@@ -11,11 +11,44 @@ for details on configuring this project to bundle and minify static web assets. 
     src: url(../fonts/NeutraText-Bold.otf);
 }
 
+@font-face {
+    font-family: "Neutra-TF-Light";
+    src: url(../fonts/Tungsten-Light.ttf);
+}
+
+@font-face {
+    font-family: "SIMPLIFICA Typeface";
+    src: url(../fonts/SIMPLIFICA-Typeface.ttf);
+}
+
+@font-face{
+    font-family: "Tungsten Light";
+    src: url(../fonts/Tungsten-Light.ttf);
+}
+
+h1 {
+    font-family: 'Tungsten Light';
+    font-weight: bold;
+    font-size: 50px;
+}
+
+h2:first-of-type {
+    font-family: 'Tungsten Light';
+    font-weight: bold;
+    font-size: 50px;
+}
+
+h2 {
+    font-family: 'Tungsten Light';
+    font-weight: bold;
+    font-size: 40px;
+}
 
 body {
     padding-bottom: 20px;
     background-color: white;
-    font-family: NeutraText-Bold;
+    font-family: Proxima-Nova-Regular;
+    font-weight: bold;
 }
 
 /* Wrapping element */
