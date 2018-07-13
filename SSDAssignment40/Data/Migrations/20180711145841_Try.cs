@@ -35,7 +35,7 @@ namespace SSDAssignment40.Data.Migrations
                 name: "Booking",
                 columns: table => new
                 {
-                    BookingId = table.Column<int>(nullable: false)
+                    BookingId = table.Column<string>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateStart = table.Column<DateTime>(nullable: false),
                     DateEnd = table.Column<DateTime>(nullable: false),
@@ -63,7 +63,7 @@ namespace SSDAssignment40.Data.Migrations
                 name: "Review",
                 columns: table => new
                 {
-                    ReviewId = table.Column<int>(nullable: false)
+                    ReviewId = table.Column<string>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateTime = table.Column<DateTime>(nullable: false),
                     Rating = table.Column<int>(nullable: false),

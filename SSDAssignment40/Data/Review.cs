@@ -7,7 +7,7 @@ namespace SSDAssignment40.Data
 {
     public class Review
     {
-        public int ReviewId { get; set; }
+        public string ReviewId { get; set; }
         public DateTime DateTime { get; set; }
         public int Rating { get; set; }
         public string ReviewDesc { get; set; }

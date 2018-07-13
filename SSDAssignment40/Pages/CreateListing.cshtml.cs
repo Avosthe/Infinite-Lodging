@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SSDAssignment40.Data;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SSDAssignment40.Pages
 {
@@ -13,9 +13,10 @@ namespace SSDAssignment40.Pages
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public CreateListingModel(SSDAssignment40.Data.ApplicationDbContext context)
+        public CreateListingModel(SSDAssignment40.Data.ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         public IActionResult OnGet()
@@ -23,11 +24,20 @@ namespace SSDAssignment40.Pages
             return Page();
         }
 
+        private IHostingEnvironment _environment;
+
+        [BindProperty]
+        public IFormFile Upload { get; set; }
         [BindProperty]
         public Listing Listing { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName).Replace("\\", ""));
+            using (var fileStream = new FileStream(file, FileMode.Create))
+            {
+                await Upload.CopyToAsync(fileStream);
+            }
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -38,5 +48,8 @@ namespace SSDAssignment40.Pages
 
             return RedirectToPage("./ListingsCreated");
         }
+
+        
+
     }
 }
