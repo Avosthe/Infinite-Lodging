@@ -37,6 +37,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public InputModel Input { get; set; }
+        [TempData]
+        public string userAlertMessage { get; set; }
 
         public class InputModel
         {
@@ -90,24 +92,29 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             if (Input.Email != email)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
-                }
+                //var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+                user.isVerified = false;
+                user.Email = Input.Email;
+                userAlertMessage = "Please verify your new email address before logging in!";
+                await _signInManager.SignOutAsync();
+                return RedirectToPage("Index", new { area = ""});
+                //if (!setEmailResult.Succeeded)
+                //{
+                //    var userId = await _userManager.GetUserIdAsync(user);
+                //    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+                //}
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
-                }
-            }
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //if (Input.PhoneNumber != phoneNumber)
+            //{
+            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //    if (!setPhoneResult.Succeeded)
+            //    {
+            //        var userId = await _userManager.GetUserIdAsync(user);
+            //        throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+            //    }
+            //}
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
