@@ -10,8 +10,8 @@ using SSDAssignment40.Data;
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180706183853_DropTable")]
-    partial class DropTable
+    [Migration("20180713022721_dog")]
+    partial class dog
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,11 +87,9 @@ namespace SSDAssignment40.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -122,17 +120,62 @@ namespace SSDAssignment40.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
+                {
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateEnd");
+
+                    b.Property<DateTime>("DateStart");
+
+                    b.Property<string>("ListingId");
+
+                    b.Property<string>("LodgerId");
+
+                    b.HasKey("BookingId");
+
+                    b.HasIndex("ListingId");
+
+                    b.HasIndex("LodgerId");
+
+                    b.ToTable("Booking");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.Listing", b =>
+                {
+                    b.Property<string>("ListingId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("CoverPic");
+
+                    b.Property<string>("Desc");
+
+                    b.Property<string>("Location");
+
+                    b.Property<string>("LodgerId");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("ListingId");
+
+                    b.HasIndex("LodgerId");
+
+                    b.ToTable("Listing");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Lodger", b =>
@@ -178,6 +221,8 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<byte[]>("ProfilePic");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -198,6 +243,31 @@ namespace SSDAssignment40.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateTime");
+
+                    b.Property<string>("ListingId");
+
+                    b.Property<string>("LodgerId");
+
+                    b.Property<int>("Rating");
+
+                    b.Property<string>("ReviewDesc");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("ListingId");
+
+                    b.HasIndex("LodgerId");
+
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -243,6 +313,35 @@ namespace SSDAssignment40.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Listing", "Listing")
+                        .WithMany()
+                        .HasForeignKey("ListingId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
+                        .WithMany()
+                        .HasForeignKey("LodgerId");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.Listing", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
+                        .WithMany()
+                        .HasForeignKey("LodgerId");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Listing", "Listing")
+                        .WithMany()
+                        .HasForeignKey("ListingId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
+                        .WithMany()
+                        .HasForeignKey("LodgerId");
                 });
 #pragma warning restore 612, 618
         }
