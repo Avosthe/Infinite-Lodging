@@ -12,6 +12,6 @@ namespace SSDAssignment40.Data
         public string Biography { get; set; }
         public string AlternateEmail { get; set; }
         public string Gender { get; set; }
-        public byte[] ProfilePic { get; set; }
+        public string ProfilePic { get; set; }
     }
 }

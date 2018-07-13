@@ -12,7 +12,7 @@ namespace SSDAssignment40.Data
         public decimal Price { get; set; }
         public string Desc { get; set; }
         public string Location { get; set; }
-        public byte[] CoverPic { get; set; }
+        public string CoverPic { get; set; }
         public Lodger Lodger { get; set; }
     }
 }

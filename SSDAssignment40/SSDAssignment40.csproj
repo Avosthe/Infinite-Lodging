@@ -18,8 +18,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Uploads\" />
-    <Folder Include="wwwroot\profile-images\" />
+    <Folder Include="wwwroot\ListingCover\" />
   </ItemGroup>
 
 </Project>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180713031740_editbyte[]tostring")]
+    partial class editbytetostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,8 +133,9 @@ namespace SSDAssignment40.Data.Migrations
 
             modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
                 {
-                    b.Property<string>("BookingId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateEnd");
 
@@ -244,8 +247,9 @@ namespace SSDAssignment40.Data.Migrations
 
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
                 {
-                    b.Property<string>("ReviewId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateTime");
 

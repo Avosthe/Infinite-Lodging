@@ -14,31 +14,32 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Listing.Title" class="control-label"></label>
-                <input asp-for="Listing.Title" class="form-control" />
+                <input asp-for="Listing.Title" class="form-control" required/>
                 <span asp-validation-for="Listing.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Listing.Price" class="control-label"></label>
-                <input asp-for="Listing.Price" class="form-control" />
+                <input asp-for="Listing.Price" class="form-control" required/>
                 <span asp-validation-for="Listing.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Listing.Desc" class="control-label"></label>
-                <input asp-for="Listing.Desc" class="form-control" />
+                <input asp-for="Listing.Desc" class="form-control" required/>
                 <span asp-validation-for="Listing.Desc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Listing.Location" class="control-label"></label>
-                <input asp-for="Listing.Location" class="form-control" />
+                <input asp-for="Listing.Location" class="form-control" required/>
                 <span asp-validation-for="Listing.Location" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Listing.CoverPic" class="control-label"></label>
-                <input asp-for="Listing.CoverPic" class="form-control" />
+                <input type="file" asp-for="Upload" required/>
                 <span asp-validation-for="Listing.CoverPic" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" onclick="location.href='./ListingsCreated'"/>
+                <input type="submit" value="Create" class="btn btn-default" onsubmit="location.href='./ListingsCreated'"/>
             </div>
         </form>
     </div>
