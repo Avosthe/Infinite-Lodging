@@ -1,0 +1,31 @@
+﻿@page "{username}"
+@model SSDAssignment40.Pages.ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@inject UserManager<Lodger> _userManager
+
+<div style="overflow: auto; margin-top: 20px; margin-bottom: 20px;">
+    <h2 style="float: left; margin-top: 0;">Profile</h2>@if (@Model.Username == _userManager.GetUserName(User))
+    {<a class="btn btn-danger" asp-page="./Edit" style="float: right;">Edit Profile</a>}
+</div>
+<div style="text-align: center;">
+    @if (Model.isValidProfile)
+    {
+        <div style="width: 25%; border: 1px solid black; display: inline-block; height: 500px; float: left;">
+            <img src="~/profile-images/@Model.ProfilePicture"/>
+        </div>
+        <div style="width: 70%; border: 1px solid black; display: inline-block; height: 500px;">
+
+        </div>
+    }
+    else
+    {
+        <h1 style="text-align:center"> Profile not found!</h1>
+        <img src="~/images/Bunny-Laugh.gif"/>
+    }
+    <br />
+</div>
+
+

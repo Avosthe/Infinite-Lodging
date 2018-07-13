@@ -97,7 +97,7 @@ namespace SSDAssignment40
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseStatusCodePagesWithRedirects("/Errors/{0}");
+            app.UseStatusCodePagesWithRedirects("/Error/{0}");
             app.UseAuthentication();
             app.UseSession();
 
