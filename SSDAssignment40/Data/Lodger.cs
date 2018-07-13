@@ -13,5 +13,9 @@ namespace SSDAssignment40.Data
         public string AlternateEmail { get; set; }
         public string Gender { get; set; }
         public string ProfilePic { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public int ThumbsUp { get; set; }
+        public int ThumbsDown { get; set; }
     }
 }

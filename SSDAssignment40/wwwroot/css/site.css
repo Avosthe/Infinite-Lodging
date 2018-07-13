@@ -44,6 +44,18 @@ h2 {
     font-size: 40px;
 }
 
+h3 {
+    font-family: 'Tungsten Light';
+    font-weight: bold;
+    font-size: 30px;
+}
+
+h4 {
+    font-family: Proxima-Nova-Regular;
+    font-weight: bold;
+    font-size: 20px;
+}
+
 body {
     padding-bottom: 20px;
     background-color: white;

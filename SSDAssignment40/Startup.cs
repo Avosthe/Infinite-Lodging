@@ -46,6 +46,10 @@ namespace SSDAssignment40
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+            });
             services.AddAuthentication().AddFacebook(fbOptions =>
             {
                 fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
