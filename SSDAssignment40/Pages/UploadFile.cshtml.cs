@@ -23,7 +23,7 @@ namespace SSDAssignment40.Pages
 
         public async Task OnPostAsync()
         {
-            var file = Path.Combine(_environment.ContentRootPath, "uploads", Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName).Replace("\\",""));
+            var file = Path.Combine(_environment.ContentRootPath, "wwwroot","ListingCover", Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName).Replace("\\",""));
             using (var fileStream = new FileStream(file, FileMode.Create))
             {
                 await Upload.CopyToAsync(fileStream);
