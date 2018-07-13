@@ -1,1 +1,6 @@
-﻿
+﻿.editbutton{
+    width:20px;
+    height:20px;
+    position:relative;
+    background-color:white;
+}

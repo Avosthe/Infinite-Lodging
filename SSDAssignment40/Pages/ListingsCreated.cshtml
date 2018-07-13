@@ -6,11 +6,18 @@
     int listingcount = Model.Listing.Count;
 }
 
+
 <h2>Listings Created</h2>
 <link rel="stylesheet" href="~/css/listingstyles.css" />
 <p>
     <a asp-page="CreateListing">Create a New Listing</a>
 </p>
+<style>
+    tr{
+        border:solid black;
+    }
+
+</style>
 <table class="table">
     @*<thead>
         <tr>
@@ -36,12 +43,13 @@
                 {
                     for (int x = 0; x < listingcount - i; x++)
                     {
-                        <td class="listingbox">
+                        <td style="border-top:solid black"class="listingbox">
                             <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
                                 <div class="imgcontainer">
                                     <img src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
                                     @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
                                 </div>
+                                <div class="editbutton"></div>
                             </a>
                         </td>
 
