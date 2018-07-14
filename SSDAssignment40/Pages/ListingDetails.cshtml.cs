@@ -20,7 +20,7 @@ namespace SSDAssignment40.Pages
 
         public Listing Listing { get; set; }
 
-        public Lodger Lodger { get; set; }
+        public IList<Lodger> Lodger { get; set; }
 
         public Booking Booking { get; set; }
 

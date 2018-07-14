@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180714104026_moreLodgerAttributes")]
+    partial class moreLodgerAttributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,31 +151,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasIndex("LodgerId");
 
                     b.ToTable("Booking");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.CustomerSupport", b =>
-                {
-                    b.Property<int>("CustomerSupport_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateTimeStamp");
-
-                    b.Property<string>("LodgerId");
-
-                    b.Property<int>("NoReplies");
-
-                    b.Property<string>("Replies");
-
-                    b.Property<string>("Request");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("CustomerSupport_ID");
-
-                    b.HasIndex("LodgerId");
-
-                    b.ToTable("CustomerSupport");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Listing", b =>
@@ -356,13 +333,6 @@ namespace SSDAssignment40.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ListingId");
 
-                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
-                        .WithMany()
-                        .HasForeignKey("LodgerId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.CustomerSupport", b =>
-                {
                     b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
                         .WithMany()
                         .HasForeignKey("LodgerId");
