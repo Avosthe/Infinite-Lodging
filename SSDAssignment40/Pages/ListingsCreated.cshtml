@@ -82,6 +82,10 @@
                                     S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
                                 </div>
                                 <div class="listingrating">
+                                    @{ 
+                                        var relevantReviews = Model.Review.Where(r => r.Listing == Model.Listing[x + i]);
+                                        var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                    }
                                     <b>@Html.DisplayFor(modelItem => Model.Review[x + i].Rating)</b>
                                 </div>
                             </div>
