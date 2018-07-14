@@ -6,6 +6,10 @@
 }
 @inject UserManager<Lodger> _userManager
 
+@{
+    Lodger LodgerUser = await _userManager.GetUserAsync(User);
+}
+
 <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px;">
     <h2 style="float: left; margin-top: 0;">Profile</h2>@if (@Model.Username == _userManager.GetUserName(User))
     {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
@@ -16,9 +20,9 @@
         <div style="width: 25%; border: 1px solid black; display: inline-block; float: left; overflow: auto;">
 
             <div style="margin-top: 15px;">
-                @if (Model.ProfilePicture != null)
+                @if (!(string.IsNullOrEmpty(LodgerUser.ProfilePic)))
                 {
-                    <img src="~/images/cto-picture.jpg" />
+                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 250px; width: 250px;"/>
                 }
                 else
                 {
@@ -93,7 +97,7 @@
                 <div id="adding-review">
                     <h3>Add a Review for this user</h3>
                     <form method="post" asp-page-handler="AddReview">
-                        <input asp-for="Review" class="form-control" placeholder="Please be honest when submitting reviews"/>
+                        <input asp-for="Review" class="form-control" placeholder="Please be honest when submitting reviews" />
                         <br />
                         <button class="clickbutton" type="submit">Submit Review</button>
                     </form>

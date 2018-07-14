@@ -17,6 +17,6 @@ namespace SSDAssignment40.Data
         public DbSet<Booking> Booking { get; set; }
         public DbSet<Listing> Listing { get; set; }
         public DbSet<Review> Review { get; set; }
-
+        public DbSet<CustomerSupport> CustomerSupport { get; set; }
     }
 }

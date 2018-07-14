@@ -18,8 +18,6 @@ namespace SSDAssignment40.Pages
         public string Username { get; set; }
         [BindProperty]
         public string UserID { get; set; }
-
-        public string ProfilePicture { get; set; }
         public UserManager<Lodger> _userManager { get; set; }
 
         public Lodger LodgerUser { get; set; }

@@ -1,0 +1,52 @@
+﻿@page
+@model SSDAssignment40.Pages.Support.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CustomerSupport</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.Username)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.Username)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.DateTimeStamp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.DateTimeStamp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.Request)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.Request)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.NoReplies)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.NoReplies)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.Replies)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.Replies)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="CustomerSupport.CustomerSupport_ID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,49 @@
+﻿@page
+@model SSDAssignment40.Pages.Support.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CustomerSupport</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.Username)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.Username)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.DateTimeStamp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.DateTimeStamp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.Request)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.Request)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.NoReplies)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.NoReplies)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerSupport.Replies)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerSupport.Replies)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.CustomerSupport.CustomerSupport_ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
