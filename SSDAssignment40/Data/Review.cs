@@ -11,7 +11,7 @@ namespace SSDAssignment40.Data
         public DateTime DateTime { get; set; }
         public int Rating { get; set; }
         public string ReviewDesc { get; set; }
-        public Listing Listing { get; set; }
-        public Lodger Lodger { get; set; }
+        public virtual Listing Listing { get; set; }
+        public virtual Lodger Lodger { get; set; }
     }
 }

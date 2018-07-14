@@ -1,6 +1,7 @@
 ﻿@page
 @model SSDAssignment40.Pages.DetailsModel
 
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -18,24 +19,29 @@
         <img class="detailscoverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
     </a>
 </section>
-<div>
-    <div>
-        <header style="font-size:36px;">
-            @Html.DisplayFor(model => model.Listing.Title)
-        </header>
+<div class="listingwrapper">
+    <div class="listingdetails">
+        <div>
+            <header style="font-size:36px;">
+                @Html.DisplayFor(model => model.Listing.Title)
+            </header>
+        </div>
+        <div>
+            @Html.DisplayFor(model => model.Listing.Desc)
+        </div>
+        <div>
+            @Html.DisplayFor(model => model.User.Identity.Name)
+        </div>
+        <div>
+            below here is the shit
+            @Model.Listing.Lodger.Id;
+        </div>
     </div>
-    <div>
-        @Html.DisplayFor(model => model.Listing.Desc)
+    <div style="float:left;">
+        <div class="listingbooking">
+            test@* FOR BOOKING CALENDER + PRICE *@
+        </div>
     </div>
-    <div>
-        @Html.DisplayFor(model => model.User.Identity.Name)
-    </div>
-    <div>
-
-    </div>
-</div>
-<div>
-    @* FOR BOOKING CALENDER + PRICE *@
 </div>
 <div>
     <a asp-page="./ListingsCreated">

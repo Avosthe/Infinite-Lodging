@@ -38,7 +38,8 @@ namespace SSDAssignment40
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options.UseLazyLoadingProxies()
+                .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<Lodger, IdentityRole>(config =>
             {
