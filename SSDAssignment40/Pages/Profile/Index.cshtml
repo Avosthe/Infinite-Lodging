@@ -8,7 +8,7 @@
 
 <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px;">
     <h2 style="float: left; margin-top: 0;">Profile</h2>@if (@Model.Username == _userManager.GetUserName(User))
-    {<a class="clickbutton" asp-page="./Edit" style="float: right;">Edit Profile</a>}
+    {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
 </div>
 <div style="text-align: center;">
     @if (Model.isValidProfile)
@@ -54,7 +54,7 @@
         <div style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial; padding-left:10px;">
             <h1>@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
             <p style="font-size: medium;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
-            <a class="clickbutton" href="#">Report this user</a>
+            <a class="clickbuttonnoshadow" href="#">Report this user</a>
             <br />
             <br />
             <br />
