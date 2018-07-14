@@ -218,4 +218,24 @@ nav span:hover, nav a:hover {
 }
 
 .detailscoverpic{
+    width:100%;
+    height:auto;
+}
+
+.listingdetails{
+    float:left;
+    width:60%;
+}
+
+.listingbooking{
+    position:fixed;
+    width:300px;
+    margin-left:40px;
+    background-color:black;
+}
+
+.listingwrapper{
+    overflow:hidden;
+    width:100%;
+
 }

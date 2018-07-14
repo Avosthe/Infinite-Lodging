@@ -20,16 +20,9 @@ namespace SSDAssignment40.Pages
 
         public Listing Listing { get; set; }
 
-        public Lodger Lodger { get; set; }
-
-        public Booking Booking { get; set; }
-
         public async Task<IActionResult> OnGetAsync(string id)
         {
-
-            var lodgers = from u in _context.Users select u;
-            Lodger = await lodgers.ToListAsync();
-
+            
             if (id == null)
             {
                 return NotFound();
