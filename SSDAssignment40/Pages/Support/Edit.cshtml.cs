@@ -29,7 +29,7 @@ namespace SSDAssignment40.Pages.Support
                 return NotFound();
             }
 
-            //CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
+            CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
 
             if (CustomerSupport == null)
             {
@@ -69,7 +69,6 @@ namespace SSDAssignment40.Pages.Support
         private bool CustomerSupportExists(int id)
         {
             return _context.CustomerSupport.Any(e => e.CustomerSupport_ID == id);
-            throw new NotImplementedException();
         }
     }
 }
