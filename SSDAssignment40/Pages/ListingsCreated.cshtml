@@ -9,8 +9,9 @@
 
 <h2>Listings Created</h2>
 <link rel="stylesheet" href="~/css/listingstyles.css" />
+<br />
 <p>
-    <a asp-page="CreateListing">Create a New Listing</a>
+    <a asp-page="CreateListing" class="clickbuttonnoshadow" style="margin-top:10px;">Create a New Listing</a>
 </p>
 
 <style>
@@ -54,12 +55,30 @@
                                     S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
                                 </div>
                                 <div class="listingrating">
-                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Price)</b>
-                                    
+                                    @{
+                                        try
+                                        {
+                                            var relevantReviews = Model.Review.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                            var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                            <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                            for (int g = 0; g < avgRating; g++)
+                                            {
+                                                <img src="~/images/filledstar.ico" />
+                                            }
+                                            for (int g = 0; g < 5 - avgRating; g++)
+                                            {
+                                                <img src="~/images/emptystar.ico" />
+                                            }
+                                        }
+                                        catch (DivideByZeroException)
+                                        {
+                                            <div>No Reviews</div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </a>
-                        <a style="background-color:transparent" class="editbutton">
+                        <a style="background-color:transparent" class="clickbutton">
                             <img src="~/images/edit-2-24.ico" />
                         </a>
                         <a class="deletebutton"></a>
@@ -82,11 +101,26 @@
                                     S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
                                 </div>
                                 <div class="listingrating">
-                                    @{ 
-                                        var relevantReviews = Model.Review.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
-                                        var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                    @{
+                                        try
+                                        {
+                                            var relevantReviews = Model.Review.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                            var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                            <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                            for (int g = 0; g < avgRating; g++)
+                                            {
+                                                <img src="~/images/filledstar.ico" />
+                                            }
+                                            for (int g = 0; g < 5 - avgRating; g++)
+                                            {
+                                                <img src="~/images/emptystar.ico" />
+                                            }
+                                        }
+                                        catch (DivideByZeroException)
+                                        {
+                                            <div>No Reviews</div>
+                                        }
                                     }
-                                    <b>@Html.DisplayFor(modelItem => Model.Review[x + i].Rating)</b>
                                 </div>
                             </div>
                         </a>

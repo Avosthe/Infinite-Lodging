@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
-namespace SSDAssignment40.Pages
+namespace SSDAssignment40.Pages.Support
 {
     public class DetailsModel : PageModel
     {
@@ -18,32 +18,22 @@ namespace SSDAssignment40.Pages
             _context = context;
         }
 
-        public Listing Listing { get; set; }
+        public CustomerSupport CustomerSupport { get; set; }
 
-        public Lodger Lodger { get; set; }
-
-        public Booking Booking { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-
-            var lodgers = from u in _context.Users select u;
-            Lodger = await lodgers.ToListAsync();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+            CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
 
-            if (Listing == null)
+            if (CustomerSupport == null)
             {
                 return NotFound();
             }
             return Page();
-
-            
         }
     }
 }
