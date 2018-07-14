@@ -16,9 +16,10 @@ namespace SSDAssignment40.Pages.Support
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public CreateModel(SSDAssignment40.Data.ApplicationDbContext context)
+        public CreateModel(SSDAssignment40.Data.ApplicationDbContext context, UserManager<Lodger> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -28,6 +29,7 @@ namespace SSDAssignment40.Pages.Support
 
         [BindProperty]
         public CustomerSupport CustomerSupport { get; set; }
+        public UserManager<Lodger> _userManager { get; set; }
         
         public async Task<IActionResult> OnPostAsync()
         {
@@ -35,7 +37,7 @@ namespace SSDAssignment40.Pages.Support
             {
                 return Page();
             }
-
+            CustomerSupport.Username = await _userManager.GetUserNameAsync(await (_userManager.GetUserAsync(User)));
             _context.CustomerSupport.Add(CustomerSupport);
             await _context.SaveChangesAsync();
 
