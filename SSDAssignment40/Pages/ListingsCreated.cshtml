@@ -14,11 +14,11 @@
 </p>
 
 <style>
-    tr {
-        border: solid black;
+    .navbar {
+        margin-bottom: 0;
     }
 </style>
-<table class="table">
+<table style="border-collapse:unset;padding-top:0;position:relative;">
     @*<thead>
             <tr>
                 <th>
@@ -34,62 +34,82 @@
                         @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
                     </th>
 
-        </thead>*@
-    <tbody>
-        @for (int i = 0; i < listingcount;)
-        { //loop 23 times counter = 23 counter -1 everytime a new item is displayed, when counter reaches multiples of 5, next line <tr>
-            <tr>
-                @if (listingcount - i < 5)
+        </thead>*@ <!--shit-->
+
+    @for (int i = 0; i < listingcount;)
+    {
+        <tr>
+            @if (listingcount - i < 4)
+            {
+                for (int x = 0; x < listingcount - i; x++)
                 {
-                    for (int x = 0; x < listingcount - i; x++)
-                    {
-                        <td style="border-top:solid black" class="listingbox">
-                            <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
-
-                                <img class="listingboximg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
-
-                                <div class="editbutton"></div>
-                            </a>
-                        </td>
-
-                    }
-                    break;
+                    <td>
+                        <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black">
+                            <div class="polaroid">
+                                <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                <div class="listingtitle">
+                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                </div>
+                                <div class="listingprice">
+                                    S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                </div>
+                                <div class="listingrating">
+                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Price)</b>
+                                    
+                                </div>
+                            </div>
+                        </a>
+                        <a style="background-color:transparent" class="editbutton">
+                            <img src="~/images/edit-2-24.ico" />
+                        </a>
+                        <a class="deletebutton"></a>
+                    </td>
                 }
-                @if (listingcount - i >= 5)
+                break;
+            }
+            @if (listingcount - i >= 4)
+            {
+                for (int x = 0; x < 4; x++)
                 {
-                    for (int x = 0; x < 5; x++)
-                    {
-                        <td class="listingbox">
-                            <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
-                                <img class="listingboximg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
-                            </a>
-                        </td>
-
-                    }
-                    i += 5;
+                    <td>
+                        <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black">
+                            <div class="polaroid">
+                                <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                <div class="listingtitle">
+                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                </div>
+                                <div class="listingprice">
+                                    S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                </div>
+                                <div class="listingrating">
+                                    <b>@Html.DisplayFor(modelItem => Model.Review[x + i].Rating)</b>
+                                </div>
+                            </div>
+                        </a>
+                    </td>
                 }
-                @*<td>
-                        @Html.DisplayFor(modelItem => Model.Listing[Model.Listing.IndexOf(item)+1] )
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Desc)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CoverPic)
-                    </td>
-                    <td>
-                        <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
-                        <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
-                        <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
-                    </td>*@
-            </tr>
-        }
-    </tbody>
+                i += 4;
+            }
+            @*<td>
+                    @Html.DisplayFor(modelItem => Model.Listing[Model.Listing.IndexOf(item)+1] )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Desc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoverPic)
+                </td>
+                <td>
+                    <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
+                    <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
+                    <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
+                </td>*@ <!--more shit-->
+        </tr>
+    }
+
 </table>
 
 

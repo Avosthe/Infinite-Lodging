@@ -43,6 +43,15 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">Edit Listing Details</a> |
-    <a asp-page="./ListingsCreated">Back to Listings</a>
+    <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">
+        <div class="editbutton">
+            Edit Listing
+        </div>
+    </a>
+    <br />
+    <a asp-page="./ListingsCreated">
+        <div class="editbutton">
+            <<< Back to Listings
+        </div>
+    </a>
 </div>

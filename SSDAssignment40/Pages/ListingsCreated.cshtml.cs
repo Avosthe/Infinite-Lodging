@@ -20,8 +20,13 @@ namespace SSDAssignment40.Pages
 
         public IList<Listing> Listing { get;set; }
 
+        public IList<Review> Review { get; set; }
+
+        public int avgRating { get; set; }
+
         public async Task OnGetAsync(string location)
         {
+            //search by location from home page
             var listings = from l in _context.Listing select l;
 
             if (!String.IsNullOrEmpty(location))
@@ -30,6 +35,10 @@ namespace SSDAssignment40.Pages
             }
 
             Listing = await listings.ToListAsync();
+
+
+            //calculating average for a specific listing 
+            var average = from r in _context.Review select r;
         }
     }
 }
