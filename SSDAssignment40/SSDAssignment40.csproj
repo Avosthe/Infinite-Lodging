@@ -26,4 +26,8 @@
 	<Folder Include="wwwroot\ListingCover\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\house1.jpg" />
+  </ItemGroup>
+
 </Project>

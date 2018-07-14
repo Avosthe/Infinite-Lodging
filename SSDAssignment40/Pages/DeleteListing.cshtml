@@ -46,6 +46,10 @@
     <form method="post">
         <input type="hidden" asp-for="Listing.ListingId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-page="./ListingsCreated">Back to Listings</a>
+        <a asp-page="./ListingsCreated">
+            <div class="editbutton">
+                <<< Back to Listings
+            </div>
+        </a>
     </form>
 </div>

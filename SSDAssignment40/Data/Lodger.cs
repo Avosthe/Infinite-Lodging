@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SSDAssignment40.Data
 {
@@ -17,5 +18,7 @@ namespace SSDAssignment40.Data
         public string Country { get; set; }
         public int ThumbsUp { get; set; }
         public int ThumbsDown { get; set; }
+        //public string Hobbies { get; set; }
+        //public string GovernmentID { get; set; }
     }
 }

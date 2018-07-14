@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{location?}"
 @model SSDAssignment40.Pages.ListingsCreatedModel
 
 @{
@@ -9,87 +9,145 @@
 
 <h2>Listings Created</h2>
 <link rel="stylesheet" href="~/css/listingstyles.css" />
+<br />
 <p>
-    <a asp-page="CreateListing">Create a New Listing</a>
+    <a asp-page="CreateListing" class="clickbuttonnoshadow" style="margin-top:10px;">Create a New Listing</a>
 </p>
+
 <style>
-    tr{
-        border:solid black;
+    .navbar {
+        margin-bottom: 0;
+    }
+</style>
+<table style="border-collapse:unset;padding-top:0;position:relative;">
+    @*<thead>
+            <tr>
+                <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].Desc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].Location)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
+                    </th>
+
+        </thead>*@ <!--shit-->
+
+    @for (int i = 0; i < listingcount;)
+    {
+        <tr>
+            @if (listingcount - i < 4)
+            {
+                for (int x = 0; x < listingcount - i; x++)
+                {
+                    <td>
+                        <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black">
+                            <div class="polaroid">
+                                <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                <div class="listingtitle">
+                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                </div>
+                                <div class="listingprice">
+                                    S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                </div>
+                                <div class="listingrating">
+                                    @{
+                                        try
+                                        {
+                                            var relevantReviews = Model.Review.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                            var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                            <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                            for (int g = 0; g < avgRating; g++)
+                                            {
+                                                <img src="~/images/filledstar.ico" />
+                                            }
+                                            for (int g = 0; g < 5 - avgRating; g++)
+                                            {
+                                                <img src="~/images/emptystar.ico" />
+                                            }
+                                        }
+                                        catch (DivideByZeroException)
+                                        {
+                                            <div>No Reviews</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                        <a style="background-color:transparent" class="clickbutton">
+                            <img src="~/images/edit-2-24.ico" />
+                        </a>
+                        <a class="deletebutton"></a>
+                    </td>
+                }
+                break;
+            }
+            @if (listingcount - i >= 4)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    <td>
+                        <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black">
+                            <div class="polaroid">
+                                <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                <div class="listingtitle">
+                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                </div>
+                                <div class="listingprice">
+                                    S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                </div>
+                                <div class="listingrating">
+                                    @{
+                                        try
+                                        {
+                                            var relevantReviews = Model.Review.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                            var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                            <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                            for (int g = 0; g < avgRating; g++)
+                                            {
+                                                <img src="~/images/filledstar.ico" />
+                                            }
+                                            for (int g = 0; g < 5 - avgRating; g++)
+                                            {
+                                                <img src="~/images/emptystar.ico" />
+                                            }
+                                        }
+                                        catch (DivideByZeroException)
+                                        {
+                                            <div>No Reviews</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+                }
+                i += 4;
+            }
+            @*<td>
+                    @Html.DisplayFor(modelItem => Model.Listing[Model.Listing.IndexOf(item)+1] )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Desc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoverPic)
+                </td>
+                <td>
+                    <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
+                    <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
+                    <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
+                </td>*@ <!--more shit-->
+        </tr>
     }
 
-</style>
-<table class="table">
-    @*<thead>
-        <tr>
-            <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].Desc)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].Location)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
-                </th>
-        
-    </thead>*@
-    <tbody>
-        @for (int i = 0; i < listingcount;)
-        { //loop 23 times counter = 23 counter -1 everytime a new item is displayed, when counter reaches multiples of 5, next line <tr>
-            <tr>
-                @if (listingcount - i < 5)
-                {
-                    for (int x = 0; x < listingcount - i; x++)
-                    {
-                        <td style="border-top:solid black"class="listingbox">
-                            <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
-                                <div class="imgcontainer">
-                                    <img src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                    @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
-                                </div>
-                                <div class="editbutton"></div>
-                            </a>
-                        </td>
-
-                    }
-                    break;
-                }
-                @if (listingcount - i >= 5)
-                {
-                    for (int x = 0; x < 5; x++)
-                    {
-                        <td class="listingbox">
-                            <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
-                                <img class="listingboximg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
-                            </a>
-                        </td>
-
-                    }
-                    i += 5;
-                }
-                @*<td>
-                        @Html.DisplayFor(modelItem => Model.Listing[Model.Listing.IndexOf(item)+1] )
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Desc)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CoverPic)
-                    </td>
-                    <td>
-                        <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
-                        <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
-                        <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
-                    </td>*@
-            </tr>
-        }
-    </tbody>
 </table>
 
 

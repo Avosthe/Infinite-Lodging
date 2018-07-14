@@ -20,9 +20,26 @@ namespace SSDAssignment40.Pages
 
         public IList<Listing> Listing { get;set; }
 
-        public async Task OnGetAsync()
+        public IList<Review> Review { get; set; }
+
+        public int avgRating { get; set; }
+
+        public async Task OnGetAsync(string location)
         {
-            Listing = await _context.Listing.ToListAsync();
+            //search by location from home page
+            var listings = from l in _context.Listing select l;
+
+            if (!String.IsNullOrEmpty(location))
+            {
+                listings = listings.Where(s => s.Location.Contains(location));
+            }
+
+            Listing = await listings.ToListAsync();
+
+
+            //calculating average for a specific listing 
+            var reviews = from r in _context.Review select r;
+            Review = await reviews.ToListAsync();
         }
     }
 }

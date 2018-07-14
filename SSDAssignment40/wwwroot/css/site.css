@@ -21,7 +21,7 @@ for details on configuring this project to bundle and minify static web assets. 
     src: url(../fonts/SIMPLIFICA-Typeface.ttf);
 }
 
-@font-face{
+@font-face {
     font-family: "Tungsten Light";
     src: url(../fonts/Tungsten-Light.ttf);
 }
@@ -95,16 +95,16 @@ body {
 }
 
 nav, footer {
-   font-family: Proxima-Nova-Regular;
-   font-weight: bold;
-   font-size: 16px;
+    font-family: Proxima-Nova-Regular;
+    font-weight: bold;
+    font-size: 16px;
 }
 
-nav span, nav a{
-    border-bottom: 2px solid transparent;
-}
+    nav span, nav a {
+        border-bottom: 2px solid transparent;
+    }
 
-#org_logo{
+#org_logo {
     border: none;
     padding: 0;
     padding-right: 25px;
@@ -131,20 +131,91 @@ nav span:hover, nav a:hover {
     transition: opacity 2s linear;
 }
 
-.listingbox {
-    width: 20%;
-    height: 20%;
-    border: solid black;
-    overflow:hidden;
-    padding:0;
-    margin:auto;
+#log_alert {
+    width: 100%;
 }
 
-.listingboximg{
-    height:200px;
-    width:100%;
+.listingimg {
+    height: 200px;
+    width: 300px;
 }
 
-#td{
-    padding:100px;
+.listingtitle {
+    background-color: transparent;
+    margin: 0;
+}
+
+.listingprice {
+    margin: 0;
+    float: left;
+}
+
+.listingrating {
+    margin: 0;
+    float: right;
+}
+
+.clickbutton {
+    width: 200px;
+    background-color: midnightblue;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.clickbuttonnoshadow {
+    width:200px;
+    background-color: midnightblue;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.polaroid {
+    border: 1px thin lightgray;
+    padding: 5px;
+    margin-right: 7px;
+    margin-top: 10px;
+    left: -20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.polaroid:hover {
+    box-shadow: 0px 0px 16px 0 rgba(0,0,0,0.2), 0px 0px 20px 9px rgba(0,0,0,0.19);
+    text-decoration: none !important;
+}
+
+.listingtitle:hover {
+    box-shadow: none;
+    text-decoration: none !important;
+}
+
+.clickbutton:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    text-decoration: none !important;
+    color: white;
+}
+
+.clickbuttonnoshadow:hover {
+    text-decoration: none !important;
+    color: white;
+}
+
+.listingimg:hover {
+    box-shadow: none;
+}
+
+.reviewNumber {
+    font-size: 14px;
+    text-decoration: none;
+    color: midnightblue;
+    float: left;
+    margin-top:1px;
+    margin-right:3px;
+}
+
+.detailscoverpic{
 }

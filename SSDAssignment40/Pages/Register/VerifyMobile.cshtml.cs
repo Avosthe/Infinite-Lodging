@@ -62,7 +62,7 @@ namespace SSDAssignment40.Pages
                 HttpContext.Session.SetString("MobileNumber", "65" + InputMobileNumber);
 
                 Random randObj = new Random();
-                string verificationCode = randObj.Next(999999).ToString();
+                string verificationCode = randObj.Next(100000,999999).ToString();
 
                 HttpContext.Session.SetString("RandomCode", verificationCode);
                 if(!(_smsSender.SendSms("65" + InputMobileNumber, $"Your Verification Code for InfiniteLodging is {verificationCode}")))

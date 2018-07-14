@@ -93,11 +93,11 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
             if (Input.Email != email)
             {
                 //var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                user.isVerified = false;
-                user.Email = Input.Email;
+                user.EmailConfirmed = false;
+                await _userManager.SetEmailAsync(user, Input.Email);
                 userAlertMessage = "Please verify your new email address before logging in!";
                 await _signInManager.SignOutAsync();
-                return RedirectToPage("Index", new { area = ""});
+                return RedirectToPage("/Index", new { area = ""});
                 //if (!setEmailResult.Succeeded)
                 //{
                 //    var userId = await _userManager.GetUserIdAsync(user);

@@ -1,0 +1,32 @@
+﻿@page
+@model ChangeMobileNumberModel
+@{
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<div class="row">
+    <div class="col-md-6">
+        @if (!Model.hasSentVerificationCode)
+        {
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="InputMobileNumber"></label>
+                    <br />
+                    <input asp-for="InputMobileNumber" class="form-control" />
+                </div>
+                <button class="btn btn-default" type="submit">Save</button>
+            </form>
+        }
+        @if (Model.hasSentVerificationCode)
+        {
+            <form method="post" asp-page-handler="VerifyCode">
+                <div class="form-group">
+                    <label asp-for="InputRandomCode"></label>
+                    <br />
+                    <input asp-for="InputRandomCode" class="form-control" />
+                </div>
+                <button class="btn btn-default" type="submit">Save</button>
+            </form>
+        }
+    </div>
+</div>

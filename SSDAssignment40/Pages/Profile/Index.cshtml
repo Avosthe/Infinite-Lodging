@@ -8,21 +8,22 @@
 
 <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px;">
     <h2 style="float: left; margin-top: 0;">Profile</h2>@if (@Model.Username == _userManager.GetUserName(User))
-    {<a class="btn btn-danger" asp-page="./Edit" style="float: right;">Edit Profile</a>}
+    {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
 </div>
 <div style="text-align: center;">
     @if (Model.isValidProfile)
     {
         <div style="width: 25%; border: 1px solid black; display: inline-block; float: left; overflow: auto;">
 
-            <div style="margin-top: 15px; border: 1px solid black;">
+            <div style="margin-top: 15px;">
                 @if (Model.ProfilePicture != null)
                 {
-                    // insert user profile picture here
+                    <img src="~/images/cto-picture.jpg" />
                 }
                 else
                 {
-                    <img src="~/profile-images/default-picture.png" width="250" height="250" />
+                    <img src="~/images/cto-picture.jpg" />
+                    @*<img src="~/profile-images/default-picture.png" width="250" height="250" />*@
                 }
             </div>
             <div style="border: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
@@ -50,14 +51,14 @@
             </div>
         </div>
 
-        <div style="width: 70%; border: 1px solid black; display: inline-block; height: 500px; float: right; overflow: hidden; text-align: initial;">
-            <h1>Hey I'm, // insert User's Full Name Here | //Date Joined</h1>
-            <p style="font-size: medium;">//City, //Country</p>
-            <a class="btn btn-danger" href="#">Report this user</a>
+        <div style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial; padding-left:10px;">
+            <h1>@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
+            <p style="font-size: medium;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
+            <a class="clickbuttonnoshadow" href="#">Report this user</a>
             <br />
             <br />
             <br />
-            <p style="font-size: medium">//Insert User Biography here</p>
+            <p style="font-size: medium">@Model.LodgerUser.Biography</p>
             <br />
             <br />
             <div id="stats" style="font-size: large;">
@@ -67,19 +68,38 @@
                 </div>
                 <div style="display: inline-block;">
                     <img src="~/images/thumb-up.png" />
-                    <span style="margin-left: 10px; margin-right: 25px;">//number Thumbs Up</span>
+                    <span style="margin-left: 10px; margin-right: 25px;">@Model.LodgerUser.ThumbsUp</span>
                 </div>
                 <div style="display: inline-block;">
-                    <img src="~/images/thumb-down.png"/>
-                    <span style="margin-left: 10px;"> //number Thumbs Down</span>
+                    <img src="~/images/thumb-down.png" />
+                    <span style="margin-left: 10px;">@Model.LodgerUser.ThumbsDown</span>
                 </div>
             </div>
             <div id="listings">
-                <h2>User's Listings</h2>
+                <h2>Listings</h2>
+                // add user's listings
             </div>
             <div id="reviews">
-                <h2>User's Reviews</h2>
+                <h2>Reviews</h2>
+                // add user's reviews
             </div>
+            <br />
+            <br />
+            @{
+                var user = await _userManager.GetUserAsync(User);
+            }
+            @if (Model.Username != await _userManager.GetUserNameAsync(user))
+            {
+                <div id="adding-review">
+                    <h3>Add a Review for this user</h3>
+                    <form method="post" asp-page-handler="AddReview">
+                        <input asp-for="Review" class="form-control" placeholder="Please be honest when submitting reviews"/>
+                        <br />
+                        <button class="clickbutton" type="submit">Submit Review</button>
+                    </form>
+                </div>
+
+            }
         </div>
     }
     else
