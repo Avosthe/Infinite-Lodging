@@ -154,7 +154,7 @@ nav span:hover, nav a:hover {
     margin:0;
     float:right;
 }
-.editbutton{
+.clickbutton{
     width:200px;
     background-color:midnightblue;
     color:white;
@@ -180,8 +180,10 @@ nav span:hover, nav a:hover {
     text-decoration:none!important;
 }
 
-.editbutton:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+.clickbutton:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    text-decoration:none !important;
+    color:white;
 }
 
 .listingimg:hover {
