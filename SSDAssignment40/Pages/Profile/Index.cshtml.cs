@@ -28,6 +28,9 @@ namespace SSDAssignment40.Pages
 
         public bool isEditing { get; set; }
 
+
+        public string Review { get; set; }
+
         public ProfileModel(UserManager<Lodger> userManager)
         {
             _userManager = userManager;
@@ -39,6 +42,16 @@ namespace SSDAssignment40.Pages
             {
                 isValidProfile = true;
                 LodgerUser = l;
+            }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAddReviewAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if(Username == user.UserName)
+            {
+                return StatusCode(403);
             }
             return Page();
         }
