@@ -22,6 +22,8 @@ namespace SSDAssignment40.Pages
         public string ProfilePicture { get; set; }
         public UserManager<Lodger> _userManager { get; set; }
 
+        public Lodger LodgerUser { get; set; }
+
         public bool isValidProfile { get; set; }
 
         public bool isEditing { get; set; }
@@ -33,7 +35,11 @@ namespace SSDAssignment40.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             Lodger l = await _userManager.FindByNameAsync(Username);
-            if (l is Lodger) isValidProfile = true;
+            if (l is Lodger)
+            {
+                isValidProfile = true;
+                LodgerUser = l;
+            }
             return Page();
         }
     }

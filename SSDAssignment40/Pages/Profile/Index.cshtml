@@ -15,7 +15,7 @@
     {
         <div style="width: 25%; border: 1px solid black; display: inline-block; float: left; overflow: auto;">
 
-            <div style="margin-top: 15px; border: 1px solid black;">
+            <div style="margin-top: 15px;">
                 @if (Model.ProfilePicture != null)
                 {
                     // insert user profile picture here
@@ -50,9 +50,9 @@
             </div>
         </div>
 
-        <div style="width: 70%; border: 1px solid black; display: inline-block; height: 500px; float: right; overflow: hidden; text-align: initial;">
-            <h1>Hey I'm, // insert User's Full Name Here | //Date Joined</h1>
-            <p style="font-size: medium;">//City, //Country</p>
+        <div style="width: 70%; display: inline-block; height: 500px; float: right; overflow: hidden; text-align: initial;">
+            <h1>@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
+            <p style="font-size: medium;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
             <a class="btn btn-danger" href="#">Report this user</a>
             <br />
             <br />
@@ -67,11 +67,11 @@
                 </div>
                 <div style="display: inline-block;">
                     <img src="~/images/thumb-up.png" />
-                    <span style="margin-left: 10px; margin-right: 25px;">//number Thumbs Up</span>
+                    <span style="margin-left: 10px; margin-right: 25px;">@Model.LodgerUser.ThumbsUp</span>
                 </div>
                 <div style="display: inline-block;">
                     <img src="~/images/thumb-down.png"/>
-                    <span style="margin-left: 10px;"> //number Thumbs Down</span>
+                    <span style="margin-left: 10px;">@Model.LodgerUser.ThumbsDown</span>
                 </div>
             </div>
             <div id="listings">

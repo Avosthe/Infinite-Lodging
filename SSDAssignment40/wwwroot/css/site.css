@@ -148,3 +148,7 @@ nav span:hover, nav a:hover {
 #td{
     padding:100px;
 }
+
+#log_alert{
+    width: 100%;
+}
