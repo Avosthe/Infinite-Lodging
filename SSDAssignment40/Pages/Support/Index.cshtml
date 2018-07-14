@@ -1,0 +1,55 @@
+﻿@page
+@model SSDAssignment40.Pages.Support.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Posts</h2>
+
+<p>
+    <a asp-page="Create">Create New Post</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerSupport[0].Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerSupport[0].DateTimeStamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerSupport[0].Request)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerSupport[0].NoReplies)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CustomerSupport) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Request)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoReplies)
+            </td>
+            <td>
+                <a asp-page="./Replies" asp-route-id="@item.CustomerSupport_ID">Reply</a> |
+                <a asp-page="./Edit" asp-route-id="@item.CustomerSupport_ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.CustomerSupport_ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.CustomerSupport_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
