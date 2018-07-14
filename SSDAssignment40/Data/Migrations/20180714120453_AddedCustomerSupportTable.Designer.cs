@@ -10,8 +10,8 @@ using SSDAssignment40.Data;
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180714105525_AddCustomerSupport")]
-    partial class AddCustomerSupport
+    [Migration("20180714120453_AddedCustomerSupportTable")]
+    partial class AddedCustomerSupportTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,6 +233,10 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("Gender");
 
+                    b.Property<string>("GovernmentID");
+
+                    b.Property<string>("Hobbies");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -252,6 +256,8 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("ProfilePic");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("Status");
 
                     b.Property<int>("ThumbsDown");
 

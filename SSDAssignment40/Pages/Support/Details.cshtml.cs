@@ -27,7 +27,7 @@ namespace SSDAssignment40.Pages.Support
                 return NotFound();
             }
 
-            CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
+            //CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
 
             if (CustomerSupport == null)
             {

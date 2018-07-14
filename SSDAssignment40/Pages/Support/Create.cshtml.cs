@@ -38,6 +38,7 @@ namespace SSDAssignment40.Pages.Support
                 return Page();
             }
             CustomerSupport.Username = await _userManager.GetUserNameAsync(await (_userManager.GetUserAsync(User)));
+            CustomerSupport.DateTimeStamp = DateTime.Now;
             _context.CustomerSupport.Add(CustomerSupport);
             await _context.SaveChangesAsync();
 
