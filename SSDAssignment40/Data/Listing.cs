@@ -13,6 +13,6 @@ namespace SSDAssignment40.Data
         public string Desc { get; set; }
         public string Location { get; set; }
         public string CoverPic { get; set; }
-        public Lodger Lodger { get; set; }
+        public virtual Lodger Lodger { get; set; }
     }
 }

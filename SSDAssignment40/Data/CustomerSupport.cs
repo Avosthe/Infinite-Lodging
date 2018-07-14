@@ -27,7 +27,7 @@ namespace SSDAssignment40.Data
         [Display(Name = "Replies")]
         public string Replies { get; set; }
 
-        public Lodger Lodger { get; set; }
+        public virtual Lodger Lodger { get; set; }
 
     }
 }
