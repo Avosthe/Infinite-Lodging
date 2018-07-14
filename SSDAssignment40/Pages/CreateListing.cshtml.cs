@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SSDAssignment40.Data;
@@ -13,10 +14,11 @@ namespace SSDAssignment40.Pages
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public CreateListingModel(SSDAssignment40.Data.ApplicationDbContext context, IHostingEnvironment environment)
+        public CreateListingModel(SSDAssignment40.Data.ApplicationDbContext context, IHostingEnvironment environment, UserManager<Lodger> user)
         {
             _context = context;
             _environment = environment;
+            userManager = user;
         }
 
         public IActionResult OnGet()
@@ -28,11 +30,16 @@ namespace SSDAssignment40.Pages
 
         [BindProperty]
         public IFormFile Upload { get; set; }
+
         [BindProperty]
         public Listing Listing { get; set; }
 
+        public UserManager<Lodger> userManager { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
+            Listing.Lodger = await userManager.GetUserAsync(User);
+
             var filename =  Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
             var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
             using (var fileStream = new FileStream(file, FileMode.Create))
