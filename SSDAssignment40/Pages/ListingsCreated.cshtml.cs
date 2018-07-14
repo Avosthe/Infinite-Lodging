@@ -20,9 +20,16 @@ namespace SSDAssignment40.Pages
 
         public IList<Listing> Listing { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string location)
         {
-            Listing = await _context.Listing.ToListAsync();
+            var listings = from l in _context.Listing select l;
+
+            if (!String.IsNullOrEmpty(location))
+            {
+                listings = listings.Where(s => s.Location.Contains(location));
+            }
+
+            Listing = await listings.ToListAsync();
         }
     }
 }
