@@ -38,7 +38,8 @@ namespace SSDAssignment40.Pages
 
 
             //calculating average for a specific listing 
-            var average = from r in _context.Review select r;
+            var reviews = from r in _context.Review select r;
+            Review = await reviews.ToListAsync();
         }
     }
 }

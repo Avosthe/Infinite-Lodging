@@ -147,14 +147,11 @@ nav span:hover, nav a:hover {
 
 .listingprice{
     margin:0;
-    background-color:black;
     float:left;
 }
 
 .listingrating{
     margin:0;
-
-    background-color:green;
     float:right;
 }
 .editbutton{
