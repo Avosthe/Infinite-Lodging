@@ -1,0 +1,85 @@
+﻿@page
+@model SSDAssignment40.Pages._3AuthVerificationModel
+@{
+    ViewData["Title"] = "_3AuthVerification";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align: center; margin: 0;">3 Factor Authentication</h2>
+
+<div style="text-align: center">
+
+    <form method="post">
+        <input asp-for="@Model.patternInput" id="patternInput" type="hidden" value="" />
+        <span asp-validation-for="@Model.patternInput"></span>
+        <span>@Model.ErrorMessage</span>
+        <br />
+        <style>
+            ul{
+                padding: 0;
+                margin-left: -50px;
+            }
+            span{
+                font-size: 30px;
+                color: red;
+            }
+            li {
+                list-style-type: none;
+                display: inline-block;
+            }
+
+            img {
+                border-radius: 50%;
+                padding: 3px;
+                opacity: 0.7;
+            }
+
+            .clickeded {
+                border: 4px solid darkblue;
+                opacity: 1;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            }
+        </style>
+
+        <div class="container">
+            <div class="3auth_row">
+                <ul>
+                    <li style="margin-right: 100px;"><img src="~/3auth/1.jpg" alt="gZKQbZf5LxpCqRIEigw1IFnnR9GeM9" /></li>
+                    <li style="margin-right: 100px;"><img src="~/3auth/2.jpg" alt="DC6rpp3B3w76DhVHL2XBAbHqdNbwke" /></li>
+                    <li><img src="~/3auth/3.jpg" alt="reKB0sZRKejYjTsN9IzvwmPr37AgAz" /></li>
+                </ul>
+            </div>
+            <div class="3auth_row" style="margin-top: 50px;">
+                <ul>
+                    <li style="margin-right: 100px;"><img src="~/3auth/4.jpg" alt="cnOYqzWdUWMB9mXdHFkUNwQsXxCDTR" /></li>
+                    <li style="margin-right: 100px;"><img src="~/3auth/5.jpg" alt="vJugov9DbDoO1ZTsEkM5RJZS2ZhzsG" /></li>
+                    <li><img src="~/3auth/6.jpg" alt="lxqW7VjrWtVkdsX0P65GTJ4mfHwZB9" /></li>
+                </ul>
+            </div>
+            <div class="3auth_row" style="margin-top: 50px;">
+                <ul>
+                    <li style="margin-right: 100px;"><img src="~/3auth/7.jpg" alt="U0fOBGmbyxgI1bPgPUUz4OcFhXvL6D" /></li>
+                    <li style="margin-right: 100px;"><img src="~/3auth/8.jpg" alt="MowEomVW14ricxkdVwfY2HYqkOnDoj" /></li>
+                    <li><img src="~/3auth/9.jpg" alt="bE1mVNq3ZjPSeAZeXq4DarUIY0OaxZ" /></li>
+                </ul>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <div style="text-align: center"><button type="submit" class="clickbuttonnoshadow clickbutton">Submit</button></div>
+    </form>
+
+    <script defer>
+        var listOfImages = document.getElementsByTagName("img");
+        function AddValue() {
+            document.getElementById("patternInput").value += String(this.alt);
+            this.classList.toggle("clickeded");
+        }
+        for (let i = 0; i < listOfImages.length; i++) {
+            listOfImages[i].addEventListener("click", AddValue);
+        }
+    </script>
+
+</div>

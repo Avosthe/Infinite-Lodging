@@ -21,6 +21,8 @@ namespace SSDAssignment40.Data
         public string Hobbies { get; set; }
         public string GovernmentID { get; set; }
         public string Status { get; set; }
+        public string is3AuthEnabled { get; set; }
+        public string is3AuthPattern {get; set;}
 
     }
 }

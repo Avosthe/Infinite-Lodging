@@ -17,12 +17,12 @@
 
             <div style="margin-top: 15px; height: 250px;">
                 @if (string.IsNullOrEmpty(LodgerUser.ProfilePic))
-                { 
+                {
                     <img src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 250px; width: 250px;" />
                 }
                 else
                 {
-                    <img src="~/profile-images/@LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 250px; width: 250px;"/>
+                    <img src="~/profile-images/@LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 250px; width: 250px;" />
                 }
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept="image/*" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
@@ -76,7 +76,8 @@
                     font-size: large;
                     text-decoration: underline;
                 }
-                .form-group span:last-of-type{
+
+                .form-group span:last-of-type {
                     color: red;
                 }
             </style>
@@ -364,14 +365,6 @@
                         <option value="ZW">Zimbabwe</option>
                     </select>
                 </div>
-                <script defer>
-                        var countries = document.getElementsByTagName("option");
-            for (let i = 0; i < countries.length; i++) {
-                if (countries[i].innerText == "@LodgerUser.Country") {
-                    countries[i].selected = true;
-                }
-            }
-                </script>
                 <div class="form-group">
                     <label asp-for="UserInput.City"></label>
                     <br />
@@ -381,7 +374,7 @@
                 <div class="form-group">
                     <label asp-for="UserInput.GovernmentID"></label>
                     <br />
-                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@LodgerUser.City" accept="image/*"/>
+                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@LodgerUser.City" accept="image/*" />
                     <span asp-validation-for="UserInput.GovernmentID"></span>
                 </div>
                 <br />
@@ -392,3 +385,12 @@
         </div>
     </form>
 </div>
+
+<script defer>
+                        var countries = document.getElementsByTagName("option");
+            for (let i = 0; i < countries.length; i++) {
+                if (countries[i].innerText == "@LodgerUser.Country") {
+                    countries[i].selected = true;
+                }
+            }
+</script>
