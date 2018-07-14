@@ -25,7 +25,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerSupport[0].NoReplies)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.NoReplies)
             </td>
             <td>
-                <a asp-page="./Replies" asp-route-id="@item.CustomerSupport_ID">Reply</a> |
+                <a asp-page="./Replies" asp-route-id="@item.CustomerSupport_ID">Go To Thread</a> |
                 <a asp-page="./Edit" asp-route-id="@item.CustomerSupport_ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.CustomerSupport_ID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.CustomerSupport_ID">Delete</a>

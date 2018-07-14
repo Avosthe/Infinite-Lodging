@@ -28,7 +28,7 @@ namespace SSDAssignment40.Pages.Support
                 return NotFound();
             }
 
-            //CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
+            CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
 
             if (CustomerSupport == null)
             {
@@ -44,11 +44,11 @@ namespace SSDAssignment40.Pages.Support
                 return NotFound();
             }
 
-            //CustomerSupport = await _context.CustomerSupport.FindAsync(id);
+            CustomerSupport = await _context.CustomerSupport.FindAsync(id);
 
             if (CustomerSupport != null)
             {
-                //_context.CustomerSupport.Remove(CustomerSupport);
+                _context.CustomerSupport.Remove(CustomerSupport);
                 await _context.SaveChangesAsync();
             }
 
