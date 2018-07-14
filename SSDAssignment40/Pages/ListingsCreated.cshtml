@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{location?}"
 @model SSDAssignment40.Pages.ListingsCreatedModel
 
 @{
@@ -12,29 +12,29 @@
 <p>
     <a asp-page="CreateListing">Create a New Listing</a>
 </p>
-<style>
-    tr{
-        border:solid black;
-    }
 
+<style>
+    tr {
+        border: solid black;
+    }
 </style>
 <table class="table">
     @*<thead>
-        <tr>
-            <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].Price)
-                </th>
+            <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].Desc)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].Location)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
-                </th>
-        
-    </thead>*@
+                        @Html.DisplayNameFor(model => model.Listing[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].Desc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].Location)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
+                    </th>
+
+        </thead>*@
     <tbody>
         @for (int i = 0; i < listingcount;)
         { //loop 23 times counter = 23 counter -1 everytime a new item is displayed, when counter reaches multiples of 5, next line <tr>
@@ -43,12 +43,12 @@
                 {
                     for (int x = 0; x < listingcount - i; x++)
                     {
-                        <td style="border-top:solid black"class="listingbox">
+                        <td style="border-top:solid black" class="listingbox">
                             <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId">
-                                <div class="imgcontainer">
-                                    <img src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                    @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
-                                </div>
+
+                                <img class="listingboximg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                @Html.DisplayFor(modelItem => Model.Listing[x + i].Title)
+
                                 <div class="editbutton"></div>
                             </a>
                         </td>

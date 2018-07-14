@@ -135,18 +135,14 @@ nav span:hover, nav a:hover {
     width: 20%;
     height: 20%;
     border: solid black;
-    overflow:hidden;
+    /*overflow:no-content;*/
     padding:0;
     margin:auto;
 }
 
 .listingboximg{
     height:200px;
-    width:100%;
-}
-
-#td{
-    padding:100px;
+    width:200px;
 }
 
 #log_alert{
