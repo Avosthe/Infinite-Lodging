@@ -5,50 +5,39 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Listing Details</h2>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Listing.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Listing.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Listing.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Listing.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Listing.Desc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Listing.Desc)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Listing.Location)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Listing.Location)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Listing.CoverPic)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Listing.CoverPic)
-        </dd>
-    </dl>
-</div>
-<div>
+<div style="width:100%;display:block;">
+    <h2 style="width:50%;display:inline-block;float:left">Listing Details</h2>
     <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">
-        <div class="clickbutton">
+        <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
             Edit Listing
         </div>
     </a>
-    <br />
+</div>
+<section style="width:100%;height:50vh;overflow:hidden;display:inline-block">
+    <a href="~/ListingCover/@Model.Listing.CoverPic">
+        <img class="detailscoverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
+    </a>
+</section>
+<div>
+    <div>
+        <header style="font-size:36px;">
+            @Html.DisplayFor(model => model.Listing.Title)
+        </header>
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Listing.Desc)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.User.Identity.Name)
+    </div>
+    <div>
+
+    </div>
+</div>
+<div>
+    @* FOR BOOKING CALENDER + PRICE *@
+</div>
+<div>
     <a asp-page="./ListingsCreated">
         <div class="clickbutton">
             <<< Back to Listings
