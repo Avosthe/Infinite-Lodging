@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="listingrating">
                                     @{ 
-                                        var relevantReviews = Model.Review.Where(r => r.Listing == Model.Listing[x + i]);
+                                        var relevantReviews = Model.Review.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
                                         var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
                                     }
                                     <b>@Html.DisplayFor(modelItem => Model.Review[x + i].Rating)</b>
