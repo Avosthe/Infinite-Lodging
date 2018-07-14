@@ -20,6 +20,8 @@ namespace SSDAssignment40.Pages
 
         public IList<Listing> Listing { get;set; }
 
+        public IList<Review> Review { get; set; }
+
         public async Task OnGetAsync(string location)
         {
             var listings = from l in _context.Listing select l;

@@ -131,20 +131,62 @@ nav span:hover, nav a:hover {
     transition: opacity 2s linear;
 }
 
-.listingbox {
-    width: 20%;
-    height: 20%;
-    border: solid black;
-    /*overflow:no-content;*/
-    padding:0;
-    margin:auto;
-}
-
-.listingboximg{
-    height:200px;
-    width:200px;
-}
-
 #log_alert{
     width: 100%;
+}
+
+.listingimg {
+    height: 200px;
+    width: 300px;
+}
+
+.listingtitle{
+    background-color:transparent;
+    margin:0;
+}
+
+.listingprice{
+    margin:0;
+    background-color:black;
+    float:left;
+}
+
+.listingrating{
+    margin:0;
+
+    background-color:green;
+    float:right;
+}
+.editbutton{
+    width:200px;
+    background-color:midnightblue;
+    color:white;
+    text-align:center;
+    padding:10px;
+    border-radius:4px;
+}
+
+.polaroid{
+    border:1px thin lightgray;
+    padding:5px;
+    margin:10px;
+    overflow:hidden;
+}
+
+.polaroid:hover {
+    box-shadow: 0px 0px 16px 0 rgba(0,0,0,0.2), 0px 0px 20px 9px rgba(0,0,0,0.19);
+    text-decoration: none !important;
+}
+
+.listingtitle:hover {
+    box-shadow: none;
+    text-decoration:none!important;
+}
+
+.editbutton:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.listingimg:hover {
+    box-shadow: none;
 }
