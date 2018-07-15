@@ -24,9 +24,6 @@ namespace SSDAssignment40.Data
         [Display(Name = "No of Replies")]
         public int NoReplies { get; set; }
 
-        [Display(Name = "Replies")]
-        public string Replies { get; set; }
-
         public virtual Lodger Lodger { get; set; }
 
     }

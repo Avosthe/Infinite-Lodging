@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Remove="Data\Migrations\20180714043712_AddCustomerSupport.cs" />
+    <Compile Remove="Data\Migrations\20180715084656_addreply.cs" />
   </ItemGroup>
 
   <ItemGroup>
