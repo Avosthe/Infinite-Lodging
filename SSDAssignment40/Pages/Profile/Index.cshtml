@@ -17,16 +17,16 @@
 <div style="text-align: center;">
     @if (Model.isValidProfile)
     {
-        <div style="width: 25%; display: inline-block; float: left; overflow: auto;">
+        <div style="width: 292.5px; display: inline-block; float: left; overflow: auto;">
 
             <div style="margin-top: 15px;">
                 @if (!(string.IsNullOrEmpty(LodgerUser.ProfilePic)))
                 {
-                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 250px; width: 250px;"/>
+                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 292.5px; width: 292.5px;"/>
                 }
                 else
                 {
-                    <img src="~/images/cto-picture.jpg" />
+                    <img src="~/images/cto-picture.jpg" style="height: 292.5px; width: 292.5px;"/>
                     @*<img src="~/profile-images/default-picture.png" width="250" height="250" />*@
                 }
             </div>

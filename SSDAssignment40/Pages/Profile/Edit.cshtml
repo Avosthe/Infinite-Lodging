@@ -9,17 +9,17 @@
 <h2>Edit Profile</h2>
 <div class="container" style="text-align: center; padding: 0;">
     <p style="font-size: large; color: red;">@Model.alertMessage</p>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <form method="post" enctype="multipart/form-data">
-        <div id="left-div" style="width: 25%; border: 1px solid black; display: inline-block; float: left; overflow: auto;">
-
-            <div style="margin-top: 15px; height: 250px;">
+        <div id="left-div" style="width: 25%; display: inline-block; float: left; overflow: auto;">
+            <div style="margin-top: 15px;">
                 @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
                 {
-                    <img src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 250px; width: 250px;" />
+                    <img id="profile-pic-img" src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 64px; width: 64px;" />
                 }
                 else
                 {
-                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 250px; width: 250px;" />
+                    <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 292.5px;" />
                 }
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept="image/*" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
@@ -98,7 +98,7 @@
                 <div class="form-group">
                     <label asp-for="UserInput.Biography"></label>
                     <br />
-                    <textarea asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself" value="@Model.LodgerUser.Biography"></textarea>
+                    <textarea asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.AlternateEmail"></label>
@@ -383,7 +383,7 @@
     </form>
 </div>
 
-@{ 
+@{
     string userCountry = Model.LodgerUser.Country;
 }
 
@@ -393,5 +393,13 @@
                 if (countries[i].innerText == "@userCountry") {
                     countries[i].selected = true;
                 }
-            }
+    }
+    function Change() {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("profile-pic-img").src = e.target.result;
+        };
+        reader.readAsDataURL(this.files[0]);
+    };
+    document.getElementById("profile-picture").addEventListener("change", Change);
 </script>
