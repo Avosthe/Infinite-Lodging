@@ -31,7 +31,14 @@
                 <div style="padding: 10px; ">
                     <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                         <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                        <img style="float: right;" src="~/images/unverified.png" />
+                        @if (!(LodgerUser.isVerified))
+                        {
+                            <img style="float: right;" src="~/images/unverified.png" />
+                        }
+                        else
+                        {
+                            <img style="float: right;" src="~/images/verified.png" />
+                        }
                     </div>
                     <div style="margin: 15px 10px 15px 10px; overflow: auto;">
                         <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
@@ -98,7 +105,7 @@
                 <div class="form-group">
                     <label asp-for="UserInput.Biography"></label>
                     <br />
-                    <textarea asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
+                    <textarea style=" width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.AlternateEmail"></label>

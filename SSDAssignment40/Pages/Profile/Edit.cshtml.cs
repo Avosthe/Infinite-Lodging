@@ -92,7 +92,6 @@ namespace SSDAssignment40.Pages.Profile
             user.Biography = (user.Biography == UserInput.Biography) ? user.Biography : UserInput.Biography;
             user.AlternateEmail = (user.AlternateEmail == UserInput.AlternateEmail) ? user.AlternateEmail : UserInput.AlternateEmail;
             user.Country = (user.Country == UserInput.Country) ? user.Country : UserInput.Country;
-
             var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
             user.GovernmentID = gFileName;
             var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", gFileName);
