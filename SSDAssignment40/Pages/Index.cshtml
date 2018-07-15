@@ -6,14 +6,15 @@
 
 @if (!(string.IsNullOrEmpty(Model.userAlertMessage)))
 {
-
-
     <div id="log_alert" class="alert alert-info fade in alert-dismissible" style="text-align: center; width: 1200px;">
         <p style="font-size: large">@Model.userAlertMessage</p>
         <a href="#" id="close_alert" class="close" data-dismiss="alert" aria-label="close" title="close">x</a>
     </div>
 }
 
+
+<h1>Remote IP: @HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4()</h1>
+<h2>Remote Port: @HttpContext.Request.HttpContext.Connection.RemotePort</h2>
 <section>
     <img src="~/images/modernhouse3.jpg" />
     <div style="width:400px;height:400px;background-color:white;position:absolute;margin:-450px 0 0 100px;border-radius:10px">

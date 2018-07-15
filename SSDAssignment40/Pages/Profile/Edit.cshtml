@@ -21,7 +21,7 @@
                 {
                     <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 292.5px;" />
                 }
-                <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept="image/*" style="display:none;" />
+                <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
             </div>
             <div style="border: 2px solid black; border-bottom: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
