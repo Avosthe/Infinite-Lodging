@@ -39,7 +39,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-page="/Profile/Index" asp-route-username="@_userManager.GetUserName(User)">My Profile</a></li>
-                        <li><a asp-page="/ListingsCreated" asp-route-username="@_userManager.GetUserName(User)">My Listings</a></li>
+                        <li><a asp-page="/ListingsCreated" asp-route-id="@_userManager.GetUserId(User)">My Listings</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />
