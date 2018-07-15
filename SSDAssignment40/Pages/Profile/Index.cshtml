@@ -17,7 +17,7 @@
 <div style="text-align: center;">
     @if (Model.isValidProfile)
     {
-        <div style="width: 25%; border: 1px solid black; display: inline-block; float: left; overflow: auto;">
+        <div style="width: 25%; display: inline-block; float: left; overflow: auto;">
 
             <div style="margin-top: 15px;">
                 @if (!(string.IsNullOrEmpty(LodgerUser.ProfilePic)))
@@ -30,10 +30,10 @@
                     @*<img src="~/profile-images/default-picture.png" width="250" height="250" />*@
                 }
             </div>
-            <div style="border: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
+            <div style="border: 2px solid black; margin-top: 10px; background-color: #f4f4f4;">
                 <p style="font-size: large; margin-bottom: 0; padding: 10px;">Verification Status</p>
             </div>
-            <div style="border: 1px solid black; overflow: hidden;">
+            <div style="border: 2px solid black; overflow: hidden; border-top: none;">
                 <div style="padding: 10px; ">
                     <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                         <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>

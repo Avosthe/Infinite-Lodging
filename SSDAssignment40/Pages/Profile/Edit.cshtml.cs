@@ -52,18 +52,23 @@ namespace SSDAssignment40.Pages.Profile
 
         public ApplicationDbContext _context { get; set; }
 
+        public Lodger LodgerUser { get; set; }
+
         public EditModel(UserManager<Lodger> userManager, IHostingEnvironment environment, ApplicationDbContext context)
         {
             _userManager = userManager;
             _environment = environment;
             _context = context;
         }
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            LodgerUser = await _userManager.GetUserAsync(User);
 
+            return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
+            LodgerUser = await _userManager.GetUserAsync(User);
             if (!ModelState.IsValid) return Page();
             var user = await _userManager.GetUserAsync(User);
             _context.Update(user);
@@ -83,7 +88,7 @@ namespace SSDAssignment40.Pages.Profile
             {
                 user.Gender = (user.Gender == UserInput.Gender) ? user.Gender : UserInput.Gender;
             }
-            else return Page();
+            //else return Page();
             user.Biography = (user.Biography == UserInput.Biography) ? user.Biography : UserInput.Biography;
             user.AlternateEmail = (user.AlternateEmail == UserInput.AlternateEmail) ? user.AlternateEmail : UserInput.AlternateEmail;
             user.Country = (user.Country == UserInput.Country) ? user.Country : UserInput.Country;
@@ -97,7 +102,7 @@ namespace SSDAssignment40.Pages.Profile
             }
             await _context.SaveChangesAsync();
             alertMessage = "User Profile Updated Successfully";
-            return RedirectToPage();
+            return Page();
         }
     }
 }
