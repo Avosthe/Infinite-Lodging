@@ -69,7 +69,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
         public IActionResult OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            if (!(HttpContext.Session.TryGetValue("MobileNumber", out byte[] ran))) return RedirectToPage("/Index", new { area = "" });
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("MobileNumber"))) return RedirectToPage("/Register/VerifyMobile");
             return Page();
         }
 
