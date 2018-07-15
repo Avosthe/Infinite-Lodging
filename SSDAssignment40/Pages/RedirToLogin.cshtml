@@ -1,0 +1,23 @@
+﻿@page
+@{
+    ViewData["Title"] = "RedirToLogin";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>RedirToLogin</h2>
+
+<div class="container" style="text-align: center;">
+    <h1 style="color:red;">AccessDenied</h1>
+
+    <h3>Sorry, but your request was denied!</h3>
+    <br />
+    <img src="~/images/shocked.gif" />
+</div>
+
+<script defer>
+
+    setTimeout(function () {
+        window.document.location = "Identity/Account/Login";
+    }, 5000);
+</script>
+
