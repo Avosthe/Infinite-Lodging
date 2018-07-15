@@ -23,6 +23,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
         public static string ChangeMobileNumber => "ChangeMobileNumber";
 
+        public static string Manage3Auth => "Manage3Auth";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
@@ -38,6 +40,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
         public static string ChangeMobileNumberNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangeMobileNumber);
+
+        public static string Manage3AuthNavClass(ViewContext viewContext) => PageNavClass(viewContext, Manage3Auth);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

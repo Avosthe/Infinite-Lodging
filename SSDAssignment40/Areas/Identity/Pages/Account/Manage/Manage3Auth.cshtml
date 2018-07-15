@@ -1,0 +1,32 @@
+﻿@page
+@model Manage3AuthModel
+@{
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+@{ 
+
+    var LodgerUser = await Model._userManager.GetUserAsync(User);
+}
+
+<style>
+    a div:hover{
+       cursor: pointer;
+    }
+</style>
+
+@if (LodgerUser.is3AuthEnabled == "True")
+{
+    <a><div class="clickbutton" onclick="document.getElementById('3AuthForm').submit()">Disable3Auth</div></a>
+    <form id="3AuthForm" method="post" asp-page-handler="Disable3Auth" style="display: none;">
+    </form>
+}
+else
+{
+    <a><div class="clickbutton" onclick="document.getElementById('3AuthForm').submit()">Enable3Auth</div></a>
+    <form id="3AuthForm" method="post" asp-page-handler="Enable3Auth" style="display: none">
+    </form>
+}
+
+
+
