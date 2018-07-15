@@ -31,6 +31,10 @@
                 <div style="padding: 10px; ">
                     <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                         <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
+                        @{
+                            Lodger LodgerUser = await Model._userManager.GetUserAsync(User);
+
+                        }
                         @if (!(LodgerUser.isVerified))
                         {
                             <img style="float: right;" src="~/images/unverified.png" />
