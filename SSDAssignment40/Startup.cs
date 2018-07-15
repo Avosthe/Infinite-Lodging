@@ -44,6 +44,7 @@ namespace SSDAssignment40
             services.AddIdentity<Lodger, IdentityRole>(config =>
             {
                 config.SignIn.RequireConfirmedEmail = true;
+                config.Lockout.MaxFailedAccessAttempts = 3;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();

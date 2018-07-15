@@ -21,25 +21,29 @@
 </section>
 <div class="listingwrapper">
     <div class="listingdetails">
-        <div>
-            <header style="font-size:36px;">
-                @Html.DisplayFor(model => model.Listing.Title)
-            </header>
+        <div class="titleuserdetail">
+            <div class="listingdetailtitle">
+                <header style="font-size:36px;">
+                    @Html.DisplayFor(model => model.Listing.Title)
+                </header>
+            </div>
+            <div class="listerinfo">
+                <a style="text-decoration:none;" href="/Profile/@Model.Listing.Lodger.UserName">
+                    <img style="width:50px;height:50px;border-radius:50%;" src="~/profile-images/@Model.Listing.Lodger.ProfilePic" />
+                </a>
+                <div>
+                    @Model.Listing.Lodger.UserName
+                </div>
+            </div>
         </div>
         <div>
             @Html.DisplayFor(model => model.Listing.Desc)
         </div>
-        <div>
-            @Html.DisplayFor(model => model.User.Identity.Name)
-        </div>
-        <div>
-            below here is the shit
-            @Model.Listing.Lodger.Id;
-        </div>
+
     </div>
     <div style="float:left;">
         <div class="listingbooking">
-            test@* FOR BOOKING CALENDER + PRICE *@
+            @* FOR BOOKING CALENDER + PRICE *@
         </div>
     </div>
 </div>

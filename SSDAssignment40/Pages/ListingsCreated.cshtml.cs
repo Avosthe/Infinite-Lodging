@@ -24,14 +24,19 @@ namespace SSDAssignment40.Pages
 
         public int avgRating { get; set; }
 
-        public async Task OnGetAsync(string location)
+        public async Task OnGetAsync(string location, DateTime dateStart, DateTime dateEnd, string id)
         {
             //search by location from home page
+            //var result = _context.Listing.AsQueryable();
             var listings = from l in _context.Listing select l;
 
             if (!String.IsNullOrEmpty(location))
             {
                 listings = listings.Where(s => s.Location.Contains(location));
+            }
+            if (!String.IsNullOrEmpty(id))
+            {
+                listings = listings.Where(s => s.Lodger.Id.Contains(id));
             }
 
             Listing = await listings.ToListAsync();

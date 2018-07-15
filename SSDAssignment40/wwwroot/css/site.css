@@ -237,5 +237,24 @@ nav span:hover, nav a:hover {
 .listingwrapper{
     overflow:hidden;
     width:100%;
+}
 
+.listerinfo{
+    width:25%;
+    float:left;
+    text-align:center;
+    padding-top:5%;
+    color:dimgrey;
+    text-decoration:none;
+    font-size:12px;
+}
+
+.listingdetailtitle{
+    width:70%;
+    float:left;
+    overflow:hidden;
+}
+
+.titleuserdetail{
+    display:inline-block;
 }

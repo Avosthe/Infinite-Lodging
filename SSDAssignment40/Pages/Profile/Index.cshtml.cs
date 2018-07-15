@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages
@@ -29,9 +30,15 @@ namespace SSDAssignment40.Pages
 
         public string Review { get; set; }
 
-        public ProfileModel(UserManager<Lodger> userManager)
+        public IList<Listing> Listing { get; set; }
+
+        public IList<Review> ListingReview { get; set; }
+        private readonly ApplicationDbContext _context;
+
+        public ProfileModel(UserManager<Lodger> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
         public async Task<IActionResult> OnGetAsync()
         {
@@ -40,6 +47,10 @@ namespace SSDAssignment40.Pages
             {
                 isValidProfile = true;
                 LodgerUser = l;
+                var listings = from list in _context.Listing select list;
+                Listing = await listings.ToListAsync();
+                var reviews = from r in _context.Review select r;
+                ListingReview = await reviews.ToListAsync();
             }
             return Page();
         }

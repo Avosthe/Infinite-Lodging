@@ -4,25 +4,22 @@
     ViewData["Title"] = "Edit";
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
-@{
-    Lodger LodgerUser = await Model._userManager.GetUserAsync(User);
-}
 
 
 <h2>Edit Profile</h2>
 <div class="container" style="text-align: center; padding: 0;">
-    <p style="font-size: large">@Model.alertMessage</p>
+    <p style="font-size: large; color: red;">@Model.alertMessage</p>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <form method="post" enctype="multipart/form-data">
-        <div id="left-div" style="width: 25%; border: 1px solid black; display: inline-block; float: left; overflow: auto;">
-
-            <div style="margin-top: 15px; height: 250px;">
-                @if (string.IsNullOrEmpty(LodgerUser.ProfilePic))
+        <div id="left-div" style="width: 25%; display: inline-block; float: left; overflow: auto;">
+            <div style="margin-top: 15px;">
+                @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
                 {
-                    <img src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 250px; width: 250px;" />
+                    <img id="profile-pic-img" src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 64px; width: 64px;" />
                 }
                 else
                 {
-                    <img src="~/profile-images/@LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 250px; width: 250px;" />
+                    <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 292.5px;" />
                 }
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept="image/*" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
@@ -34,11 +31,22 @@
                 <div style="padding: 10px; ">
                     <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                         <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                        <img style="float: right;" src="~/images/unverified.png" />
+                        @{
+                            Lodger LodgerUser = await Model._userManager.GetUserAsync(User);
+
+                        }
+                        @if (!(LodgerUser.isVerified))
+                        {
+                            <img style="float: right;" src="~/images/unverified.png" />
+                        }
+                        else
+                        {
+                            <img style="float: right;" src="~/images/verified.png" />
+                        }
                     </div>
                     <div style="margin: 15px 10px 15px 10px; overflow: auto;">
                         <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
-                        @if (string.IsNullOrEmpty(LodgerUser.ProfilePic))
+                        @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
                         {
                             <img style="float: right;" src="~/images/unverified.png" />
                         }
@@ -85,28 +93,28 @@
             <div style="width: 50%; margin: 0 auto;">
                 <div class="form-group">
                     <label asp-for="UserInput.FullName"></label>
-                    <input asp-for="UserInput.FullName" class="form-control" value="@LodgerUser.FullName">
+                    <input asp-for="UserInput.FullName" class="form-control" value="@Model.LodgerUser.FullName">
                     <span asp-validation-for="UserInput.FullName"></span>
                 </div>
                 <div class="form-group">
                     <p><label asp-for="UserInput.Gender"></label></p>
-                    <input asp-for="UserInput.Gender" type="radio" value="Male" checked="@(LodgerUser.Gender == "Male")">
+                    <input asp-for="UserInput.Gender" type="radio" value="Male" checked="@((Model.LodgerUser.Gender == "Male").ToString().ToLower())">
                     <span style="margin-right: 30px;">Male</span>
-                    <input asp-for="UserInput.Gender" type="radio" value="Female" checked="@(LodgerUser.Gender == "Female")">
+                    <input asp-for="UserInput.Gender" type="radio" value="Female" checked="@((Model.LodgerUser.Gender == "Female").ToString().ToLower())">
                     <span style="margin-right: 30px;">Female</span>
-                    <input asp-for="UserInput.Gender" type="radio" value="Other" checked="@(LodgerUser.Gender == "Other")">
+                    <input asp-for="UserInput.Gender" type="radio" value="Other" checked="@(Model.LodgerUser.Gender == "Other").ToString().ToLower())">
                     <span>Other</span>
                     <span asp-validation-for="UserInput.Gender"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.Biography"></label>
                     <br />
-                    <textarea asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself" value="@LodgerUser.Biography"></textarea>
+                    <textarea style=" width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.AlternateEmail"></label>
                     <br />
-                    <input asp-for="UserInput.AlternateEmail" class="form-control" value="@LodgerUser.AlternateEmail" placeholder="For security reasons, please add an alternate email." />
+                    <input asp-for="UserInput.AlternateEmail" class="form-control" value="@Model.LodgerUser.AlternateEmail" placeholder="For security reasons, please add an alternate email." />
                     <span asp-validation-for="UserInput.AlternateEmail"></span>
                 </div>
                 <div class="form-group">
@@ -368,13 +376,13 @@
                 <div class="form-group">
                     <label asp-for="UserInput.City"></label>
                     <br />
-                    <input asp-for="UserInput.City" class="form-control" value="@LodgerUser.City" />
+                    <input asp-for="UserInput.City" class="form-control" value="@Model.LodgerUser.City" />
                     <span asp-validation-for="UserInput.City"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.GovernmentID"></label>
                     <br />
-                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@LodgerUser.City" accept="image/*" />
+                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@Model.LodgerUser.City" accept="image/*" />
                     <span asp-validation-for="UserInput.GovernmentID"></span>
                 </div>
                 <br />
@@ -386,11 +394,23 @@
     </form>
 </div>
 
+@{
+    string userCountry = Model.LodgerUser.Country;
+}
+
 <script defer>
                         var countries = document.getElementsByTagName("option");
             for (let i = 0; i < countries.length; i++) {
-                if (countries[i].innerText == "@LodgerUser.Country") {
+                if (countries[i].innerText == "@userCountry") {
                     countries[i].selected = true;
                 }
-            }
+    }
+    function Change() {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("profile-pic-img").src = e.target.result;
+        };
+        reader.readAsDataURL(this.files[0]);
+    };
+    document.getElementById("profile-picture").addEventListener("change", Change);
 </script>
