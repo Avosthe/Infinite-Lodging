@@ -19,6 +19,7 @@ namespace SSDAssignment40.Pages.Support
         }
 
         public CustomerSupport CustomerSupport { get; set; }
+        public Reply Reply { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
