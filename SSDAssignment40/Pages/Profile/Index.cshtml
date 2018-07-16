@@ -23,11 +23,11 @@
             <div style="margin-top: 15px;">
                 @if (!(string.IsNullOrEmpty(LodgerUser.ProfilePic)))
                 {
-                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 292.5px; width: 292.5px;"/>
+                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 292.5px; width: 288.5px; border-radius: 10%; border: 2px solid black;"/>
                 }
                 else
                 {
-                    <img src="~/images/cto-picture.jpg" style="height: 292.5px; width: 292.5px;"/>
+                    <img src="~/images/cto-picture.jpg" style="height: 292.5px; width: 288.5px; border-radius: 10%; border: 2px solid black;"/>
                     @*<img src="~/profile-images/default-picture.png" width="250" height="250" />*@
                 }
             </div>
@@ -71,8 +71,9 @@
         </div>
 
         <div style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial; padding-left:10px;">
-            <h1>@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
+            <h1 style="margin-top: 10px;">@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
             <p style="font-size: medium;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
+            <br />
             <a class="clickbuttonnoshadow" href="#">Report this user</a>
             <br />
             <br />

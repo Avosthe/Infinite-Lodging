@@ -89,7 +89,7 @@ namespace SSDAssignment40.Pages
                     {
                         var currentTries = HttpContext.Session.GetInt32("Tries");
                         HttpContext.Session.SetInt32("Tries", currentTries.Value + 1);
-                        if(HttpContext.Session.GetInt32("Tries").Value == 3)
+                        if(HttpContext.Session.GetInt32("Tries").Value == 4)
                         {
                             toBeVerifiedAgainst.LockoutEnabled = true;
                             toBeVerifiedAgainst.LockoutEnd = DateTime.Now.AddDays(1);
