@@ -1,0 +1,30 @@
+﻿@page
+@{
+    ViewData["Title"] = "Wrong File Type";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+<style>
+    u{
+        color:red;
+    }
+    a{
+        text-decoration:none;
+    }
+</style>
+<div class="container" style="text-align: center;">
+    <h1 style="font-size:80px;">ERROR</h1>
+    <div>Due to security reasons, your listing has not been added due to a wrong type of file being uploaded.</div>
+    <div>Please ensure that the file your are uploading is indeed a <u>.jpg</u>, <u>.jpeg</u> or a <u>.png</u> file.</div>
+    <br />
+    <div>Please click on the button below to return to the home page</div>
+    <div class="buttoncontainer" style="margin:auto;margin-top:60px;">
+        <a href="/Index">
+            <div class="clickbuttonnoshadow">
+                Return Home
+            </div>
+        </a>
+    </div>
+</div>
+

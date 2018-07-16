@@ -31,4 +31,10 @@
     <None Include="wwwroot\images\house1.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Error\wrongFileType.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
