@@ -39,6 +39,7 @@
                     <li><a asp-page="/Support/Index">Support</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li><a asp-page="/ListingsCreated" asp-route-username="@_userManager.GetUserId(User)"></a>My Listings</li>
                         <li><a asp-page="/Profile/Index" asp-route-username="@_userManager.GetUserName(User)">My Profile</a></li>
                     }
                 </ul>

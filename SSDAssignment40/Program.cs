@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SSDAssignment40.Data;
 
 namespace SSDAssignment40
 {
@@ -16,14 +15,7 @@ namespace SSDAssignment40
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
-            var host = CreateWebHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<ApplicationDbContext>();
-                DBInitialiser.Initialize(context);
-            }
+
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
