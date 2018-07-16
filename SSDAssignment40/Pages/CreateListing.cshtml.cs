@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using SSDAssignment40.Data;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace SSDAssignment40.Pages
 {
+    [Authorize]
     public class CreateListingModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
@@ -71,7 +73,7 @@ namespace SSDAssignment40.Pages
             _context.Listing.Add(Listing);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./ListingsCreated");
+            return RedirectToPage("./Listings");
             
         }
 
