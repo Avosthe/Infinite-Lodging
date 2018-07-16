@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180716094701_changedpricetype")]
+    partial class changedpricetype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,25 +151,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasIndex("LodgerId");
 
                     b.ToTable("Booking");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.CreditCard", b =>
-                {
-                    b.Property<string>("CreditCardId");
-
-                    b.Property<int>("CVV");
-
-                    b.Property<DateTime>("ExpiryDate");
-
-                    b.Property<string>("FullName");
-
-                    b.Property<string>("LodgerId");
-
-                    b.HasKey("CreditCardId");
-
-                    b.HasIndex("LodgerId");
-
-                    b.ToTable("CreditCard");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.CustomerSupport", b =>
@@ -392,13 +375,6 @@ namespace SSDAssignment40.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ListingId");
 
-                    b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
-                        .WithMany()
-                        .HasForeignKey("LodgerId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.CreditCard", b =>
-                {
                     b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
                         .WithMany()
                         .HasForeignKey("LodgerId");

@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace SSDAssignment40
 {
@@ -48,9 +49,35 @@ namespace SSDAssignment40
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 10;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredUniqueChars = 7;
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                // User settings
+                /*
+                 * Don't use this because it will not allow
+                 * emails that are unverified to pass
+                 * through either.
+                 */
+                //options.User.RequireUniqueEmail = true;
+            });
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/RedirToLogin";
+                options.Cookie = new CookieBuilder() { SecurePolicy = CookieSecurePolicy.Always, Expiration = TimeSpan.FromHours(1), HttpOnly = true };
+
+
             });
             services.AddAuthentication().AddFacebook(fbOptions =>
             {
