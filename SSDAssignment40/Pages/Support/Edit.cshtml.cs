@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace SSDAssignment40.Pages.Support
 {
@@ -14,13 +15,15 @@ namespace SSDAssignment40.Pages.Support
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public EditModel(SSDAssignment40.Data.ApplicationDbContext context)
+        public EditModel(SSDAssignment40.Data.ApplicationDbContext context, UserManager<Lodger> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
         public CustomerSupport CustomerSupport { get; set; }
+        public UserManager<Lodger> _userManager { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -44,7 +47,8 @@ namespace SSDAssignment40.Pages.Support
             {
                 return Page();
             }
-
+            CustomerSupport.Username = await _userManager.GetUserNameAsync(await (_userManager.GetUserAsync(User)));
+            CustomerSupport.DateTimeStamp = DateTime.Now;
             _context.Attach(CustomerSupport).State = EntityState.Modified;
 
             try

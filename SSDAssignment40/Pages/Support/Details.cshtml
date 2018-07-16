@@ -5,45 +5,27 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
+<table class="table">
+<thead>
+    <tr>
+        <th>
+            @Html.DisplayFor(modelItem => modelItem.CustomerSupport.Request)
+        </th>
+    </tr>
+</thead>
+<tbody>
+    @if (Model.CustomerSupport.NoReplies>0) {
+    @foreach (var r in Model.Reply.Replies)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => r)
+            </td>
+        </tr>
+        }
+    }
+</tbody>
+    </table>
 <div>
-    <h4>CustomerSupport</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerSupport.Username)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CustomerSupport.Username)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerSupport.DateTimeStamp)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CustomerSupport.DateTimeStamp)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerSupport.Request)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CustomerSupport.Request)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerSupport.NoReplies)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CustomerSupport.NoReplies)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerSupport.Replies)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CustomerSupport.Replies)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.CustomerSupport.CustomerSupport_ID">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>

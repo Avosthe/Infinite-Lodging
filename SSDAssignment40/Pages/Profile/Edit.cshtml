@@ -21,17 +21,28 @@
                 {
                     <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 292.5px;" />
                 }
-                <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept="image/*" style="display:none;" />
+                <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
             </div>
-            <div style="border: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
+            <div style="border: 2px solid black; border-bottom: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
                 <p style="font-size: large; margin-bottom: 0; padding: 10px;">Verification Status</p>
             </div>
-            <div style="border: 1px solid black; overflow: hidden;">
+            <div style="border: 2px solid black; border-top: 1px solid black; overflow: hidden;">
                 <div style="padding: 10px; ">
                     <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                         <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                        <img style="float: right;" src="~/images/unverified.png" />
+                        @{
+                            Lodger LodgerUser = await Model._userManager.GetUserAsync(User);
+
+                        }
+                        @if (!(LodgerUser.isVerified))
+                        {
+                            <img style="float: right;" src="~/images/unverified.png" />
+                        }
+                        else
+                        {
+                            <img style="float: right;" src="~/images/verified.png" />
+                        }
                     </div>
                     <div style="margin: 15px 10px 15px 10px; overflow: auto;">
                         <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
@@ -98,7 +109,7 @@
                 <div class="form-group">
                     <label asp-for="UserInput.Biography"></label>
                     <br />
-                    <textarea asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
+                    <textarea style=" width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.AlternateEmail"></label>

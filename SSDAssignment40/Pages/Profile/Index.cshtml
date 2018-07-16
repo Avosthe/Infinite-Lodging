@@ -9,6 +9,7 @@
 @{
     Lodger LodgerUser = await _userManager.FindByNameAsync(Model.Username);
 }
+<link rel="stylesheet" href="~/css/listingstyles.css" />
 
 <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px;">
     <h2 style="float: left; margin-top: 0;">Profile</h2>@if (@Model.Username == _userManager.GetUserName(User))
@@ -37,7 +38,7 @@
                 <div style="padding: 10px; ">
                     <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                         <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                        @if (string.IsNullOrEmpty(LodgerUser.ProfilePic))
+                        @if (!(LodgerUser.isVerified))
                         {
                             <img style="float: right;" src="~/images/unverified.png" />
                         }
@@ -48,7 +49,14 @@
                     </div>
                     <div style="margin: 15px 10px 15px 10px; overflow: auto;">
                         <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
-                        <img style="float: right;" src="~/images/unverified.png" />
+                        @if (string.IsNullOrEmpty(LodgerUser.ProfilePic))
+                        {
+                            <img style="float: right;" src="~/images/unverified.png" />
+                        }
+                        else
+                        {
+                            <img style="float: right;" src="~/images/verified.png" />
+                        }
                     </div>
                     <div style="margin: 15px 10px 15px 10px; overflow: auto;">
                         <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Email Address</p>
@@ -86,9 +94,113 @@
                     <span style="margin-left: 10px;">@Model.LodgerUser.ThumbsDown</span>
                 </div>
             </div>
+            <style>
+                .polaroid{
+                    margin-left: 25px;
+                    border: 2px solid black;
+                }
+            </style>
             <div id="listings">
                 <h2>Listings</h2>
-                // add user's listings
+                <table style="border-collapse:unset;padding-top:0;position:relative;">
+                    @{ 
+                        int listingcount = Model.Listing.Count;
+                    }
+                    @for (int i = 0; i < listingcount;)
+                    {
+                        <tr>
+                            @if (listingcount - i < 2)
+                            {
+                                for (int x = 0; x < listingcount - i; x++)
+                                {
+                                    <td>
+                                        <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
+                                            <div class="polaroid">
+                                                <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                <div class="listingtitle">
+                                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                                </div>
+                                                <div class="listingprice">
+                                                    S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                                </div>
+                                                <div class="listingrating">
+                                                    @{
+                                                        try
+                                                        {
+                                                            var relevantReviews = Model.ListingReview.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                                            var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                                            <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                                            for (int g = 0; g < avgRating; g++)
+                                                            {
+                                                                <img src="~/images/filledstar.ico" />
+                                                            }
+                                                            for (int g = 0; g < 5 - avgRating; g++)
+                                                            {
+                                                                <img src="~/images/emptystar.ico" />
+                                                            }
+                                                        }
+                                                        catch (DivideByZeroException)
+                                                        {
+                                                            <div>No Reviews</div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a style="background-color:transparent" class="clickbutton">
+                                            <img src="~/images/edit-2-24.ico" />
+                                        </a>
+                                        <a class="deletebutton"></a>
+                                    </td>
+                                }
+                                break;
+                            }
+                            @if (listingcount - i >= 2)
+                            {
+                                for (int x = 0; x < 2; x++)
+                                {
+                                    <td>
+                                        <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
+                                            <div class="polaroid">
+                                                <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                <div class="listingtitle">
+                                                    <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                                </div>
+                                                <div class="listingprice">
+                                                    S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                                </div>
+                                                <div class="listingrating">
+                                                    @{
+                                                        try
+                                                        {
+                                                            var relevantReviews = Model.ListingReview.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                                            var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                                            <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                                            for (int g = 0; g < avgRating; g++)
+                                                            {
+                                                                <img src="~/images/filledstar.ico" />
+                                                            }
+                                                            for (int g = 0; g < 5 - avgRating; g++)
+                                                            {
+                                                                <img src="~/images/emptystar.ico" />
+                                                            }
+                                                        }
+                                                        catch (DivideByZeroException)
+                                                        {
+                                                            <div>No Reviews</div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                }
+                                i += 2;
+                            }
+                        </tr>
+                    }
+
+                </table>
             </div>
             <div id="reviews">
                 <h2>Reviews</h2>

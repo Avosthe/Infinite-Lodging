@@ -77,6 +77,23 @@ namespace SSDAssignment40.Pages.Profile
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.ProfilePicture.FileName);
                 user.ProfilePic = filename;
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", filename);
+                List<byte[]> allowedHeaders = new List<byte[]>() { new byte[] { 0xFF, 0xD8, 0xFF }, new byte[] { 0x89, 0x50, 0x4E } };
+                using (var ms = new MemoryStream())
+                {
+                    UserInput.ProfilePicture.CopyTo(ms);
+                    var ProfilePicBytes = ms.ToArray();
+                    for(int i = 0; i < 3; i++)
+                    {
+                        if(ProfilePicBytes[i] == allowedHeaders[0][i] || ProfilePicBytes[i] == allowedHeaders[1][i])
+                        {
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ProfilePicInvalid", "Invalid file format for Profile Picture");
+                            return Page();
+                        }
+                    }
+                }
                 using (var fileStream = new FileStream(file, FileMode.Create))
                 {
                     await UserInput.ProfilePicture.CopyToAsync(fileStream);
@@ -92,7 +109,6 @@ namespace SSDAssignment40.Pages.Profile
             user.Biography = (user.Biography == UserInput.Biography) ? user.Biography : UserInput.Biography;
             user.AlternateEmail = (user.AlternateEmail == UserInput.AlternateEmail) ? user.AlternateEmail : UserInput.AlternateEmail;
             user.Country = (user.Country == UserInput.Country) ? user.Country : UserInput.Country;
-
             var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
             user.GovernmentID = gFileName;
             var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", gFileName);
