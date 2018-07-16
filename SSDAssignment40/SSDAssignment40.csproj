@@ -39,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Error\deletelistingerror.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\Error\wrongFileType.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

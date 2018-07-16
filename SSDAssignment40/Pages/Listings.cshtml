@@ -8,24 +8,7 @@
 
 
 <h2 id="myheader"></h2>
-@*@{ try
-    {
-        <div class="errorcheck">@Model.Listing[0].Location</div>
-        <h2>Showing results for "@Model.Listing[0].Location"</h2>
-    }
-    catch
-    {
-        <h1>We're Sorry.</h1>
-        <h2>There are currently no listings in the current location.</h2>
-        <div class="buttoncontainer">
-            <a asp-page="./Index">
-                <div class="clickbuttonnoshadow">
-                    Go Back to Home Page
-                </div>
-            </a>
-        </div>
-    }
-}*@
+
 <link rel="stylesheet" href="~/css/listingstyles.css" />
 <script src="~/js/listings.js"></script>
 <br />
@@ -38,22 +21,6 @@
 </style>
 <body onload="getURL()">
     <table style="border-collapse:unset;padding-top:0;position:relative;">
-        @*<thead>
-                <tr>
-                    <th>
-                            @Html.DisplayNameFor(model => model.Listing[0].Price)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Listing[0].Desc)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Listing[0].Location)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Listing[0].CoverPic)
-                        </th>
-
-            </thead>*@ <!--shit-->
 
         @for (int i = 0; i < listingcount;)
         {
@@ -149,23 +116,6 @@
                     }
                     i += 4;
                 }
-                @*<td>
-                        @Html.DisplayFor(modelItem => Model.Listing[Model.Listing.IndexOf(item)+1] )
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Desc)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CoverPic)
-                    </td>
-                    <td>
-                        <a asp-page="./EditListing" asp-route-id="@item.ListingId">Edit</a> |
-                        <a asp-page="./ListingDetails" asp-route-id="@item.ListingId">Details</a> |
-                        <a asp-page="./DeleteListing" asp-route-id="@item.ListingId">Delete</a>
-                    </td>*@ <!--more shit-->
             </tr>
         }
 
