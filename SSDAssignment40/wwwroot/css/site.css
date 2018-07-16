@@ -119,6 +119,7 @@ nav span:hover, nav a:hover {
 #nav_bar {
     margin-top: -10px;
     background-color: #f4f4f4 !important;
+    width:100%;
 }
 
 #header_nav {
@@ -144,6 +145,8 @@ nav span:hover, nav a:hover {
     background-color: transparent;
     height:40px;
     margin: 0;
+    width:100%;
+    word-wrap:break-word;
 }
 
 .listingprice {
@@ -182,6 +185,7 @@ nav span:hover, nav a:hover {
     left: -20px;
     position: relative;
     overflow: hidden;
+    width:310px;
 }
 
 .polaroid:hover {
@@ -229,10 +233,11 @@ nav span:hover, nav a:hover {
 }
 
 .listingbooking{
-    position:fixed;
     width:300px;
     margin-left:40px;
-    background-color:black;
+    border:1px solid lightgray;
+    padding:20px;
+    border-radius:10px;
 }
 
 .listingwrapper{
@@ -273,4 +278,54 @@ nav span:hover, nav a:hover {
     color:red;
     padding:0;
     margin:0;
+}
+
+.hidden{
+    visibility:hidden;
+}
+
+.mytextarea{
+    overflow:hidden;
+    max-width:100%;
+    min-width:100%;
+    resize:none;
+}
+
+.bookingprice{
+    overflow:hidden;
+    height:0px;
+    display:none;
+}
+
+#calculation{
+    float:left;
+    width:160px;
+}
+
+#totalprice{
+    float:left;
+    width:160px;
+    display:none;
+    margin-bottom:20px;
+}
+
+#total, #calctotal{
+    text-align:right;
+    width:80px;
+    float:right;
+}
+
+#line{
+    background-color:lightgray;
+    height:1px;
+    width:250px;
+    margin-top:8px;
+    margin-bottom:8px;
+    float:left;
+    display:none;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
 }

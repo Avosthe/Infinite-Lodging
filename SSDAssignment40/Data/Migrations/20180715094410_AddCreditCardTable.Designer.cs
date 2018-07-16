@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180715094410_AddCreditCardTable")]
+    partial class AddCreditCardTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,7 +208,7 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("LodgerId");
 
-                    b.Property<int>("Price");
+                    b.Property<decimal>("Price");
 
                     b.Property<string>("Title");
 
@@ -223,8 +225,6 @@ namespace SSDAssignment40.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("Address");
 
                     b.Property<string>("AlternateEmail");
 
@@ -264,10 +264,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Nric");
-
-                    b.Property<string>("Occupation");
-
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhoneNumber");
@@ -276,13 +272,13 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("ProfilePic");
 
-                    b.Property<int>("Rating");
-
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("SiteLabel");
-
                     b.Property<string>("Status");
+
+                    b.Property<int>("ThumbsDown");
+
+                    b.Property<int>("ThumbsUp");
 
                     b.Property<bool>("TwoFactorEnabled");
 

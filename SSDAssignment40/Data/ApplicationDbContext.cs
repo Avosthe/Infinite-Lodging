@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SSDAssignment40.Data;
+
 
 namespace SSDAssignment40.Data
 {
@@ -19,5 +21,7 @@ namespace SSDAssignment40.Data
         public DbSet<Review> Review { get; set; }
         public DbSet<CustomerSupport> CustomerSupport { get; set; }
         public DbSet<Reply> Reply { get; set; }
+        public DbSet<CreditCard> CreditCard { get; set; }
+
     }
 }
