@@ -25,7 +25,7 @@ namespace SSDAssignment40.Data
         //}
 
         public ILogger _logger { get; set; }
-            public SmsSender(ILogger<SmsSender> logger)
+        public SmsSender(ILogger<SmsSender> logger)
         {
             _logger = logger;
         }
