@@ -1,18 +1,16 @@
 ﻿@page "{location?}"
-@model SSDAssignment40.Pages.ListingsCreatedModel
+@model SSDAssignment40.Pages.ListingsModel
 
 @{
-    ViewData["Title"] = "Listings Created";
+    ViewData["Title"] = "Listings";
     int listingcount = Model.Listing.Count;
 }
 
 
-<h2>Listings Created</h2>
+<h2>Listings</h2>
 <link rel="stylesheet" href="~/css/listingstyles.css" />
 <br />
-<p>
-    <a asp-page="CreateListing" class="clickbuttonnoshadow" style="margin-top:10px;">Create a New Listing</a>
-</p>
+
 
 <style>
     .navbar {

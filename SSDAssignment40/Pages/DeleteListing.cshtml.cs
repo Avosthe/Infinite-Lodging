@@ -52,7 +52,7 @@ namespace SSDAssignment40.Pages
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./ListingsCreated");
+            return RedirectToPage("./Listings");
         }
     }
 }

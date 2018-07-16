@@ -63,7 +63,7 @@ namespace SSDAssignment40.Pages
                 }
             }
 
-            return RedirectToPage("./ListingsCreated");
+            return RedirectToPage("./Listings");
         }
 
         private bool ListingExists(string id)
