@@ -12,14 +12,14 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <form method="post" enctype="multipart/form-data">
         <div id="left-div" style="width: 25%; display: inline-block; float: left; overflow: auto;">
-            <div style="margin-top: 15px;">
+            <div>
                 @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
                 {
                     <img id="profile-pic-img" src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 64px; width: 64px;" />
                 }
                 else
                 {
-                    <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 292.5px;" />
+                    <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 288.5px;  border-radius: 10%; border: 2px solid black;" />
                 }
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
