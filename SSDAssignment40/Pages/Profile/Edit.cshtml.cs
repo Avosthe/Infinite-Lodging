@@ -25,7 +25,6 @@ namespace SSDAssignment40.Pages.Profile
         public string FullName { get; set; }
         [Required]
         public string Gender { get; set; }
-        [Required]
         public string Biography { get; set; }
         [Required]
         [EmailAddress]
@@ -107,7 +106,7 @@ namespace SSDAssignment40.Pages.Profile
             }
             user.FullName = (UserInput.FullName == user.FullName) ? user.FullName : UserInput.FullName;
             List<string> toCheck = new List<string>() { "Male", "Female", "Other" };
-            if (toCheck.Contains(user.Gender))
+            if (toCheck.Contains(UserInput.Gender))
             {
                 user.Gender = (user.Gender == UserInput.Gender) ? user.Gender : UserInput.Gender;
             }

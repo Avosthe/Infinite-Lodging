@@ -22,7 +22,7 @@
                     <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 288.5px;  border-radius: 10%;" />
                 }
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
-                <span asp-validation-for="UserInput.ProfilePicture"></span>
+                <span asp-validation-for="@Model.UserInput.ProfilePicture"></span>
             </div>
             <style>
                 .bottom-content {
@@ -72,8 +72,8 @@
                     </div>
                 </div>
             </div>
-            </div>
-            
+        </div>
+
 
         <div id="right-div" style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial;">
             <div>
@@ -101,35 +101,39 @@
             <div style="width: 50%; margin: 0 auto;">
                 <div class="form-group">
                     <label asp-for="UserInput.FullName"></label>
-                    <input asp-for="UserInput.FullName" class="form-control" value="@Model.LodgerUser.FullName">
-                    <span asp-validation-for="UserInput.FullName"></span>
+                    <input asp-for="UserInput.FullName" class="form-control" value="@Model.LodgerUser.FullName" required>
+                    <span asp-validation-for="@Model.UserInput.FullName"></span>
                 </div>
                 <div class="form-group">
                     <p><label asp-for="UserInput.Gender"></label></p>
-                    <input asp-for="UserInput.Gender" type="radio" value="Male" checked="@((Model.LodgerUser.Gender == "Male").ToString().ToLower())">
+                    <input asp-for="UserInput.Gender" type="radio" value="Male">
                     <span style="margin-right: 30px;">Male</span>
-                    <input asp-for="UserInput.Gender" type="radio" value="Female" checked="@((Model.LodgerUser.Gender == "Female").ToString().ToLower())">
+                    <input asp-for="UserInput.Gender" type="radio" value="Female">
                     <span style="margin-right: 30px;">Female</span>
-                    <input asp-for="UserInput.Gender" type="radio" value="Other" checked="@(Model.LodgerUser.Gender == "Other").ToString().ToLower())">
+                    <input asp-for="UserInput.Gender" type="radio" value="Other">
                     <span>Other</span>
-                    <span asp-validation-for="UserInput.Gender"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UserInput.Biography"></label>
                     <br />
-                    <textarea style=" width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;" placeholder="Share about yourself"></textarea>
+                    <span asp-validation-for="@Model.UserInput.Gender"></span>
                 </div>
+                <script defer>
+                    var radioList = document.querySelectorAll("input[type='radio']");
+                    for (let i = 0; i < radioList.length; i++) {
+                        if ("@Model.LodgerUser.Gender" == radioList[i].value) {
+                            radioList[i].setAttribute("checked", true);
+                        }
+                    }
+                </script>
                 <div class="form-group">
                     <label asp-for="UserInput.AlternateEmail"></label>
                     <br />
-                    <input asp-for="UserInput.AlternateEmail" class="form-control" value="@Model.LodgerUser.AlternateEmail" placeholder="For security reasons, please add an alternate email." />
-                    <span asp-validation-for="UserInput.AlternateEmail"></span>
+                    <input asp-for="UserInput.AlternateEmail" required class="form-control" value="@Model.LodgerUser.AlternateEmail" placeholder="For security reasons, please add an alternate email." />
+                    <span asp-validation-for="@Model.UserInput.AlternateEmail"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.Country"></label>
-                    <span asp-validation-for="UserInput.Country"></span>
+                    <span asp-validation-for="@Model.UserInput.Country"></span>
                     <br />
-                    <select asp-for="UserInput.Country">
+                    <select asp-for="UserInput.Country" required>
                         <option value="United States">United States</option>
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="Afghanistan">Afghanistan</option>
@@ -376,22 +380,37 @@
                 <div class="form-group">
                     <label asp-for="UserInput.City"></label>
                     <br />
-                    <input asp-for="UserInput.City" class="form-control" value="@Model.LodgerUser.City" />
-                    <span asp-validation-for="UserInput.City"></span>
+                    <input asp-for="UserInput.City" class="form-control" value="@Model.LodgerUser.City" required />
+                    <span asp-validation-for="@Model.UserInput.City"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.GovernmentID"></label>
                     <br />
-                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@Model.LodgerUser.City" accept="image/*" />
-                    <span asp-validation-for="UserInput.GovernmentID"></span>
+                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@Model.LodgerUser.City" accept="image/*" required/>
+                    <span asp-validation-for="@Model.UserInput.GovernmentID"></span>
                 </div>
                 <br />
+
+            </div>
+
+            <div>
+                <h3 style="background-color: lightblue; margin-top: 0; text-align: center; padding: 10px 0 10px 0; font-size: 40px; color: midnightblue;">Optional</h3>
+            </div>
+            <div style="width: 50%; margin: 0 auto;">
+                <div class="form-group">
+                    <label asp-for="UserInput.Biography"></label>
+                    <br />
+                    @{
+                        string Biography = string.IsNullOrEmpty(Model.LodgerUser.Biography) ? "" : Model.LodgerUser.Biography;
+                    }
+                    <textarea width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;" placeholder="@Biography"></textarea>
+                </div>
                 <button class="btn btn-success" type="submit" style="float: left;">Save Profile Info</button>
                 <button class="btn btn-danger" type="reset" style="float: right;">Reset</button>
-                <div style="clear: both;"></div>
             </div>
         </div>
-    </form>
+            <div style="clear: both;"></div>
+</form>
 </div>
 
 @{
