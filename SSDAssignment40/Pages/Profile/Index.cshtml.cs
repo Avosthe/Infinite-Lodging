@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,8 +19,6 @@ namespace SSDAssignment40.Pages
     {
         [FromRoute]
         public string Username { get; set; }
-        [BindProperty]
-        public string UserID { get; set; }
         public UserManager<Lodger> _userManager { get; set; }
 
         public Lodger LodgerUser { get; set; }
@@ -28,11 +27,14 @@ namespace SSDAssignment40.Pages
 
         public bool isValidProfile { get; set; }
 
-        public bool isEditing { get; set; }
-
         [Required]
         [BindProperty]
         public string ReviewInput { get; set; }
+        [Required]
+        [BindProperty]
+        public string Reason { get; set; }
+        [BindProperty]
+        public IFormFile ReportEvidence { get; set; }
 
         public IList<Listing> Listing { get; set; }
 
@@ -68,29 +70,6 @@ namespace SSDAssignment40.Pages
             else isValidProfile = false;
             return false;
         }
-
-        //public async Task<IActionResult> OnPostAddRatingAsync() // add like to profile
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    var rated = await _userManager.FindByNameAsync(Username);
-        //    if (rated.UserName == user.UserName)
-        //    {
-        //        return Page();
-        //    }
-
-        //    if (_context.UserRating.Where(r => ((r.Rater.Id == user.Id) && (r.Rated.UserName == Username))).ToList().Count > 0)
-        //    {
-        //        _context.Remove(_context.UserRating.Where(r => ((r.Rater.Id == user.Id) && (r.Rated.UserName == Username))).ToList()[0]);
-        //        rated.Rating -= 1;
-        //    }
-        //    else
-        //    {
-        //        UserRating ur = new UserRating() { UserRatingId = Guid.NewGuid().ToString(), Rater = user, Rated = await _userManager.FindByNameAsync(Username) };
-        //        rated.Rating += 1;
-        //    }
-        //    await _context.SaveChangesAsync();
-        //    return Page();
-        //}
 
         public async Task<IActionResult> OnPostAddRatingAsync()
         {
@@ -138,11 +117,22 @@ namespace SSDAssignment40.Pages
                 ReviewFor = LodgerUser,
                 ReviewBy = LoggedInUser,
                 ReviewTimeStamp = DateTime.Now
-        };
+            };
             _context.UserReview.Add(newReview);
             await _context.SaveChangesAsync();
             return RedirectToPage("/Profile/Index", new { Username = Username
-    });
+            });
+        }
+
+        public async Task<IActionResult> OnPostReportAsync()
+        {
+            ModelState.Remove("ReviewInput");
+            if (!(ModelState.IsValid))
+            {
+                return Page();
+            }
+
+            return Page();
         }
     }
 }

@@ -5,6 +5,20 @@
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
+@if (ModelState.ContainsKey("ProfilePictureReportLink"))
+{
+    <script defer>
+            var newWindow = window.open(@ModelState.GetValueOrDefault("ProfilePictureReportLink"), '_blank');
+            new.focus();
+    </script>
+}
+@if (ModelState.ContainsKey("GovernmentIDReportLink"))
+{
+    <script defer>
+            var newWindow = window.open(@ModelState.GetValueOrDefault("GovernmentIDReportLink"), '_blank');
+            new.focus();
+    </script>
+}
 
 <h2>Edit Profile</h2>
 <div class="container" style="text-align: center; padding: 0;">
@@ -386,7 +400,7 @@
                 <div class="form-group">
                     <label asp-for="UserInput.GovernmentID"></label>
                     <br />
-                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@Model.LodgerUser.City" accept="image/*" required/>
+                    <input asp-for="UserInput.GovernmentID" class="form-control" value="@Model.LodgerUser.City" accept="image/*" required />
                     <span asp-validation-for="@Model.UserInput.GovernmentID"></span>
                 </div>
                 <br />
@@ -409,8 +423,8 @@
                 <button class="btn btn-danger" type="reset" style="float: right;">Reset</button>
             </div>
         </div>
-            <div style="clear: both;"></div>
-</form>
+        <div style="clear: both;"></div>
+    </form>
 </div>
 
 @{

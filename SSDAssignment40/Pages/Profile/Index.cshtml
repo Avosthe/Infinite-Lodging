@@ -396,22 +396,28 @@
                                     <div class="modal-header">
                                         <strong>Report this User</strong>
                                     </div>
+                                    <form method="post" asp-page-handler="Report">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="reason" class="control-label col-xs-4">Reason: </label>
                                             <div class="input-group col-xs-7">
-                                                <input type="text" id="reason" class="form-control" />
+                                                <input asp-for="@Model.Reason" type="text" id="reason" class="form-control" />
                                             </div>
+                                            <br />
+                                            <span asp-validation-for="@Model.Reason" style="color: red;"></span>
                                             <label for="evidence" class="control-label col-xs-4">Evidence</label>
                                             <div class="input-group col-xs-7">
-                                                <input type="file" id="evidence" class="form-control" />
+                                                <input asp-for="@Model.ReportEvidence" type="file" id="evidence" class="form-control" />
                                             </div>
+                                            <br />
+                                            <span asp-validation-for="@Model.ReportEvidence" style="color: red;"></span>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button id="closeModal" class="btn btn-default" type="button" onclick="document.getElementById('modal').style.display = 'none';modal.close();">Cancel</button>
                                         <button class="btn btn-primary" type="submit" onclick="modal.close();">Submit Report for Review</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
