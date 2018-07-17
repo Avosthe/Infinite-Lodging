@@ -32,7 +32,9 @@
                         <td>
                             <a asp-page="./ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black">
                                 <div class="polaroid">
-                                    <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                    <div class="listingimgcontainer">
+                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                    </div>
                                     <div class="listingtitle">
                                         @if (Model.Listing[x + i].Title.Length > 50)
                                         {

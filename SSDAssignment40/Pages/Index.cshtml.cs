@@ -14,9 +14,9 @@ namespace SSDAssignment40.Pages
         [TempData]
         public string userAlertMessage { get; set; }
 
+
         public void OnGet()
         {
-
         }
 
     }
