@@ -119,7 +119,7 @@ nav span:hover, nav a:hover {
 #nav_bar {
     margin-top: -10px;
     background-color: #f4f4f4 !important;
-    width:100%;
+    width: 100%;
 }
 
 #header_nav {
@@ -136,17 +136,22 @@ nav span:hover, nav a:hover {
     width: 100%;
 }
 
-.listingimg {
+
+.listingimgcontainer {
     height: 200px;
+    overflow: hidden;
+}
+
+.listingimg {
     width: 300px;
 }
 
 .listingtitle {
     background-color: transparent;
-    height:40px;
+    height: 40px;
     margin: 0;
-    width:100%;
-    word-wrap:break-word;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .listingprice {
@@ -169,7 +174,7 @@ nav span:hover, nav a:hover {
 }
 
 .clickbuttonnoshadow {
-    width:200px;
+    width: 200px;
     background-color: midnightblue;
     color: white;
     text-align: center;
@@ -185,13 +190,13 @@ nav span:hover, nav a:hover {
     left: -20px;
     position: relative;
     overflow: hidden;
-    width:310px;
+    width: 310px;
 }
 
-.polaroid:hover {
-    box-shadow: 0px 0px 16px 0 rgba(0,0,0,0.2), 0px 0px 20px 9px rgba(0,0,0,0.19);
-    text-decoration: none !important;
-}
+    .polaroid:hover {
+        box-shadow: 0px 0px 16px 0 rgba(0,0,0,0.2), 0px 0px 20px 9px rgba(0,0,0,0.19);
+        text-decoration: none !important;
+    }
 
 .listingtitle:hover {
     box-shadow: none;
@@ -218,114 +223,180 @@ nav span:hover, nav a:hover {
     text-decoration: none;
     color: midnightblue;
     float: left;
-    margin-top:1px;
-    margin-right:3px;
+    margin-top: 1px;
+    margin-right: 3px;
 }
 
-.detailscoverpic{
-    width:100%;
-    height:auto;
+.detailscoverpic {
+    width: 100%;
+    height: auto;
 }
 
-.listingdetails{
-    float:left;
-    width:60%;
+.listingdetails {
+    float: left;
+    width: 60%;
 }
 
-.listingbooking{
-    width:300px;
-    margin-left:40px;
-    border:1px solid lightgray;
-    padding:20px;
-    border-radius:10px;
+.listingbooking {
+    width: 300px;
+    margin-left: 40px;
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-.listingwrapper{
-    overflow:hidden;
-    width:100%;
+.listingwrapper {
+    overflow: hidden;
+    width: 100%;
 }
 
-.listerinfo{
-    width:25%;
-    float:right;
-    text-align:center;
-    padding-top:15px;
-    color:dimgrey;
-    text-decoration:none;
-    font-size:12px;
+.listerinfo {
+    width: 25%;
+    float: right;
+    text-align: center;
+    padding-top: 15px;
+    color: dimgrey;
+    text-decoration: none;
+    font-size: 12px;
 }
 
-.listingdetailtitle{
-    width:70%;
-    float:left;
-    overflow:hidden;
+.listingdetailtitle {
+    width: 70%;
+    float: left;
+    overflow: hidden;
 }
 
-.titleuserdetail{
-    display:inline-block;
-    width:100%;
+.titleuserdetail {
+    display: inline-block;
+    width: 100%;
 }
 
-.buttoncontainer{
-    width:200px;
+.buttoncontainer {
+    width: 200px;
 }
 
-.buttoncontainer a:hover{
-    text-decoration:none;
+    .buttoncontainer a:hover {
+        text-decoration: none;
+    }
+
+#pls {
+    color: red;
+    padding: 0;
+    margin: 0;
 }
 
-#pls{
-    color:red;
-    padding:0;
-    margin:0;
+.hidden {
+    visibility: hidden;
 }
 
-.hidden{
-    visibility:hidden;
+.mytextarea {
+    overflow: hidden;
+    max-width: 100%;
+    min-width: 100%;
+    resize: none;
 }
 
-.mytextarea{
-    overflow:hidden;
-    max-width:100%;
-    min-width:100%;
-    resize:none;
+.bookingprice {
+    overflow: hidden;
+    height: 0px;
+    display: none;
 }
 
-.bookingprice{
-    overflow:hidden;
-    height:0px;
-    display:none;
+#calculation {
+    float: left;
+    width: 160px;
 }
 
-#calculation{
-    float:left;
-    width:160px;
+#totalprice {
+    float: left;
+    width: 160px;
+    display: none;
+    margin-bottom: 20px;
 }
 
-#totalprice{
-    float:left;
-    width:160px;
-    display:none;
-    margin-bottom:20px;
+#total, #calctotal {
+    text-align: right;
+    width: 80px;
+    float: right;
 }
 
-#total, #calctotal{
-    text-align:right;
-    width:80px;
-    float:right;
-}
-
-#line{
-    background-color:lightgray;
-    height:1px;
-    width:250px;
-    margin-top:8px;
-    margin-bottom:8px;
-    float:left;
-    display:none;
+#line {
+    background-color: lightgray;
+    height: 1px;
+    width: 250px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    float: left;
+    display: none;
 }
 
 input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+#coverpic:hover{
+    cursor:pointer;
 }
