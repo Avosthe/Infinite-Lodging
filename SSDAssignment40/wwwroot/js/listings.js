@@ -32,8 +32,7 @@ function init() {
 
 function getURL() {
     var url = window.location.href;
-    if (url.includes("location="))
-    {
+    if (url.includes("location=")) {
         var location = url.search("location=");
         location += 9;
         location = url.substring(location);
@@ -44,8 +43,26 @@ function getURL() {
             document.getElementById("myheader").innerHTML = "Showing results for \"" + location + "\"";
         }
     }
-    else
-    {
+    else {
         document.getElementById("myheader").innerHTML = "Showing all results"
+    }
+}
+
+
+function updatePrice() {
+    var dateStart = new Date(document.getElementById("dateStart").value);
+    var dateEnd = new Date(document.getElementById("dateEnd").value);
+    var price = document.getElementById("price").innerHTML;
+
+    var datediff = (dateEnd - dateStart) / (1000 * 60 * 60 * 24);
+    var total = datediff * price;
+
+
+    if (!isNaN(total)) {
+        document.getElementById("calculation").innerHTML = "S$" + price + " x " + datediff + " nights";
+        document.getElementById("calctotal").innerHTML = "S$" + total;
+        document.getElementById("total").innerHTML = "S$" + total;
+        document.getElementById("line").style.display = "block";
+        document.getElementById("totalprice").style.display = "block";
     }
 }

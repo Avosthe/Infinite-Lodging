@@ -9,23 +9,29 @@
 <thead>
     <tr>
         <th>
-            @Html.DisplayFor(modelItem => modelItem.CustomerSupport.Request)
+            <u>Question: @Html.DisplayFor(modelItem => modelItem.CustomerSupport.Request)</u>
         </th>
     </tr>
 </thead>
 <tbody>
-    @if (Model.CustomerSupport.NoReplies>0) {
-    @foreach (var r in Model.Reply.Replies)
+    @if (Model.Replies.Count>0) {
+    @foreach (var r in Model.Replies)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => r)
+                @r.Replies
             </td>
         </tr>
         }
     }
 </tbody>
     </table>
+
+<form method="post">
+    <input asp-for="@Model.StringContent" required style="height:40px;width:400px" placeholder="Type your answers here" /><br /><br />
+    <input type="submit" value="submit" />
+</form><br /><br />
+
 <div>
     <a asp-page="./Index">Back to List</a>
 </div>

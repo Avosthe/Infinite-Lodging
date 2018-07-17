@@ -236,7 +236,7 @@ nav span:hover, nav a:hover {
     width:300px;
     margin-left:40px;
     border:1px solid lightgray;
-    padding:10px;
+    padding:20px;
     border-radius:10px;
 }
 
@@ -280,7 +280,7 @@ nav span:hover, nav a:hover {
     margin:0;
 }
 
-.errorcheck{
+.hidden{
     visibility:hidden;
 }
 
@@ -289,4 +289,43 @@ nav span:hover, nav a:hover {
     max-width:100%;
     min-width:100%;
     resize:none;
+}
+
+.bookingprice{
+    overflow:hidden;
+    height:0px;
+    display:none;
+}
+
+#calculation{
+    float:left;
+    width:160px;
+}
+
+#totalprice{
+    float:left;
+    width:160px;
+    display:none;
+    margin-bottom:20px;
+}
+
+#total, #calctotal{
+    text-align:right;
+    width:80px;
+    float:right;
+}
+
+#line{
+    background-color:lightgray;
+    height:1px;
+    width:250px;
+    margin-top:8px;
+    margin-bottom:8px;
+    float:left;
+    display:none;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
 }
