@@ -15,11 +15,11 @@
             <div>
                 @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
                 {
-                    <img id="profile-pic-img" src="~/images/plus.png" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 64px; width: 64px;" />
+                    <img id="profile-pic-img" src="~/images/plus.png" onchange="resize()" onclick="document.getElementById('profile-picture').click()" style="margin-top: 80px; height: 64px; width: 64px;" />
                 }
                 else
                 {
-                    <img id="profile-pic-img" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 288.5px;  border-radius: 10%;" />
+                    <img id="profile-pic-img" on="resize()" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 288.5px;  border-radius: 10%;" />
                 }
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
@@ -72,8 +72,8 @@
                     </div>
                 </div>
             </div>
-            </div>
-            
+        </div>
+
 
         <div id="right-div" style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial;">
             <div>
@@ -406,6 +406,8 @@
                 }
     }
     function Change() {
+
+        resize();
         var reader = new FileReader();
         reader.onload = function (e) {
             document.getElementById("profile-pic-img").src = e.target.result;
@@ -413,4 +415,11 @@
         reader.readAsDataURL(this.files[0]);
     };
     document.getElementById("profile-picture").addEventListener("change", Change);
+
+    function resize()
+    {
+        document.getElementById("profile-pic-img").style.height = "292.5px";
+        document.getElementById("profile-pic-img").style.width = "288.5px";
+    }
+
 </script>

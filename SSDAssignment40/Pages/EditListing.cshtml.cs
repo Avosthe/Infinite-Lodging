@@ -78,6 +78,7 @@ namespace SSDAssignment40.Pages
                     {
                         return RedirectToPage("/Error/wrongFileType");
                     }
+                    Listing.CoverPic = filename;
                 }
             }
 
