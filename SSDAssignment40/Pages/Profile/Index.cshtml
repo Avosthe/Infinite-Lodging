@@ -7,6 +7,9 @@
 @inject UserManager<Lodger> _userManager
 
 <link rel="stylesheet" href="~/css/listingstyles.css" />
+<script src="~/js/Profile.js" defer></script>
+<script src="https://unpkg.com/rmodal/dist/rmodal.js" defer></script>
+
 
 <style>
     .bottom-content {
@@ -101,281 +104,337 @@
 
 @if (Model.isValidProfile)
 {
-    <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px; margin-bottom: 15px;">
-        <h2 style="float: left; margin-top: 0;">Profile</h2>
+        <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px; margin-bottom: 15px;">
+            <h2 style="float: left; margin-top: 0;">Profile</h2>
 
-        @if (@Model.Username == _userManager.GetUserName(User))
-        {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
-        else
-        {
-            <a class="btn btn-danger" href="#" style="float: right;"><span style="font-weight: bold;">Report this user</span></a>
-        }
+            @if (@Model.Username == _userManager.GetUserName(User))
+            {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
+            else
+            {
+                <a id="showModal" class="btn btn-danger" href="#" style="float: right;"><span style="font-weight: bold;" onclick="document.getElementById('modal').style.display = 'initial';">Report this user</span></a>
+            }
 
-    </div>
-    <div style="background-color: lightgrey; height: 2.5px; margin-bottom: 10px; opacity: 0.7;">
+        </div>
+        <div style="background-color: lightgrey; height: 2.5px; margin-bottom: 10px; opacity: 0.7;">
 
-    </div>
-    <div style="text-align: center;">
-        <div style="width: 292.5px; display: inline-block; float: left; overflow: auto;">
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 292.5px; display: inline-block; float: left; overflow: auto;">
 
-            <div style="margin-top: 15px;">
-                @if (!(string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic)))
-                {
-                    <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 292.5px; width: 288.5px; border-radius: 10%;" />
-                }
-                else
-                {
-                    <img src="~/images/cto-picture.jpg" style="height: 292.5px; width: 288.5px; border-radius: 10%;" />
-                    @*<img src="~/profile-images/default-picture.png" width="250" height="250" />*@
-                }
-            </div>
-            <div class="bottom-content">
-                <div style="border: 2px solid black; margin-top: 10px; background-color: #f4f4f4;">
-                    <p style="font-size: large; margin-bottom: 0; padding: 10px;">Verification Status</p>
+                <div style="margin-top: 15px;">
+                    @if (!(string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic)))
+                    {
+                        <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 292.5px; width: 288.5px; border-radius: 10%;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/cto-picture.jpg" style="height: 292.5px; width: 288.5px; border-radius: 10%;" />
+                        @*<img src="~/profile-images/default-picture.png" width="250" height="250" />*@
+                    }
                 </div>
-                <div style="border: 2px solid black; overflow: hidden; border-top: none;">
-                    <div style="padding: 10px; ">
-                        <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
-                            <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                            @if (!(@Model.LodgerUser.isVerified))
-                            {
-                                <img style="float: right;" src="~/images/unverified.png" />
-                            }
-                            else
-                            {
+                <div class="bottom-content">
+                    <div style="border: 2px solid black; margin-top: 10px; background-color: #f4f4f4;">
+                        <p style="font-size: large; margin-bottom: 0; padding: 10px;">Verification Status</p>
+                    </div>
+                    <div style="border: 2px solid black; overflow: hidden; border-top: none;">
+                        <div style="padding: 10px; ">
+                            <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
+                                <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
+                                @if (!(@Model.LodgerUser.isVerified))
+                                {
+                                    <img style="float: right;" src="~/images/unverified.png" />
+                                }
+                                else
+                                {
+                                    <img style="float: right;" src="~/images/verified.png" />
+                                }
+                            </div>
+                            <div style="margin: 15px 10px 15px 10px; overflow: auto;">
+                                <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
+                                @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
+                                {
+                                    <img style="float: right;" src="~/images/unverified.png" />
+                                }
+                                else
+                                {
+                                    <img style="float: right;" src="~/images/verified.png" />
+                                }
+                            </div>
+                            <div style="margin: 15px 10px 15px 10px; overflow: auto;">
+                                <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Email Address</p>
                                 <img style="float: right;" src="~/images/verified.png" />
-                            }
-                        </div>
-                        <div style="margin: 15px 10px 15px 10px; overflow: auto;">
-                            <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
-                            @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
-                            {
-                                <img style="float: right;" src="~/images/unverified.png" />
-                            }
-                            else
-                            {
+                            </div>
+                            <div style="margin: 15px 10px 15px 10px; overflow: auto;">
+                                <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Mobile Number</p>
                                 <img style="float: right;" src="~/images/verified.png" />
-                            }
-                        </div>
-                        <div style="margin: 15px 10px 15px 10px; overflow: auto;">
-                            <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Email Address</p>
-                            <img style="float: right;" src="~/images/verified.png" />
-                        </div>
-                        <div style="margin: 15px 10px 15px 10px; overflow: auto;">
-                            <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Mobile Number</p>
-                            <img style="float: right;" src="~/images/verified.png" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial; padding-left:10px;">
-            <h1 style="margin-top: 10px; float: left; ">@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
+            <div style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial; padding-left:10px;">
+                <h1 style="margin-top: 10px; float: left; ">@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
 
-            <input type="checkbox" id="like" onclick="document.getElementById('AddRating').submit()" />
-            <label for="like" style="float: right;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z" />
-                </svg>
-            </label>
+                <input type="checkbox" id="like" onclick="document.getElementById('AddRating').submit()" />
+                <label for="like" style="float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z" />
+                    </svg>
+                </label>
 
-            <p style="font-size: medium; clear: both;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
-            <br />
-            <br />
-            <p style="font-size: medium">@Model.LodgerUser.Biography</p>
-            <h2 style="margin-top: 40px; float: left;">Rating</h2>
-            <div style="clear: both;"></div>
-            @{
-                var Rating = Model.LodgerUser.Rating;
-                if (Rating > 5) { Rating = 5; }
-            }
-            @for (var i = 0; i < Rating; i++)
-            {
-                <img src="~/images/star.png" />
-            }
-            @for (var x = 0; x < (5 - Rating); x++)
-            {
-                <img src="~/images/star.png" style="opacity: 0.6;" />
-            }
-            <div class="bottom-content">
-                @*To be replaced with UserRating*@
-                @*<div id="stats" style="font-size: large;">
-                        <div style="display: inline-block;">
-                            <span class="btn btn-info" style="font-size: large;">10 </span>
-                            <a style="margin-left: 10px; text-decoration: none; margin-right: 25px;" href="#reviews">Reviews</a>
-                        </div>
-                        <div style="display: inline-block;">
-                            <img src="~/images/thumb-up.png" />
-                            <span style="margin-left: 10px; margin-right: 25px;">@Model.LodgerUser.ThumbsUp</span>
-                        </div>
-                        <div style="display: inline-block;">
-                            <img src="~/images/thumb-down.png" />
-                            <span style="margin-left: 10px;">@Model.LodgerUser.ThumbsDown</span>
-                        </div>
-                    </div>*@
-                <style>
-                    .polaroid {
-                        margin-left: 25px;
-                        border: 2px solid black;
-                    }
-                </style>
-                <div id="listings">
-                    <h2>Listings</h2>
-                    <table style="border-collapse:unset;padding-top:0;position:relative;">
-                        @{
-                            int listingcount = Model.Listing.Count;
-                        }
-                        @for (int i = 0; i < listingcount;)
-                        {
-                            <tr>
-                                @if (listingcount - i < 2)
-                                {
-                                    for (int x = 0; x < listingcount - i; x++)
-                                    {
-                                        <td>
-                                            <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
-                                                <div class="polaroid">
-                                                    <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                                    <div class="listingtitle">
-                                                        <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
-                                                    </div>
-                                                    <div class="listingprice">
-                                                        S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
-                                                    </div>
-                                                    <div class="listingrating">
-                                                        @{
-                                                            try
-                                                            {
-                                                                var relevantReviews = Model.ListingReview.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
-                                                                var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
-                                                                <div class="reviewNumber">(@relevantReviews.Count())</div>
-                                                                for (int g = 0; g < avgRating; g++)
-                                                                {
-                                                                    <img src="~/images/filledstar.ico" />
-                                                                }
-                                                                for (int g = 0; g < 5 - avgRating; g++)
-                                                                {
-                                                                    <img src="~/images/emptystar.ico" />
-                                                                }
-                                                            }
-                                                            catch (DivideByZeroException)
-                                                            {
-                                                                <div>No Reviews</div>
-                                                            }
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a style="background-color:transparent" class="clickbutton">
-                                                <img src="~/images/edit-2-24.ico" />
-                                            </a>
-                                            <a class="deletebutton"></a>
-                                        </td>
-                                    }
-                                    break;
-                                }
-                                @if (listingcount - i >= 2)
-                                {
-                                    for (int x = 0; x < 2; x++)
-                                    {
-                                        <td>
-                                            <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
-                                                <div class="polaroid">
-                                                    <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                                    <div class="listingtitle">
-                                                        <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
-                                                    </div>
-                                                    <div class="listingprice">
-                                                        S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
-                                                    </div>
-                                                    <div class="listingrating">
-                                                        @{
-                                                            try
-                                                            {
-                                                                var relevantReviews = Model.ListingReview.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
-                                                                var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
-                                                                <div class="reviewNumber">(@relevantReviews.Count())</div>
-                                                                for (int g = 0; g < avgRating; g++)
-                                                                {
-                                                                    <img src="~/images/filledstar.ico" />
-                                                                }
-                                                                for (int g = 0; g < 5 - avgRating; g++)
-                                                                {
-                                                                    <img src="~/images/emptystar.ico" />
-                                                                }
-                                                            }
-                                                            catch (DivideByZeroException)
-                                                            {
-                                                                <div>No Reviews</div>
-                                                            }
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                    }
-                                    i += 2;
-                                }
-                            </tr>
-                        }
-
-                    </table>
-                </div>
-                <div id="reviews">
-                    <h2>Reviews</h2>
-                    @{ if (Model.ThisUsersReviews.Count > 0)
-                        {
-                            foreach (UserReview ur in Model.ThisUsersReviews)
-                            {
-                                <div class="User-Review" style="margin-top: 20px;">
-                                    <div class="user-left-div" style="float: left; text-align: center;">
-                                        <div style="width: 30%;">
-                                            <img src="~/profile-images/@ur.ReviewBy.ProfilePic" style="width: 80px; height: 80px; border-radius: 50%;" />
-                                        </div>
-                                        <h4 style="margin-bottom: 0;">@ur.ReviewBy.FullName</h4>
-                                    </div>
-                                    <div class="user-right-div" style="float: left; padding-left: 50px;">
-                                        <p style="font-size: 17px; margin: 0;">@ur.ReviewContent</p>
-                                        <br />
-                                    </div>
-                                    <p style="float: right; clear: both;">@ur.ReviewTimeStamp.ToLongDateString()</p>
-                                </div>
-                                <div style="margin-top: 15px; margin-bottom: 15px; border: 1.5px solid lightgrey; clear: both;">
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <h3 style="color: grey">No one has reviewed this user yet.</h3>
-
-                        }
-                    }
-                </div>
+                <p style="font-size: medium; clear: both;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
                 <br />
                 <br />
+                <p style="font-size: medium">@Model.LodgerUser.Biography</p>
+                <h2 style="margin-top: 40px; float: left;">Rating</h2>
+                <div style="clear: both;"></div>
                 @{
-                    var user = await _userManager.GetUserAsync(User);
+                    var Rating = Model.LodgerUser.Rating;
+                    if (Rating > 5) { Rating = 5; }
                 }
-                @if (Model.Username != await _userManager.GetUserNameAsync(user))
+                @for (var i = 0; i < Rating; i++)
                 {
-                    <div id="adding-review">
-                        <h2>Add a Review for this user</h2>
-                        <form method="post" asp-page-handler="AddReview">
-                            <input asp-for="@Model.ReviewInput" class="form-control" placeholder="Please be honest when submitting reviews" />
-                            <br />
-                            <span asp-validation-for="@Model.ReviewInput" style="color: red;"></span>
-                            <br />
-                            <br />
-                            <button class="clickbutton" type="submit">Submit Review</button>
-                        </form>
-                    </div>
-
+                    <img src="~/images/star.png" />
                 }
+                @for (var x = 0; x < (5 - Rating); x++)
+                {
+                    <img src="~/images/star.png" style="opacity: 0.6;" />
+                }
+                <div class="bottom-content">
+                    @*To be replaced with UserRating*@
+                    @*<div id="stats" style="font-size: large;">
+                            <div style="display: inline-block;">
+                                <span class="btn btn-info" style="font-size: large;">10 </span>
+                                <a style="margin-left: 10px; text-decoration: none; margin-right: 25px;" href="#reviews">Reviews</a>
+                            </div>
+                            <div style="display: inline-block;">
+                                <img src="~/images/thumb-up.png" />
+                                <span style="margin-left: 10px; margin-right: 25px;">@Model.LodgerUser.ThumbsUp</span>
+                            </div>
+                            <div style="display: inline-block;">
+                                <img src="~/images/thumb-down.png" />
+                                <span style="margin-left: 10px;">@Model.LodgerUser.ThumbsDown</span>
+                            </div>
+                        </div>*@
+                    <style>
+                        .polaroid {
+                            margin-left: 25px;
+                            border: 2px solid black;
+                        }
+                    </style>
+                    <div id="listings">
+                        <h2>Listings</h2>
+                        <table style="border-collapse:unset;padding-top:0;position:relative;">
+                            @{
+                                int listingcount = Model.Listing.Count;
+                            }
+                            @for (int i = 0; i < listingcount;)
+                            {
+                                <tr>
+                                    @if (listingcount - i < 2)
+                                    {
+                                        for (int x = 0; x < listingcount - i; x++)
+                                        {
+                                            <td>
+                                                <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
+                                                    <div class="polaroid">
+                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        <div class="listingtitle">
+                                                            <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                                        </div>
+                                                        <div class="listingprice">
+                                                            S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                                        </div>
+                                                        <div class="listingrating">
+                                                            @{
+                                                                try
+                                                                {
+                                                                    var relevantReviews = Model.ListingReview.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                                                    var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                                                    <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                                                    for (int g = 0; g < avgRating; g++)
+                                                                    {
+                                                                        <img src="~/images/filledstar.ico" />
+                                                                    }
+                                                                    for (int g = 0; g < 5 - avgRating; g++)
+                                                                    {
+                                                                        <img src="~/images/emptystar.ico" />
+                                                                    }
+                                                                }
+                                                                catch (DivideByZeroException)
+                                                                {
+                                                                    <div>No Reviews</div>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a style="background-color:transparent" class="clickbutton">
+                                                    <img src="~/images/edit-2-24.ico" />
+                                                </a>
+                                                <a class="deletebutton"></a>
+                                            </td>
+                                        }
+                                        break;
+                                    }
+                                    @if (listingcount - i >= 2)
+                                    {
+                                        for (int x = 0; x < 2; x++)
+                                        {
+                                            <td>
+                                                <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
+                                                    <div class="polaroid">
+                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        <div class="listingtitle">
+                                                            <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
+                                                        </div>
+                                                        <div class="listingprice">
+                                                            S$@Html.DisplayFor(modelItem => Model.Listing[x + i].Price) per night
+                                                        </div>
+                                                        <div class="listingrating">
+                                                            @{
+                                                                try
+                                                                {
+                                                                    var relevantReviews = Model.ListingReview.Where(r => r.Listing.ListingId == Model.Listing[x + i].ListingId);
+                                                                    var avgRating = relevantReviews.Sum(r => r.Rating) / relevantReviews.Count();
+                                                                    <div class="reviewNumber">(@relevantReviews.Count())</div>
+                                                                    for (int g = 0; g < avgRating; g++)
+                                                                    {
+                                                                        <img src="~/images/filledstar.ico" />
+                                                                    }
+                                                                    for (int g = 0; g < 5 - avgRating; g++)
+                                                                    {
+                                                                        <img src="~/images/emptystar.ico" />
+                                                                    }
+                                                                }
+                                                                catch (DivideByZeroException)
+                                                                {
+                                                                    <div>No Reviews</div>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                        }
+                                        i += 2;
+                                    }
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div id="reviews">
+                        <h2>Reviews</h2>
+                        @{ if (Model.ThisUsersReviews.Count > 0)
+                            {
+                                foreach (UserReview ur in Model.ThisUsersReviews)
+                                {
+                                    <div class="User-Review" style="margin-top: 20px;">
+                                        <div class="user-left-div" style="float: left; text-align: center;">
+                                            <div style="width: 30%;">
+                                                <img src="~/profile-images/@ur.ReviewBy.ProfilePic" style="width: 80px; height: 80px; border-radius: 50%;" />
+                                            </div>
+                                            <h4 style="margin-bottom: 0;">@ur.ReviewBy.FullName</h4>
+                                        </div>
+                                        <div class="user-right-div" style="float: left; padding-left: 50px;">
+                                            <p style="font-size: 17px; margin: 0;">@ur.ReviewContent</p>
+                                            <br />
+                                        </div>
+                                        <p style="float: right; clear: both;">@ur.ReviewTimeStamp.ToLongDateString()</p>
+                                    </div>
+                                    <div style="margin-top: 15px; margin-bottom: 15px; border: 1.5px solid lightgrey; clear: both;">
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <h3 style="color: grey">No one has reviewed this user yet.</h3>
+
+                            }
+                        }
+                    </div>
+                    <br />
+                    <br />
+                    @{
+                        var user = await _userManager.GetUserAsync(User);
+                    }
+                    @if (Model.Username != await _userManager.GetUserNameAsync(user))
+                    {
+                        <div id="adding-review">
+                            <h2>Add a Review for this user</h2>
+                            <form method="post" asp-page-handler="AddReview">
+                                <input asp-for="@Model.ReviewInput" class="form-control" placeholder="Please be honest when submitting reviews" />
+                                <br />
+                                <span asp-validation-for="@Model.ReviewInput" style="color: red;"></span>
+                                <br />
+                                <br />
+                                <button class="clickbutton" type="submit">Submit Review</button>
+                            </form>
+                        </div>
+
+                        <style type="text/css">
+
+                            .modal .modal-dialog {
+                                width: 400px;
+                                z-index: 101;
+                            }
+
+                            .modal-content {
+                                position: absolute;
+                                top: 250px;
+                                width: 500px;
+                                z-index: 101;
+                            }
+                        </style>
+
+
+                        <div id="modal" class="modal">
+                            <div class="modal-dialog animated">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <strong>Report this User</strong>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="reason" class="control-label col-xs-4">Reason: </label>
+                                            <div class="input-group col-xs-7">
+                                                <input type="text" id="reason" class="form-control" />
+                                            </div>
+                                            <label for="evidence" class="control-label col-xs-4">Evidence</label>
+                                            <div class="input-group col-xs-7">
+                                                <input type="file" id="evidence" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="closeModal" class="btn btn-default" type="button" onclick="document.getElementById('modal').style.display = 'none';modal.close();">Cancel</button>
+                                        <button class="btn btn-primary" type="submit" onclick="modal.close();">Submit Report for Review</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
             </div>
         </div>
-    </div>
-    <form method="post" asp-page-handler="AddRating" id="AddRating"></form>
+        <form method="post" asp-page-handler="AddRating" id="AddRating"></form>
+        <style>
+            .overlay-manage {
+                position: fixed;
+                height: 100vh;
+                width: 100vw;
+                top: 0;
+                left: 0;
+                z-index: 200;
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+        </style>
+        <div  class="overlay-manage" style="display: none;">
+
+        </div>
 }
 else
 {
