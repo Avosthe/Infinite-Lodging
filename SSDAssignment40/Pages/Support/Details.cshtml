@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Details";
 }
-
 <table class="table">
 <thead>
     <tr>
@@ -15,7 +14,7 @@
 </thead>
 <tbody>
     @if (Model.Replies.Count>0) {
-    @foreach (var r in Model.Replies)
+        @foreach (var r in Model.Replies)
     {
         <tr>
             <td>
@@ -29,7 +28,7 @@
 
 <form method="post">
     <input asp-for="@Model.StringContent" required style="height:40px;width:400px" placeholder="Type your answers here" /><br /><br />
-    <input type="submit" value="submit" />
+    <input type="submit" value="Post" />
 </form><br /><br />
 
 <div>

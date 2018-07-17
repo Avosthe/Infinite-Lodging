@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SSDAssignment40.Pages.Support
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
