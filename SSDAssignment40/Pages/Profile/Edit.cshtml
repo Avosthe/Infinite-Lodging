@@ -24,48 +24,56 @@
                 <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
                 <span asp-validation-for="UserInput.ProfilePicture"></span>
             </div>
-            <div style="border: 2px solid black; border-bottom: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
-                <p style="font-size: large; margin-bottom: 0; padding: 10px;">Verification Status</p>
-            </div>
-            <div style="border: 2px solid black; border-top: 1px solid black; overflow: hidden;">
-                <div style="padding: 10px; ">
-                    <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
-                        <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                        @{
-                            Lodger LodgerUser = await Model._userManager.GetUserAsync(User);
+            <style>
+                .bottom-content {
+                    margin-top: 50px;
+                }
+            </style>
+            <div class="bottom-content">
+                <div style="border: 2px solid black; border-bottom: 1px solid black; margin-top: 10px; background-color: #f4f4f4;">
+                    <p style="font-size: large; margin-bottom: 0; padding: 10px;">Verification Status</p>
+                </div>
+                <div style="border: 2px solid black; border-top: 1px solid black; overflow: hidden;">
+                    <div style="padding: 10px; ">
+                        <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
+                            <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
+                            @{
+                                Lodger LodgerUser = await Model._userManager.GetUserAsync(User);
 
-                        }
-                        @if (!(LodgerUser.isVerified))
-                        {
-                            <img style="float: right;" src="~/images/unverified.png" />
-                        }
-                        else
-                        {
+                            }
+                            @if (!(LodgerUser.isVerified))
+                            {
+                                <img style="float: right;" src="~/images/unverified.png" />
+                            }
+                            else
+                            {
+                                <img style="float: right;" src="~/images/verified.png" />
+                            }
+                        </div>
+                        <div style="margin: 15px 10px 15px 10px; overflow: auto;">
+                            <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
+                            @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
+                            {
+                                <img style="float: right;" src="~/images/unverified.png" />
+                            }
+                            else
+                            {
+                                <img style="float: right;" src="~/images/verified.png" />
+                            }
+                        </div>
+                        <div style="margin: 15px 10px 15px 10px; overflow: auto;">
+                            <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Email Address</p>
                             <img style="float: right;" src="~/images/verified.png" />
-                        }
-                    </div>
-                    <div style="margin: 15px 10px 15px 10px; overflow: auto;">
-                        <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
-                        @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
-                        {
-                            <img style="float: right;" src="~/images/unverified.png" />
-                        }
-                        else
-                        {
+                        </div>
+                        <div style="margin: 15px 10px 15px 10px; overflow: auto;">
+                            <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Mobile Number</p>
                             <img style="float: right;" src="~/images/verified.png" />
-                        }
-                    </div>
-                    <div style="margin: 15px 10px 15px 10px; overflow: auto;">
-                        <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Email Address</p>
-                        <img style="float: right;" src="~/images/verified.png" />
-                    </div>
-                    <div style="margin: 15px 10px 15px 10px; overflow: auto;">
-                        <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Mobile Number</p>
-                        <img style="float: right;" src="~/images/verified.png" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+            
 
         <div id="right-div" style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial;">
             <div>

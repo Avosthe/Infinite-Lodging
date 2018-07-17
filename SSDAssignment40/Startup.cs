@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 namespace SSDAssignment40
 {
@@ -111,6 +113,8 @@ namespace SSDAssignment40
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+            services.AddDataProtection()
+                .SetDefaultKeyLifetime(new TimeSpan(30, 0, 0, 0));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

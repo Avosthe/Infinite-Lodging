@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -54,12 +55,14 @@ namespace SSDAssignment40.Pages.Profile
 
         public Lodger LodgerUser { get; set; }
         List<byte[]> allowedHeaders = new List<byte[]>() { new byte[] { 0xFF, 0xD8, 0xFF }, new byte[] { 0x89, 0x50, 0x4E } };
+        public IDataProtector _protector { get; set; }
 
-        public EditModel(UserManager<Lodger> userManager, IHostingEnvironment environment, ApplicationDbContext context)
+        public EditModel(UserManager<Lodger> userManager, IHostingEnvironment environment, ApplicationDbContext context, IDataProtectionProvider provider)
         {
             _userManager = userManager;
             _environment = environment;
             _context = context;
+            _protector = provider.CreateProtector("SSDAssignment40.Pages.Profile.Edit");
         }
         public async Task<IActionResult> OnGetAsync()
         {
