@@ -91,7 +91,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     return Page();
                 }
                 code:
-                var user = new Lodger { UserName = Input.UserName, Email = Input.Email, PhoneNumber = phoneNumber, PhoneNumberConfirmed = true, City = "Singapore", Country = "Singapore", Biography = "This user has not added their biography.", DateJoined = DateTime.Now, Gender = "Male"};
+                var user = new Lodger { UserName = Input.UserName, Email = Input.Email, PhoneNumber = phoneNumber, PhoneNumberConfirmed = true, City = "Singapore", Country = "Singapore", Biography = "This user has not added their biography.", DateJoined = DateTime.Now, Gender = "Male", IPAddress = Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString()};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

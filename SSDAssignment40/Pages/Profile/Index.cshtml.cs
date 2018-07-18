@@ -71,16 +71,17 @@ namespace SSDAssignment40.Pages
         private async Task<bool> ValidateAndInitializeAsync()
         {
             isValidProfile = true;
-            var listings = from list in _context.Listing select list;
-            Listing = await listings.ToListAsync();
-            var reviews = from r in _context.Review select r;
-            ListingReview = await reviews.ToListAsync();
+            Listing = await _context.Listing.Where(l => (l.Lodger.Id == LodgerUser.Id)).ToListAsync();
+            ListingReview = await _context.Review.Where(r => (r.Lodger.Id == LodgerUser.Id)).ToListAsync();
             ThisUsersReviews = await _context.UserReview.Where(ur => ur.ReviewFor.Id == LodgerUser.Id).ToListAsync();
             return true;
         }
 
         public async Task<IActionResult> OnPostAddRatingAsync()
         {
+            ModelState.Remove("ReviewInput");
+            ModelState.Remove("Reason");
+            ModelState.Remove("ReportEvidence");
             LodgerUser = await _userManager.FindByNameAsync(Username);
             if (!(LodgerUser is Lodger))
             {

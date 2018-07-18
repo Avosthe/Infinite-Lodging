@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SSDAssignment40.Data;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace SSDAssignment40.Areas.Identity.Pages.Account
 {
@@ -21,12 +22,16 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Lodger> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        public IEmailSender _emailSender { get; set; }
+        public ApplicationDbContext _context { get; set; }
 
-        public LoginModel(SignInManager<Lodger> signInManager, ILogger<LoginModel> logger, UserManager<Lodger> userManager)
+        public LoginModel(SignInManager<Lodger> signInManager, ILogger<LoginModel> logger, UserManager<Lodger> userManager, IEmailSender emailSender, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _emailSender = emailSender;
+            _context = context;
         }
 
         public UserManager<Lodger> _userManager { get; set; }
@@ -46,7 +51,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [Display(Name="Username")]
+            [Display(Name = "Username")]
             [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Please enter valid username.")]
             public string UserName { get; set; }
 
@@ -82,19 +87,40 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                Lodger user = await _userManager.FindByNameAsync(Input.UserName);
-                if(user != null)
+                Lodger LodgerUser = await _userManager.FindByNameAsync(Input.UserName);
+                if (LodgerUser != null)
                 {
-                    if (user.is3AuthEnabled == "True")
+                    if (LodgerUser.is3AuthEnabled == "True")
                     {
                         HttpContext.Session.SetString("Username", Input.UserName);
                         HttpContext.Session.SetString("Password", Input.Password);
                         HttpContext.Session.SetString("RememberMe", Input.RememberMe.ToString());
-                        return RedirectToPage("/3AuthVerification", new { area = ""});
+                        return RedirectToPage("/3AuthVerification", new { area = "" });
+                    }
+                    if (LodgerUser.RequireAdditionalVerification)
+                    {
+                        userAlertMessage = "Please log in to your registered email to verify your new IP Address";
                     }
                 }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                if (LodgerUser.IPAddress != Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString())
+                {
+                    LodgerUser.RequireAdditionalVerification = true;
+                    LodgerUser.AdditionalVerificationSecret = Guid.NewGuid().ToString();
+                    var callbackUrl = Url.Page(
+                        "/VerifyIdentity/Index",
+                        pageHandler: null,
+                        values: new { userId = LodgerUser.Id, code = LodgerUser.AdditionalVerificationSecret },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(LodgerUser.Email, "Verify your Identity",
+                        $"<div style=width: 70%; margin: 0 auto;'><p><img style='display: block; margin-left: auto; margin-right: auto;' src='https://image.ibb.co/dyXbEy/test.png' alt='Infinite Lodging' width='198' height='94' /></p><h3 style='text-align: center;'>For security reasons, please verify your identity.</h3><p style='text-align: center;'><a href='{callbackUrl}'><img src='https://image.ibb.co/htz0EJ/airplane.png' alt='Verify your Identity' /></a></p><p style='text-align: center;'>&nbsp;</p><span style='color: #808080; font-size: small;'><em>This message was sent to {LodgerUser.Email}. You are receiving this because you're a &infin;Lodging member, or you've signed up to receive email from us. Manage your preferences or unsubscribe. </em></span></div>"
+                        );
+                    userAlertMessage = "We've detected that you are logging in from a new IP Address, confirm your identity using your registered email!";
+                    await _context.SaveChangesAsync();
+                    return RedirectToPage("/Index");
+                }
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
