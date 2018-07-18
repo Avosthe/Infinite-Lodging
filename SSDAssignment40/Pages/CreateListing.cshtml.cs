@@ -45,39 +45,47 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Listing.Lodger = await userManager.GetUserAsync(User);
-
-            var filename =  Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
-            var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
-            using (var fileStream = new FileStream(file, FileMode.Create))
+            try
             {
-                await Upload.CopyToAsync(fileStream);
-                using (var ms = new MemoryStream())
-                {
-                    Upload.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    hex = BitConverter.ToString(fileBytes).Replace("-", "").Substring(0, 4);
+                Listing.Lodger = await userManager.GetUserAsync(User);
 
-                    if (!allowedFileTypes.Contains(hex))
+
+                var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
+                var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
+                using (var fileStream = new FileStream(file, FileMode.Create))
+                {
+                    await Upload.CopyToAsync(fileStream);
+                    using (var ms = new MemoryStream())
                     {
-                        return RedirectToPage("/Error/wrongFileType");
+                        Upload.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        hex = BitConverter.ToString(fileBytes).Replace("-", "").Substring(0, 4);
+
+                        if (!allowedFileTypes.Contains(hex))
+                        {
+                            return RedirectToPage("/Error/wrongFileType");
+                        }
                     }
                 }
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                Listing.CoverPic = filename;
+                _context.Listing.Add(Listing);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Listings");
             }
-            if (!ModelState.IsValid)
+            catch (Exception ex)
             {
+                if (ex is NullReferenceException)
+                    return RedirectToPage("./Error/NiceTry");
                 return Page();
             }
-
-            Listing.CoverPic = filename;
-            _context.Listing.Add(Listing);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Listings");
-            
         }
 
-        
+
 
     }
 }

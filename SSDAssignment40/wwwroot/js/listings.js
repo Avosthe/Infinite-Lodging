@@ -74,3 +74,9 @@ function resizelistingimg() {
             list[x].style.height = "200px";
     }
 }
+
+function updateDate() {
+    var dateStart = new Date(document.getElementById("dateStart").value);
+    document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + dateStart.getMonth() + "-" + dateStart.getDate());
+    
+}
