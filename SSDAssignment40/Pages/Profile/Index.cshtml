@@ -1,4 +1,4 @@
-﻿@page "{username}"
+﻿@page "{Username}/{handler?}"
 @model SSDAssignment40.Pages.ProfileModel
 @{
     ViewData["Title"] = "Profile";
@@ -6,10 +6,11 @@
 }
 @inject UserManager<Lodger> _userManager
 
-@{
-    Lodger LodgerUser = await _userManager.FindByNameAsync(Model.Username);
-}
 <link rel="stylesheet" href="~/css/listingstyles.css" />
+<script src="~/js/Profile.js" defer></script>
+<script src="https://unpkg.com/rmodal/dist/rmodal.js" defer></script>
+
+
 <style>
     .bottom-content {
         margin-top: 50px;
@@ -100,21 +101,28 @@
         }
     }
 </style>
-<body onload="resizelistingimg();">
-    <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px; margin-bottom: 15px;">
-        <h2 style="float: left; margin-top: 0;">Profile</h2>@if (@Model.Username == _userManager.GetUserName(User))
-        {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
-    </div>
-    <div style="background-color: lightgrey; height: 2.5px; margin-bottom: 10px; opacity: 0.7;">
 
-    </div>
-    <div style="text-align: center;">
-        @if (Model.isValidProfile)
-        {
+@if (Model.isValidProfile)
+{
+        <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px; margin-bottom: 15px;">
+            <h2 style="float: left; margin-top: 0;">Profile</h2>
+
+            @if (@Model.Username == _userManager.GetUserName(User))
+            {<a class="clickbuttonnoshadow" asp-page="./Edit" style="float: right;">Edit Profile</a>}
+            else
+            {
+                <a id="showModal" class="btn btn-danger" href="#" style="float: right;"><span style="font-weight: bold;" onclick="document.getElementById('modal').style.display = 'initial';">Report this user</span></a>
+            }
+
+        </div>
+        <div style="background-color: lightgrey; height: 2.5px; margin-bottom: 10px; opacity: 0.7;">
+
+        </div>
+        <div style="text-align: center;">
             <div style="width: 292.5px; display: inline-block; float: left; overflow: auto;">
 
                 <div style="margin-top: 15px;">
-                    @if (!(string.IsNullOrEmpty(LodgerUser.ProfilePic)))
+                    @if (!(string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic)))
                     {
                         <img src="~/profile-images/@Model.LodgerUser.ProfilePic" style="height: 292.5px; width: 288.5px; border-radius: 10%;" />
                     }
@@ -132,7 +140,7 @@
                         <div style="padding: 10px; ">
                             <div style="margin: 15px 10px 15px 10px; overflow: auto; overflow-x: hidden;">
                                 <p style="font-size: medium; float: left; margin: 0; margin-top: 4px">Government ID</p>
-                                @if (!(LodgerUser.isVerified))
+                                @if (!(@Model.LodgerUser.isVerified))
                                 {
                                     <img style="float: right;" src="~/images/unverified.png" />
                                 }
@@ -143,7 +151,7 @@
                             </div>
                             <div style="margin: 15px 10px 15px 10px; overflow: auto;">
                                 <p style="font-size: medium; clear: both; float: left; margin: 0; margin-top: 4px">Profile Picture</p>
-                                @if (string.IsNullOrEmpty(LodgerUser.ProfilePic))
+                                @if (string.IsNullOrEmpty(@Model.LodgerUser.ProfilePic))
                                 {
                                     <img style="float: right;" src="~/images/unverified.png" />
                                 }
@@ -167,23 +175,32 @@
 
             <div style="width: 70%; display: inline-block; float: right; overflow: hidden; text-align: initial; padding-left:10px;">
                 <h1 style="margin-top: 10px; float: left; ">@Model.LodgerUser.FullName • Joined in @Model.LodgerUser.DateJoined.ToString("MMMM  yyyy")</h1>
-                <a class="btn btn-danger" href="#" style="float: right; margin-top: 10px;"><span style="font-weight: bold;">Report this user</span></a>
+
+                <input type="checkbox" id="like" onclick="document.getElementById('AddRating').submit()" />
+                <label for="like" style="float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z" />
+                    </svg>
+                </label>
+
                 <p style="font-size: medium; clear: both;">@Model.LodgerUser.City, @Model.LodgerUser.Country</p>
                 <br />
                 <br />
                 <p style="font-size: medium">@Model.LodgerUser.Biography</p>
                 <h2 style="margin-top: 40px; float: left;">Rating</h2>
-                <input type="checkbox" id="like" />
-                <label for="like" style="float: right; padding-top: 18px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z" />
-                    </svg>
-                </label>
                 <div style="clear: both;"></div>
-                <img src="~/images/star.png" />
-                <img src="~/images/star.png" />
-                <img src="~/images/star.png" />
-                <img src="~/images/star.png" style="opacity: 0.6;" />
+                @{
+                    var Rating = Model.LodgerUser.Rating;
+                    if (Rating > 5) { Rating = 5; }
+                }
+                @for (var i = 0; i < Rating; i++)
+                {
+                    <img src="~/images/star.png" />
+                }
+                @for (var x = 0; x < (5 - Rating); x++)
+                {
+                    <img src="~/images/star.png" style="opacity: 0.6;" />
+                }
                 <div class="bottom-content">
                     @*To be replaced with UserRating*@
                     @*<div id="stats" style="font-size: large;">
@@ -222,10 +239,8 @@
                                             <td>
                                                 <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
                                                     <div class="polaroid">
-                                                        <div class="listingimgcontainer">
-                                                            <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                                        </div>
-                                                        <div class="listingtitle" style="height: 10px;">
+                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        <div class="listingtitle">
                                                             <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
                                                         </div>
                                                         <div class="listingprice">
@@ -270,9 +285,8 @@
                                             <td>
                                                 <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
                                                     <div class="polaroid">
-                                                        <div class="listingimgcontainer">
-                                                            <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
-                                                        </div>                                                    <div class="listingtitle">
+                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        <div class="listingtitle">
                                                             <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
                                                         </div>
                                                         <div class="listingprice">
@@ -313,7 +327,33 @@
                     </div>
                     <div id="reviews">
                         <h2>Reviews</h2>
-                        // add user's reviews
+                        @{ if (Model.ThisUsersReviews.Count > 0)
+                            {
+                                foreach (UserReview ur in Model.ThisUsersReviews)
+                                {
+                                    <div class="User-Review" style="margin-top: 20px;">
+                                        <div class="user-left-div" style="float: left; text-align: center;">
+                                            <div style="width: 30%;">
+                                                <img src="~/profile-images/@ur.ReviewBy.ProfilePic" style="width: 80px; height: 80px; border-radius: 50%;" />
+                                            </div>
+                                            <h4 style="margin-bottom: 0;">@ur.ReviewBy.FullName</h4>
+                                        </div>
+                                        <div class="user-right-div" style="float: left; padding-left: 50px;">
+                                            <p style="font-size: 17px; margin: 0;">@ur.ReviewContent</p>
+                                            <br />
+                                        </div>
+                                        <p style="float: right; clear: both;">@ur.ReviewTimeStamp.ToLongDateString()</p>
+                                    </div>
+                                    <div style="margin-top: 15px; margin-bottom: 15px; border: 1.5px solid lightgrey; clear: both;">
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <h3 style="color: grey">No one has reviewed this user yet.</h3>
+
+                            }
+                        }
                     </div>
                     <br />
                     <br />
@@ -323,26 +363,93 @@
                     @if (Model.Username != await _userManager.GetUserNameAsync(user))
                     {
                         <div id="adding-review">
-                            <h3>Add a Review for this user</h3>
+                            <h2>Add a Review for this user</h2>
                             <form method="post" asp-page-handler="AddReview">
-                                <input asp-for="Review" class="form-control" placeholder="Please be honest when submitting reviews" />
+                                <input asp-for="@Model.ReviewInput" class="form-control" placeholder="Please be honest when submitting reviews" />
+                                <br />
+                                <span asp-validation-for="@Model.ReviewInput" style="color: red;"></span>
+                                <br />
                                 <br />
                                 <button class="clickbutton" type="submit">Submit Review</button>
                             </form>
                         </div>
 
+                        <style type="text/css">
+
+                            .modal .modal-dialog {
+                                width: 400px;
+                                z-index: 101;
+                            }
+
+                            .modal-content {
+                                position: absolute;
+                                top: 250px;
+                                width: 500px;
+                                z-index: 101;
+                            }
+                        </style>
+
+
+                        <div id="modal" class="modal">
+                            <div class="modal-dialog animated">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <strong>Report this User</strong>
+                                    </div>
+                                    <form method="post" asp-page-handler="Report">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="reason" class="control-label col-xs-4">Reason: </label>
+                                            <div class="input-group col-xs-7">
+                                                <input asp-for="@Model.Reason" type="text" id="reason" class="form-control" />
+                                            </div>
+                                            <br />
+                                            <span asp-validation-for="@Model.Reason" style="color: red;"></span>
+                                            <label for="evidence" class="control-label col-xs-4">Evidence</label>
+                                            <div class="input-group col-xs-7">
+                                                <input asp-for="@Model.ReportEvidence" type="file" id="evidence" class="form-control" />
+                                            </div>
+                                            <br />
+                                            <span asp-validation-for="@Model.ReportEvidence" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="closeModal" class="btn btn-default" type="button" onclick="document.getElementById('modal').style.display = 'none';modal.close();">Cancel</button>
+                                        <button class="btn btn-primary" type="submit" onclick="modal.close();">Submit Report for Review</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     }
                 </div>
             </div>
-        }
-        else
-        {
-            <h1 style="text-align:center"> Profile not found!</h1>
-            <img src="~/images/Bunny-Laugh.gif" />
-        }
-        <br />
-    </div>
-    <div style="clear: both;"></div>
-</body>
+        </div>
+        <form method="post" asp-page-handler="AddRating" id="AddRating"></form>
+        <style>
+            .overlay-manage {
+                position: fixed;
+                height: 100vh;
+                width: 100vw;
+                top: 0;
+                left: 0;
+                z-index: 200;
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+        </style>
+        <div  class="overlay-manage" style="display: none;">
 
-<script src="~/js/listings.js"></script>
+        </div>
+}
+else
+{
+    <div style="text-align: center;">
+        <h1> Profile not found!</h1>
+        <img src="~/images/Bunny-Laugh.gif" />
+    </div>
+}
+<br />
+<div style="clear: both;"></div>
+
+

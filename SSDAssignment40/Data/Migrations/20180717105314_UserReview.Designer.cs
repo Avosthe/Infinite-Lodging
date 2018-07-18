@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180717105314_UserReview")]
+    partial class UserReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,19 +372,13 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("UserReviewId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ReviewById");
+                    b.Property<string>("ReviewBy");
 
-                    b.Property<string>("ReviewContent");
-
-                    b.Property<string>("ReviewForId");
+                    b.Property<string>("ReviewFor");
 
                     b.Property<DateTime>("ReviewTimeStamp");
 
                     b.HasKey("UserReviewId");
-
-                    b.HasIndex("ReviewById");
-
-                    b.HasIndex("ReviewForId");
 
                     b.ToTable("UserReview");
                 });
@@ -484,17 +480,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasOne("SSDAssignment40.Data.Lodger", "Rater")
                         .WithMany()
                         .HasForeignKey("RaterId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.UserReview", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.Lodger", "ReviewBy")
-                        .WithMany()
-                        .HasForeignKey("ReviewById");
-
-                    b.HasOne("SSDAssignment40.Data.Lodger", "ReviewFor")
-                        .WithMany()
-                        .HasForeignKey("ReviewForId");
                 });
 #pragma warning restore 612, 618
         }

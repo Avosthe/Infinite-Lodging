@@ -25,7 +25,6 @@ namespace SSDAssignment40.Pages.Profile
         public string FullName { get; set; }
         [Required]
         public string Gender { get; set; }
-        [Required]
         public string Biography { get; set; }
         [Required]
         [EmailAddress]
@@ -56,13 +55,15 @@ namespace SSDAssignment40.Pages.Profile
         public Lodger LodgerUser { get; set; }
         List<byte[]> allowedHeaders = new List<byte[]>() { new byte[] { 0xFF, 0xD8, 0xFF }, new byte[] { 0x89, 0x50, 0x4E } };
         public IDataProtector _protector { get; set; }
+        public IVirusScanner _virusScanner { get; set; }
 
-        public EditModel(UserManager<Lodger> userManager, IHostingEnvironment environment, ApplicationDbContext context, IDataProtectionProvider provider)
+        public EditModel(UserManager<Lodger> userManager, IHostingEnvironment environment, ApplicationDbContext context, IDataProtectionProvider provider, IVirusScanner virusScanner)
         {
             _userManager = userManager;
             _environment = environment;
             _context = context;
             _protector = provider.CreateProtector("SSDAssignment40.Pages.Profile.Edit");
+            _virusScanner = virusScanner;
         }
         public async Task<IActionResult> OnGetAsync()
         {
@@ -84,6 +85,16 @@ namespace SSDAssignment40.Pages.Profile
             }
             return true;
         }
+
+        private async Task<VirusReport> ScanForVirus(IFormFile hostile)
+        {
+            using (var ms = new MemoryStream())
+            {
+                hostile.CopyTo(ms);
+                var HostileFileBytes = ms.ToArray();
+                return await _virusScanner.ScanForVirus(HostileFileBytes);
+            }
+        }
         public async Task<IActionResult> OnPostAsync()
         {
             LodgerUser = await _userManager.GetUserAsync(User);
@@ -92,9 +103,16 @@ namespace SSDAssignment40.Pages.Profile
             _context.Update(user);
             if (UserInput.ProfilePicture != null)
             {
+                VirusReport vr = await ScanForVirus(UserInput.ProfilePicture);
+                if (vr.Positives > 0)
+                {
+                    ModelState.AddModelError("ProfilePictureFailedVirusCheck", "ProfilePicture failed virus scan!");
+                    ModelState.AddModelError("ProfilePictureReportLink", vr.ReportLink);
+                    return Page();
+                }
                 if (!(checkPictureHeader(UserInput.ProfilePicture)))
                 {
-                    ModelState.AddModelError("ProfilePicInvalid", "Invalid file format for Profile Picture (Only .jpg/.jpeg/.png are accepted!");
+                    ModelState.AddModelError("ProfilePicInvalid", "Invalid file format for Profile Picture (Only .jpg/.jpeg/.png are accepted!)");
                     return Page();
                 }
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.ProfilePicture.FileName);
@@ -107,7 +125,7 @@ namespace SSDAssignment40.Pages.Profile
             }
             user.FullName = (UserInput.FullName == user.FullName) ? user.FullName : UserInput.FullName;
             List<string> toCheck = new List<string>() { "Male", "Female", "Other" };
-            if (toCheck.Contains(user.Gender))
+            if (toCheck.Contains(UserInput.Gender))
             {
                 user.Gender = (user.Gender == UserInput.Gender) ? user.Gender : UserInput.Gender;
             }
@@ -115,9 +133,16 @@ namespace SSDAssignment40.Pages.Profile
             user.Biography = (user.Biography == UserInput.Biography) ? user.Biography : UserInput.Biography;
             user.AlternateEmail = (user.AlternateEmail == UserInput.AlternateEmail) ? user.AlternateEmail : UserInput.AlternateEmail;
             user.Country = (user.Country == UserInput.Country) ? user.Country : UserInput.Country;
+            VirusReport vr2 = await ScanForVirus(UserInput.GovernmentID);
+            if (vr2.Positives > 0)
+            {
+                ModelState.AddModelError("GovernmentIDFailedVirusCheck", "GovernmentID failed virus scan!");
+                ModelState.AddModelError("GovernmentIDReportLink", vr2.ReportLink);
+                return Page();
+            }
             if (!(checkPictureHeader(UserInput.GovernmentID)))
             {
-                ModelState.AddModelError("GovernmentIDPhoto", "Invalid file format for GovernmentID (Only .jpg/.jpeg/.png are accepted!");
+                ModelState.AddModelError("GovernmentIDPhoto", "Invalid file format for GovernmentID (Only .jpg/.jpeg/.png are accepted!)");
                 return Page();
             }
             var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
