@@ -55,12 +55,12 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label>From</label>
-                    <input type="date" onchange="updatePrice()" id="dateStart" asp-for="Booking.DateStart" class="form-control" required />
+                    <input type="date" onchange="updatePrice(); updateDate();" id="dateStart" asp-for="Booking.DateStart" class="form-control" required />
                     <span asp-validation-for="Booking.DateStart" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>To</label>
-                    <input type="date" onchange="updatePrice()" id="dateEnd" asp-for="Booking.DateEnd" class="form-control" required />
+                    <input type="date" onchange="updatePrice(); updateDate();" id="dateEnd" asp-for="Booking.DateEnd" class="form-control" required />
                     <span asp-validation-for="Booking.DateEnd" class="text-danger"></span>
                 </div>
                 <div id="bookingprice">
