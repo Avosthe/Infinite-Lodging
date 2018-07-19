@@ -9,7 +9,7 @@
 
 <h2 id="myheader"></h2>
 
-<link rel="stylesheet" href="~/css/listingstyles.css" />
+<link rel="stylesheet" href="~/css/site.css" />
 <script src="~/js/listings.js"></script>
 <br />
 
@@ -19,7 +19,7 @@
         margin-bottom: 0;
     }
 </style>
-<body onload="getURL()">
+<body onload="getURL(); resizelistingimg();">
     <table style="border-collapse:unset;padding-top:0;position:relative;">
 
         @for (int i = 0; i < listingcount;)

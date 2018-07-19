@@ -17,6 +17,14 @@
             </div>
         </a>
     }
+    else
+    {
+        <a asp-page="./CreateReview" asp-route-id="@Model.Listing.ListingId" asp-route-userid="@Model.Listing.Lodger.Id">
+            <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
+                Edit Listing
+            </div>
+        </a>
+    }
 </div>
 <section style="width:100%;height:50vh;overflow:hidden;display:inline-block">
     <img class="detailscoverpic" id="coverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
@@ -55,12 +63,12 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label>From</label>
-                    <input type="date" onchange="updatePrice()" id="dateStart" asp-for="Booking.DateStart" class="form-control" required />
+                    <input type="date" onchange="updatePrice(); updateDate();" id="dateStart" asp-for="Booking.DateStart" class="form-control" required />
                     <span asp-validation-for="Booking.DateStart" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>To</label>
-                    <input type="date" onchange="updatePrice()" id="dateEnd" asp-for="Booking.DateEnd" class="form-control" required />
+                    <input type="date" onchange="updatePrice(); updateDate();" id="dateEnd" asp-for="Booking.DateEnd" class="form-control" required />
                     <span asp-validation-for="Booking.DateEnd" class="text-danger"></span>
                 </div>
                 <div id="bookingprice">

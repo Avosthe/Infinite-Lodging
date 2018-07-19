@@ -22,6 +22,9 @@ namespace SSDAssignment40.Data
         public DbSet<CustomerSupport> CustomerSupport { get; set; }
         public DbSet<Reply> Reply { get; set; }
         public DbSet<CreditCard> CreditCard { get; set; }
+        public DbSet<UserRating> UserRating { get; set; }
+        public DbSet<UserReview> UserReview { get; set; }
+        public DbSet<UserReport> UserReport { get; set; }
 
     }
 }

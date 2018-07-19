@@ -26,5 +26,8 @@ namespace SSDAssignment40.Data
         public string Address { get; set; }
         public string Occupation { get; set; }
         public int Rating { get; set; }
+        public string IPAddress { get; set; }
+        public bool RequireAdditionalVerification { get; set; }
+        public string AdditionalVerificationSecret { get; set; }
     }
 }

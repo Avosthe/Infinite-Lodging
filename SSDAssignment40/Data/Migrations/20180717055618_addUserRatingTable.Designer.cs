@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180717055618_addUserRatingTable")]
+    partial class addUserRatingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,8 +226,6 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("AdditionalVerificationSecret");
-
                     b.Property<string>("Address");
 
                     b.Property<string>("AlternateEmail");
@@ -256,8 +256,6 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("Hobbies");
 
-                    b.Property<string>("IPAddress");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -281,8 +279,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("ProfilePic");
 
                     b.Property<int>("Rating");
-
-                    b.Property<bool>("RequireAdditionalVerification");
 
                     b.Property<string>("SecurityStamp");
 
@@ -369,54 +365,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasIndex("RaterId");
 
                     b.ToTable("UserRating");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.UserReport", b =>
-                {
-                    b.Property<string>("UserReportId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ReportFileEvidence");
-
-                    b.Property<string>("ReportedContent");
-
-                    b.Property<string>("ReportedUserId");
-
-                    b.Property<string>("ReportingUserId");
-
-                    b.Property<DateTime>("TimeStamp");
-
-                    b.Property<bool>("isReviewd");
-
-                    b.HasKey("UserReportId");
-
-                    b.HasIndex("ReportedUserId");
-
-                    b.HasIndex("ReportingUserId");
-
-                    b.ToTable("UserReport");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.UserReview", b =>
-                {
-                    b.Property<string>("UserReviewId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ReviewById");
-
-                    b.Property<string>("ReviewContent");
-
-                    b.Property<string>("ReviewForId");
-
-                    b.Property<DateTime>("ReviewTimeStamp");
-
-                    b.HasKey("UserReviewId");
-
-                    b.HasIndex("ReviewById");
-
-                    b.HasIndex("ReviewForId");
-
-                    b.ToTable("UserReview");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,28 +464,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasOne("SSDAssignment40.Data.Lodger", "Rater")
                         .WithMany()
                         .HasForeignKey("RaterId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.UserReport", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.Lodger", "ReportedUser")
-                        .WithMany()
-                        .HasForeignKey("ReportedUserId");
-
-                    b.HasOne("SSDAssignment40.Data.Lodger", "ReportingUser")
-                        .WithMany()
-                        .HasForeignKey("ReportingUserId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.UserReview", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.Lodger", "ReviewBy")
-                        .WithMany()
-                        .HasForeignKey("ReviewById");
-
-                    b.HasOne("SSDAssignment40.Data.Lodger", "ReviewFor")
-                        .WithMany()
-                        .HasForeignKey("ReviewForId");
                 });
 #pragma warning restore 612, 618
         }

@@ -66,3 +66,18 @@ function updatePrice() {
         document.getElementById("totalprice").style.display = "block";
     }
 }
+
+function resizelistingimg() {
+    var list = document.getElementsByClassName("listingimg")
+    for (var x = 0; x < list.length; x++) {
+        if (list[x].clientHeight < 200)
+            list[x].style.height = "200px";
+    }
+}
+
+function updateDate() {
+    var dateStart = new Date(document.getElementById("dateStart").value);
+    document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + dateStart.getMonth() + "-" + dateStart.getDate());
+    
+}
+

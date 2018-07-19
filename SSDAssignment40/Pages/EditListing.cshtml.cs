@@ -34,6 +34,10 @@ namespace SSDAssignment40.Pages
 
         private IHostingEnvironment _environment;
 
+        public bool changePic = false;
+
+        public string _filename;
+
         public string hex { get; set; }
 
         List<string> allowedFileTypes = new List<string>() { "FFD8", "8950" };
@@ -49,6 +53,8 @@ namespace SSDAssignment40.Pages
 
             Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
 
+            _filename = Listing.CoverPic;
+
             if (Listing == null)
             {
                 return NotFound();
@@ -56,34 +62,47 @@ namespace SSDAssignment40.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string id)
         {
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+
+            _filename = Listing.CoverPic;
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
-            var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
-            using (var fileStream = new FileStream(file, FileMode.Create))
+            if (Upload != null)
             {
-                await Upload.CopyToAsync(fileStream);
-                using (var ms = new MemoryStream())
+                changePic = true;
+                var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
+                var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
+                using (var fileStream = new FileStream(file, FileMode.Create))
                 {
-                    Upload.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    hex = BitConverter.ToString(fileBytes).Replace("-", "").Substring(0, 4);
-
-                    if (!allowedFileTypes.Contains(hex))
+                    await Upload.CopyToAsync(fileStream);
+                    using (var ms = new MemoryStream())
                     {
-                        return RedirectToPage("/Error/wrongFileType");
+                        Upload.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        hex = BitConverter.ToString(fileBytes).Replace("-", "").Substring(0, 4);
+
+                        if (!allowedFileTypes.Contains(hex))
+                        {
+                            return RedirectToPage("/Error/wrongFileType");
+                        }
+                        Listing.CoverPic = filename;
                     }
-                    Listing.CoverPic = filename;
                 }
             }
 
             _context.Attach(Listing).State = EntityState.Modified;
 
+            if (!changePic)
+            {
+                Listing.CoverPic = _filename;
+                _context.Listing.Update(Listing);
+            }
             try
             {
                 await _context.SaveChangesAsync();

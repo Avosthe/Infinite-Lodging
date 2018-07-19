@@ -93,6 +93,7 @@ namespace SSDAssignment40
             });
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, SmsSender>();
+            services.AddTransient<IVirusScanner, VirusScanner>();
             services.AddRecaptcha(new RecaptchaOptions
             {
                 SiteKey = Configuration["reCaptcha:siteKey"],
