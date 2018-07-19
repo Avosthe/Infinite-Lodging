@@ -133,6 +133,7 @@ namespace SSDAssignment40.Pages.Profile
             user.Biography = (user.Biography == UserInput.Biography) ? user.Biography : UserInput.Biography;
             user.AlternateEmail = (user.AlternateEmail == UserInput.AlternateEmail) ? user.AlternateEmail : UserInput.AlternateEmail;
             user.Country = (user.Country == UserInput.Country) ? user.Country : UserInput.Country;
+            user.City = (user.City == UserInput.City) ? user.City : UserInput.City;
             VirusReport vr2 = await ScanForVirus(UserInput.GovernmentID);
             if (vr2.Positives > 0)
             {

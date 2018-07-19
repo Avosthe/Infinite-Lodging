@@ -4,19 +4,26 @@
     ViewData["Title"] = "Edit";
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
+@*@{
+        using Microsoft.AspNetCore.Mvc.ModelBinding
+    }*@
 @if (ModelState.ContainsKey("ProfilePictureReportLink"))
 {
     <script defer>
-            var newWindow = window.open(@ModelState.GetValueOrDefault("ProfilePictureReportLink"), '_blank');
-            new.focus();
+        @{
+            ModelState.TryGetValue("ProfilePictureReportLink", out var value);
+        }
+        window.open("@value.Errors.ToList()[0].ErrorMessage", '_blank');
     </script>
     @ModelState.Remove("ProfilePictureReportLink");
 }
 @if (ModelState.ContainsKey("GovernmentIDReportLink"))
 {
     <script defer>
-            var newWindow = window.open(@ModelState.GetValueOrDefault("GovernmentIDReportLink"), '_blank');
-            new.focus();
+        @{
+            ModelState.TryGetValue("GovernmentIDReportLink", out var value);
+        }
+        window.open("@value.Errors.ToList()[0].ErrorMessage", '_blank');
     </script>
     @ModelState.Remove("GovernmentIDReportLink");
 }
@@ -36,8 +43,8 @@
                 {
                     <img id="profile-pic-img" on="resize()" src="~/profile-images/@Model.LodgerUser.ProfilePic" onclick="document.getElementById('profile-picture').click()" style="height: 292.5px; width: 288.5px;  border-radius: 10%;" />
                 }
-                <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display:none;" />
-                <span asp-validation-for="@Model.UserInput.ProfilePicture"></span>
+                <input id="profile-picture" asp-for="UserInput.ProfilePicture" type="file" accept=".png, .jpg, .jpeg" style="display: none;" />
+                <span asp-validation-for="UserInput.ProfilePicture"></span>
             </div>
             <style>
                 .bottom-content {
