@@ -66,7 +66,7 @@ namespace SSDAssignment40.Pages
         {
             Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
 
-            _filename = id;
+            _filename = Listing.CoverPic;
 
             if (!ModelState.IsValid)
             {

@@ -247,7 +247,9 @@
                                         <td>
                                             <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
                                                 <div class="polaroid">
-                                                    <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                    <div class="listingimgcontainer">
+                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                    </div>
                                                     <div class="listingtitle">
                                                         <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
                                                     </div>
@@ -293,7 +295,9 @@
                                         <td>
                                             <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
                                                 <div class="polaroid">
-                                                    <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                    <div class="listingimgcontainer">
+                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                    </div>
                                                     <div class="listingtitle">
                                                         <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
                                                     </div>
@@ -332,6 +336,13 @@
                         }
 
                     </table>
+                    <script>
+                        var list = document.getElementsByClassName("listingimg")
+                        for (var x = 0; x < list.length; x++) {
+                            if (list[x].clientHeight < 200)
+                                list[x].style.height = "200px";
+                        }
+                    </script>
                 </div>
                 <div id="reviews">
                     <h2>Reviews</h2>
