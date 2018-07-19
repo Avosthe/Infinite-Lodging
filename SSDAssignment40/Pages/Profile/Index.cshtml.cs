@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,7 @@ namespace SSDAssignment40.Pages
         [Required]
         [BindProperty]
         public string Reason { get; set; }
+        [Required]
         [BindProperty]
         public IFormFile ReportEvidence { get; set; }
 
@@ -43,39 +46,49 @@ namespace SSDAssignment40.Pages
         public List<UserReview> ThisUsersReviews { get; set; }
         private readonly ApplicationDbContext _context;
 
-        public ProfileModel(UserManager<Lodger> userManager, ApplicationDbContext context)
+        public IVirusScanner _virusScanner { get; set; }
+        public IHostingEnvironment _environment { get; set; }
+
+        public ProfileModel(UserManager<Lodger> userManager, ApplicationDbContext context, IVirusScanner virusScanner, IHostingEnvironment environment)
         {
             _userManager = userManager;
             _context = context;
+            _virusScanner = virusScanner;
+            _environment = environment;
         }
         public async Task<IActionResult> OnGetAsync()
         {
             LodgerUser = await _userManager.FindByNameAsync(Username);
-            await ValidateAndInitializeAsync(LodgerUser);
+            if(!(LodgerUser is Lodger))
+            {
+                isValidProfile = false;
+                return Page();
+            }
+            await ValidateAndInitializeAsync();
             return Page();
         }
 
-        private async Task<bool> ValidateAndInitializeAsync(Lodger l)
+        private async Task<bool> ValidateAndInitializeAsync()
         {
-            if (l is Lodger)
-            {
-                isValidProfile = true;
-                var listings = from list in _context.Listing select list;
-                Listing = await listings.ToListAsync();
-                var reviews = from r in _context.Review select r;
-                ListingReview = await reviews.ToListAsync();
-                ThisUsersReviews = await _context.UserReview.Where(ur => ur.ReviewFor.Id == LodgerUser.Id).ToListAsync();
-                return true;
-            }
-            else isValidProfile = false;
-            return false;
+            isValidProfile = true;
+            Listing = await _context.Listing.Where(l => (l.Lodger.Id == LodgerUser.Id)).ToListAsync();
+            ListingReview = await _context.Review.Where(r => (r.Lodger.Id == LodgerUser.Id)).ToListAsync();
+            ThisUsersReviews = await _context.UserReview.Where(ur => ur.ReviewFor.Id == LodgerUser.Id).ToListAsync();
+            return true;
         }
 
         public async Task<IActionResult> OnPostAddRatingAsync()
         {
-            ModelState.Remove("Review");
+            ModelState.Remove("ReviewInput");
+            ModelState.Remove("Reason");
+            ModelState.Remove("ReportEvidence");
             LodgerUser = await _userManager.FindByNameAsync(Username);
-            await ValidateAndInitializeAsync(LodgerUser);
+            if (!(LodgerUser is Lodger))
+            {
+                isValidProfile = false;
+                return Page();
+            }
+            await ValidateAndInitializeAsync();
             Rater = await _userManager.GetUserAsync(User);
             if (LodgerUser.Id == Rater.Id)
             {
@@ -100,12 +113,19 @@ namespace SSDAssignment40.Pages
         public async Task<IActionResult> OnPostAddReviewAsync()
         {
             LodgerUser = await _userManager.FindByNameAsync(Username);
+            if (!(LodgerUser is Lodger))
+            {
+                isValidProfile = false;
+                return Page();
+            }
             Lodger LoggedInUser = await _userManager.GetUserAsync(User);
             if (Username == LoggedInUser.UserName)
             {
                 return StatusCode(403);
             }
-            await ValidateAndInitializeAsync(LodgerUser);
+            await ValidateAndInitializeAsync();
+            ModelState.Remove("Reason");
+            ModelState.Remove("ReportEvidence");
             if (!(ModelState.IsValid))
             {
                 return Page();
@@ -120,19 +140,57 @@ namespace SSDAssignment40.Pages
             };
             _context.UserReview.Add(newReview);
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Profile/Index", new { Username = Username
+            return RedirectToPage("/Profile/Index", new
+            {
+                Username = Username
             });
         }
-
-        public async Task<IActionResult> OnPostReportAsync()
+        private async Task<VirusReport> ScanForVirus(IFormFile hostile)
         {
+            using (var ms = new MemoryStream())
+            {
+                hostile.CopyTo(ms);
+                var HostileFileBytes = ms.ToArray();
+                return await _virusScanner.ScanForVirus(HostileFileBytes);
+            }
+        }
+
+        public async Task<IActionResult> OnPostSubmitReportAsync()
+        {
+            LodgerUser = await _userManager.FindByNameAsync(Username);
+            if (!(LodgerUser is Lodger))
+            {
+                isValidProfile = false;
+                return Page();
+            }
+            Lodger LoggedInUser = await _userManager.GetUserAsync(User);
+            if (Username == LoggedInUser.UserName)
+            {
+                return StatusCode(403);
+            }
+            await ValidateAndInitializeAsync();
             ModelState.Remove("ReviewInput");
             if (!(ModelState.IsValid))
             {
                 return Page();
             }
-
-            return Page();
+            VirusReport vr = await ScanForVirus(ReportEvidence);
+            if (vr.Positives > 0)
+            {
+                ModelState.AddModelError("ReportEvidenceFileFailedVirusCheck", "ReportEvidence failed virus scan!");
+                ModelState.AddModelError("ReportEvidenceFileReportLink", vr.ReportLink);
+                return Page();
+            }
+            var filename = Guid.NewGuid().ToString() + Path.GetExtension(ReportEvidence.FileName);
+            var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "reports", filename);
+            using (var fileStream = new FileStream(file, FileMode.Create))
+            {
+                await ReportEvidence.CopyToAsync(fileStream);
+            }
+            HttpContext.Session.SetString("ReportedUserId", LodgerUser.Id);
+            HttpContext.Session.SetString("Reason", Reason);
+            HttpContext.Session.SetString("EvidenceFileName", filename);
+            return RedirectToPage("/Reports/SendReport");
         }
     }
 }

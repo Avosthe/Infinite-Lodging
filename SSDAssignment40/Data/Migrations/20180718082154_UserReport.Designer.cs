@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180718082154_UserReport")]
+    partial class UserReport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,8 +226,6 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("AdditionalVerificationSecret");
-
                     b.Property<string>("Address");
 
                     b.Property<string>("AlternateEmail");
@@ -256,8 +256,6 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("Hobbies");
 
-                    b.Property<string>("IPAddress");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -281,8 +279,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("ProfilePic");
 
                     b.Property<int>("Rating");
-
-                    b.Property<bool>("RequireAdditionalVerification");
 
                     b.Property<string>("SecurityStamp");
 
