@@ -9,8 +9,7 @@
 <link rel="stylesheet" href="~/css/listingstyles.css" />
 <script src="~/js/Profile.js" defer></script>
 <script src="https://unpkg.com/rmodal/dist/rmodal.js" defer></script>
-
-
+<script src="~/js/listings.js" defer></script>
 <style>
     .bottom-content {
         margin-top: 50px;
@@ -102,8 +101,8 @@
     }
 </style>
 
-@if (Model.isValidProfile)
-{
+    @if (Model.isValidProfile)
+    {
         <div style="overflow: auto; margin-top: 20px; margin-bottom: 20px; margin-bottom: 15px;">
             <h2 style="float: left; margin-top: 0;">Profile</h2>
 
@@ -239,7 +238,9 @@
                                             <td>
                                                 <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
                                                     <div class="polaroid">
-                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        <div class="listingimgcontainer">
+                                                            <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        </div>
                                                         <div class="listingtitle">
                                                             <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
                                                         </div>
@@ -285,7 +286,9 @@
                                             <td>
                                                 <a asp-page="../ListingDetails" asp-route-id="@Model.Listing[x+i].ListingId" style="text-decoration:none;color:black" target="_blank">
                                                     <div class="polaroid">
-                                                        <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        <div class="listingimgcontainer">
+                                                            <img class="listingimg" src="~/ListingCover/@Model.Listing[x + i].CoverPic " />
+                                                        </div>
                                                         <div class="listingtitle">
                                                             <b>@Html.DisplayFor(modelItem => Model.Listing[x + i].Title)</b>
                                                         </div>
@@ -325,6 +328,13 @@
 
                         </table>
                     </div>
+                    <script>
+                            var list = document.getElementsByClassName("listingimg")
+                            for (var x = 0; x < list.length; x++) {
+                                if (list[x].clientHeight < 200)
+                                    list[x].style.height = "200px";
+                            }
+                    </script>
                     <div id="reviews">
                         <h2>Reviews</h2>
                         @{ if (Model.ThisUsersReviews.Count > 0)
@@ -397,26 +407,26 @@
                                         <strong>Report this User</strong>
                                     </div>
                                     <form method="post" asp-page-handler="Report">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="reason" class="control-label col-xs-4">Reason: </label>
-                                            <div class="input-group col-xs-7">
-                                                <input asp-for="@Model.Reason" type="text" id="reason" class="form-control" />
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="reason" class="control-label col-xs-4">Reason: </label>
+                                                <div class="input-group col-xs-7">
+                                                    <input asp-for="@Model.Reason" type="text" id="reason" class="form-control" />
+                                                </div>
+                                                <br />
+                                                <span asp-validation-for="@Model.Reason" style="color: red;"></span>
+                                                <label for="evidence" class="control-label col-xs-4">Evidence</label>
+                                                <div class="input-group col-xs-7">
+                                                    <input asp-for="@Model.ReportEvidence" type="file" id="evidence" class="form-control" />
+                                                </div>
+                                                <br />
+                                                <span asp-validation-for="@Model.ReportEvidence" style="color: red;"></span>
                                             </div>
-                                            <br />
-                                            <span asp-validation-for="@Model.Reason" style="color: red;"></span>
-                                            <label for="evidence" class="control-label col-xs-4">Evidence</label>
-                                            <div class="input-group col-xs-7">
-                                                <input asp-for="@Model.ReportEvidence" type="file" id="evidence" class="form-control" />
-                                            </div>
-                                            <br />
-                                            <span asp-validation-for="@Model.ReportEvidence" style="color: red;"></span>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button id="closeModal" class="btn btn-default" type="button" onclick="document.getElementById('modal').style.display = 'none';modal.close();">Cancel</button>
-                                        <button class="btn btn-primary" type="submit" onclick="modal.close();">Submit Report for Review</button>
-                                    </div>
+                                        <div class="modal-footer">
+                                            <button id="closeModal" class="btn btn-default" type="button" onclick="document.getElementById('modal').style.display = 'none';modal.close();">Cancel</button>
+                                            <button class="btn btn-primary" type="submit" onclick="modal.close();">Submit Report for Review</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -438,18 +448,16 @@
                 background-color: rgba(0, 0, 0, 0.8);
             }
         </style>
-        <div  class="overlay-manage" style="display: none;">
+        <div class="overlay-manage" style="display: none;">
 
         </div>
-}
-else
-{
-    <div style="text-align: center;">
-        <h1> Profile not found!</h1>
-        <img src="~/images/Bunny-Laugh.gif" />
-    </div>
-}
-<br />
-<div style="clear: both;"></div>
-
-
+    }
+    else
+    {
+        <div style="text-align: center;">
+            <h1> Profile not found!</h1>
+            <img src="~/images/Bunny-Laugh.gif" />
+        </div>
+    }
+    <br />
+    <div style="clear: both;"></div>
