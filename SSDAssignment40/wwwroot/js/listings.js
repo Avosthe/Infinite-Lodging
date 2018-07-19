@@ -80,3 +80,4 @@ function updateDate() {
     document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + dateStart.getMonth() + "-" + dateStart.getDate());
     
 }
+
