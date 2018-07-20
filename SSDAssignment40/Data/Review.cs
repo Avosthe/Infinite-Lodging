@@ -9,6 +9,7 @@ namespace SSDAssignment40.Data
     {
         public string ReviewId { get; set; }
         public DateTime DateTime { get; set; }
+        public string ReviewTitle { get; set; }
         public int Rating { get; set; }
         public string ReviewDesc { get; set; }
         public virtual Listing Listing { get; set; }

@@ -21,11 +21,18 @@ namespace SSDAssignment40.Pages
         }
 
         [BindProperty]
+        public Review Review { get; set; }
+
+        [BindProperty]
         public Booking Booking { get; set; }
 
         public Listing Listing { get; set; }
 
         public UserManager<Lodger> userManager { get; set; }
+
+        public string ReviewDescr { get; set; }
+
+        public int Rating { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -56,6 +63,15 @@ namespace SSDAssignment40.Pages
             await _context.SaveChangesAsync();
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostSubmitReviewAsync(string id)
+        {
+            Review.Lodger = await userManager.GetUserAsync(User);
+            Review.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+            Review.ReviewDesc = ReviewDescr;
+            Review.Rating = Rating;
+            return RedirectToPage("./Listings");
         }
     }
 }

@@ -400,3 +400,15 @@ input[type=date]::-webkit-inner-spin-button {
 #coverpic:hover{
     cursor:pointer;
 }
+
+.ratingStars{
+    text-align:right;
+}
+
+.reviewStar{
+    font-size: 20px;
+}
+
+.reviewStar:hover{
+    cursor:pointer;
+}
