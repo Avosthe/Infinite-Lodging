@@ -83,13 +83,13 @@ function updateDate() {
 
 function rating(a) {
     var starList = document.getElementsByClassName("reviewStar");
-    document.getElementById("ratingValue").innerHTML = 
+    document.getElementById("ratingValue").value = a;
     for (var i = 0; i < a; i++) {
         starList[i].innerHTML = "&#9733"
     }
 
-    for (var i = a; i < 5; i++) {
-        starList[i].innerHTML = "&#9734"
+    for (var x = a; x < 5; x++) {
+        starList[x].innerHTML = "&#9734"
     }
 }
 
