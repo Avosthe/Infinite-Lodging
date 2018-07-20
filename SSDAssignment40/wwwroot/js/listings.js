@@ -36,6 +36,10 @@ function getURL() {
         var location = url.search("location=");
         location += 9;
         location = url.substring(location);
+        while (location.includes("+")) {
+            location = location.replace("+", " ")
+        }
+
         if (location == "") {
             document.getElementById("myheader").innerHTML = "Showing all results"
         }

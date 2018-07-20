@@ -52,7 +52,7 @@ namespace SSDAssignment40.Pages
                 return NotFound();
             }
 
-            var reviews = from r in _context.Review select r;
+            var reviews = from r in _context.Review where r.Listing.ListingId == id select r;
             ReviewList = await reviews.ToListAsync();
 
             return Page();
