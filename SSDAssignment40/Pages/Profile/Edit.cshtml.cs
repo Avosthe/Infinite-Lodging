@@ -36,6 +36,12 @@ namespace SSDAssignment40.Pages.Profile
         [Required]
         [Display(Name = "Government Identification")]
         public IFormFile GovernmentID { get; set; }
+        public string Hobbies { get; set; }
+        public string Status { get; set; }
+        [Required]
+        public string Address { get; set; }
+        [Required]
+        public string Occupation { get; set; }
     }
 
     public class EditModel : PageModel
@@ -68,7 +74,6 @@ namespace SSDAssignment40.Pages.Profile
         public async Task<IActionResult> OnGetAsync()
         {
             LodgerUser = await _userManager.GetUserAsync(User);
-
             return Page();
         }
 
@@ -98,9 +103,11 @@ namespace SSDAssignment40.Pages.Profile
         public async Task<IActionResult> OnPostAsync()
         {
             LodgerUser = await _userManager.GetUserAsync(User);
+            if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
+            {
+                ModelState.Remove("GovernmentID"); // remove governmentId req if already have
+            }
             if (!ModelState.IsValid) return Page();
-            var user = await _userManager.GetUserAsync(User);
-            _context.Update(user);
             if (UserInput.ProfilePicture != null)
             {
                 VirusReport vr = await ScanForVirus(UserInput.ProfilePicture);
@@ -116,24 +123,30 @@ namespace SSDAssignment40.Pages.Profile
                     return Page();
                 }
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.ProfilePicture.FileName);
-                user.ProfilePic = filename;
+                var CurrentProfilePicture = LodgerUser.ProfilePic;
+                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentProfilePicture));
+                LodgerUser.ProfilePic = filename;
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", filename);
                 using (var fileStream = new FileStream(file, FileMode.Create))
                 {
                     await UserInput.ProfilePicture.CopyToAsync(fileStream);
                 }
             }
-            user.FullName = (UserInput.FullName == user.FullName) ? user.FullName : UserInput.FullName;
+            LodgerUser.FullName = (UserInput.FullName == LodgerUser.FullName) ? LodgerUser.FullName : UserInput.FullName;
             List<string> toCheck = new List<string>() { "Male", "Female", "Other" };
             if (toCheck.Contains(UserInput.Gender))
             {
-                user.Gender = (user.Gender == UserInput.Gender) ? user.Gender : UserInput.Gender;
+                LodgerUser.Gender = (LodgerUser.Gender == UserInput.Gender) ? LodgerUser.Gender : UserInput.Gender;
             }
             //else return Page();
-            user.Biography = (user.Biography == UserInput.Biography) ? user.Biography : UserInput.Biography;
-            user.AlternateEmail = (user.AlternateEmail == UserInput.AlternateEmail) ? user.AlternateEmail : UserInput.AlternateEmail;
-            user.Country = (user.Country == UserInput.Country) ? user.Country : UserInput.Country;
-            user.City = (user.City == UserInput.City) ? user.City : UserInput.City;
+            LodgerUser.Biography = (LodgerUser.Biography == UserInput.Biography) ? LodgerUser.Biography : UserInput.Biography;
+            LodgerUser.AlternateEmail = (LodgerUser.AlternateEmail == UserInput.AlternateEmail) ? LodgerUser.AlternateEmail : UserInput.AlternateEmail;
+            LodgerUser.Country = (LodgerUser.Country == UserInput.Country) ? LodgerUser.Country : UserInput.Country;
+            LodgerUser.City = (LodgerUser.City == UserInput.City) ? LodgerUser.City : UserInput.City;
+            LodgerUser.Address = (LodgerUser.Address == UserInput.Address) ? LodgerUser.Address : UserInput.Address;
+            LodgerUser.Occupation = (LodgerUser.Occupation == UserInput.Occupation) ? LodgerUser.Occupation : UserInput.Occupation;
+            LodgerUser.Hobbies = (LodgerUser.Hobbies == UserInput.Hobbies) ? LodgerUser.Hobbies : UserInput.Hobbies;
+            LodgerUser.Status = (LodgerUser.Status == UserInput.Status) ? LodgerUser.Status : UserInput.Status;
             VirusReport vr2 = await ScanForVirus(UserInput.GovernmentID);
             if (vr2.Positives > 0)
             {
@@ -147,8 +160,10 @@ namespace SSDAssignment40.Pages.Profile
                 return Page();
             }
             var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
-            user.GovernmentID = gFileName;
-            var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", gFileName);
+            var CurrentGovernmentID = LodgerUser.GovernmentID;
+            System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentGovernmentID));
+            LodgerUser.GovernmentID = gFileName;
+            var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", gFileName);
             using (var fileStream = new FileStream(gFile, FileMode.Create))
             {
                 await UserInput.GovernmentID.CopyToAsync(fileStream);

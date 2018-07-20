@@ -2,17 +2,27 @@
 @model ChangeMobileNumberModel
 @{
 }
+@using SSDAssignment40.Data
+@inject UserManager<Lodger> _userManager
 
 @Html.Partial("_StatusMessage", Model.StatusMessage)
+@{ 
+    Lodger LodgerUser = await _userManager.GetUserAsync(User);
+}
 <div class="row">
     <div class="col-md-6">
+        @{
+            var MobileNumber = LodgerUser.PhoneNumber;
+            var AnonymizedNumber = MobileNumber.Substring(0, 4);
+            AnonymizedNumber += "xxxx";
+        }
         @if (!Model.hasSentVerificationCode)
         {
             <form method="post">
                 <div class="form-group">
                     <label asp-for="InputMobileNumber"></label>
                     <br />
-                    <input asp-for="InputMobileNumber" class="form-control" />
+                    <input asp-for="InputMobileNumber" class="form-control" value="@AnonymizedNumber"/>
                 </div>
                 <button class="btn btn-default" type="submit">Save</button>
             </form>

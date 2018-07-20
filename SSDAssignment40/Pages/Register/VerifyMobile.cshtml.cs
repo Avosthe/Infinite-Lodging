@@ -59,7 +59,7 @@ namespace SSDAssignment40.Pages
 
             if (ModelState.IsValid)
             {
-                HttpContext.Session.SetString("MobileNumber", "65" + InputMobileNumber);
+                HttpContext.Session.SetString("MobileNumber", InputMobileNumber);
 
                 Random randObj = new Random();
                 string verificationCode = randObj.Next(100000,999999).ToString();
