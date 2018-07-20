@@ -32,6 +32,8 @@ namespace SSDAssignment40.Pages
         [BindProperty]
         public IFormFile Upload { get; set; }
 
+        public Lodger Lodger { get; set; }
+
         private IHostingEnvironment _environment;
 
         public bool changePic = false;
@@ -46,11 +48,22 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            Lodger = await userManager.GetUserAsync(User);
+            
+            if (Lodger == null)
+            {
+                return RedirectToPage("/Error/NiceTry");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
+            if (Lodger.Id != id)
+            {
+                return RedirectToPage("./Error/NiceTry");
+            }
             Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
 
             _filename = Listing.CoverPic;
