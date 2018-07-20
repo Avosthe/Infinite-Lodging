@@ -17,14 +17,6 @@
             </div>
         </a>
     }
-    else
-    {
-        <a asp-page="./CreateReview" asp-route-id="@Model.Listing.ListingId" asp-route-userid="@Model.Listing.Lodger.Id">
-            <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
-                Edit Listing
-            </div>
-        </a>
-    }
 </div>
 <section style="width:100%;height:50vh;overflow:hidden;display:inline-block">
     <img class="detailscoverpic" id="coverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
@@ -53,12 +45,32 @@
         <div style="font-size:16px;">
             @Html.DisplayFor(model => model.Listing.Desc)
         </div>
+        <div class="reviewList">
 
+        </div>
+        <div style="margin-top:100px;text-decoration:underline;text-align:center;font-size:24px">
+            Reviews
+        </div>
+        <form >
+            <div class="ratingStars">
+                <label style="font-size:20px">Rating: </label>
+                <span class="reviewStar" onclick="rating(1)">&#9734</span>
+                <span class="reviewStar" onclick="rating(2)">&#9734</span>
+                <span class="reviewStar" onclick="rating(3)">&#9734</span>
+                <span class="reviewStar" onclick="rating(4)">&#9734</span>
+                <span class="reviewStar" onclick="rating(5)">&#9734</span>
+                <input asp-for="Rating" class="hidden" id="ratingValue"/>
+            </div>
+            <label style="width:17%">Title:</label>
+            <input style="width:80%;float:right" type="text"/>
+            <textarea asp-for="ReviewDescr" style="width:80%;height:200px;margin-top:20px;" placeholder="Enter Review Here" class="mytextarea"></textarea>
+            <input style="float:right; margin-bottom:20px;" type="submit" asp-page-handler="SubmitReview" asp-route-id="@Model.Listing.ListingId" class="btn btn-success" value="Submit Review" />
+        </form>
     </div>
     <div class="hidden" id="price">@Model.Listing.Price</div>
     <div style="float:left;">
         <div class="listingbooking">
-            <b style="font-size:24px;">$SGD @Model.Listing.Price</b> per night
+            <b style="font-size:24px;">S$@Model.Listing.Price</b> per night
             <form method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -85,6 +97,9 @@
         </div>
     </div>
 </div>
+
+
+
 <div class="buttoncontainer">
     <a asp-page="./Listings">
         <div class="clickbuttonnoshadow">
@@ -93,7 +108,7 @@
     </a>
 </div>
 
-<script>
+<script defer>
     // Get the modal
     var modal = document.getElementById('myModal');
 
@@ -112,4 +127,14 @@
     span.onclick = function () {
         modal.style.display = "none";
     }
+
+    $(function () {
+        $(".reviewStar".hover(function (e) {
+            $(".reviewStar").html("&#9733");
+        }, function (e) {
+            $(".reviewStar").html("&#9734");
+        }))
+    })
+
+    
 </script>
