@@ -60,9 +60,9 @@ namespace SSDAssignment40.Pages.Support
                     var auditrecord = new AuditRecord();
                     auditrecord.AuditActionType = "Delete Customer Support Record";
                     auditrecord.DateTimeStamp = DateTime.Now;
-                    auditrecord.Lodger = user;
-                    var userID = User.Identity.Name.ToString();
-                    auditrecord.Username = userID;
+                    auditrecord.PerformedBy = user;
+                    auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+                    auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
                     _context.AuditRecords.Add(auditrecord);
                     await _context.SaveChangesAsync();
                 }
