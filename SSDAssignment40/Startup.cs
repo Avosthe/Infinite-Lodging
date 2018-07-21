@@ -78,8 +78,6 @@ namespace SSDAssignment40
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/RedirToLogin";
                 options.Cookie = new CookieBuilder() { SecurePolicy = CookieSecurePolicy.Always, Expiration = TimeSpan.FromHours(1), HttpOnly = true };
-
-
             });
             services.AddAuthentication().AddFacebook(fbOptions =>
             {

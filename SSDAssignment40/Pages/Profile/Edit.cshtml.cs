@@ -123,8 +123,11 @@ namespace SSDAssignment40.Pages.Profile
                     return Page();
                 }
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.ProfilePicture.FileName);
-                var CurrentProfilePicture = LodgerUser.ProfilePic;
-                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentProfilePicture));
+                if (!(string.IsNullOrEmpty(LodgerUser.ProfilePic)))
+                {
+                    var CurrentProfilePicture = LodgerUser.ProfilePic;
+                    System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentProfilePicture));
+                }
                 LodgerUser.ProfilePic = filename;
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", filename);
                 using (var fileStream = new FileStream(file, FileMode.Create))
@@ -160,8 +163,11 @@ namespace SSDAssignment40.Pages.Profile
                 return Page();
             }
             var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
-            var CurrentGovernmentID = LodgerUser.GovernmentID;
-            System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentGovernmentID));
+            if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
+            {
+                var CurrentGovernmentID = LodgerUser.GovernmentID;
+                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentGovernmentID));
+            }
             LodgerUser.GovernmentID = gFileName;
             var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", gFileName);
             using (var fileStream = new FileStream(gFile, FileMode.Create))

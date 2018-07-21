@@ -96,4 +96,3 @@ function rating(a) {
         starList[x].innerHTML = "&#9734"
     }
 }
-
