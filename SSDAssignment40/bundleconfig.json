@@ -1,0 +1,61 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap/dist/css/bootstrap-theme.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap-theme.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/about.min.css",
+    "inputFiles": [
+      "wwwroot/css/about.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/qrcode.min.js",
+    "inputFiles": [
+      "wwwroot/lib/qrcode.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/about.min.js",
+    "inputFiles": [
+      "wwwroot/js/about.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/listings.min.js",
+    "inputFiles": [
+      "wwwroot/js/listings.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Profile.min.js",
+    "inputFiles": [
+      "wwwroot/js/Profile.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

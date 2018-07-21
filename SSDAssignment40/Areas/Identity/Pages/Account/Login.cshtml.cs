@@ -88,19 +88,21 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 Lodger LodgerUser = await _userManager.FindByNameAsync(Input.UserName);
-                if (LodgerUser != null)
+                if(!(LodgerUser is Lodger))
                 {
-                    if (LodgerUser.is3AuthEnabled == "True")
-                    {
-                        HttpContext.Session.SetString("Username", Input.UserName);
-                        HttpContext.Session.SetString("Password", Input.Password);
-                        HttpContext.Session.SetString("RememberMe", Input.RememberMe.ToString());
-                        return RedirectToPage("/3AuthVerification", new { area = "" });
-                    }
-                    if (LodgerUser.RequireAdditionalVerification)
-                    {
-                        userAlertMessage = "Please log in to your registered email to verify your new IP Address";
-                    }
+                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    return Page();
+                }
+                if (LodgerUser.is3AuthEnabled == "True")
+                {
+                    HttpContext.Session.SetString("Username", Input.UserName);
+                    HttpContext.Session.SetString("Password", Input.Password);
+                    HttpContext.Session.SetString("RememberMe", Input.RememberMe.ToString());
+                    return RedirectToPage("/3AuthVerification", new { area = "" });
+                }
+                if (LodgerUser.RequireAdditionalVerification)
+                {
+                    userAlertMessage = "Please log in to your registered email to verify your new IP Address";
                 }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
