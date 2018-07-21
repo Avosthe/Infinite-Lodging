@@ -87,7 +87,7 @@ namespace SSDAssignment40.Pages
             Review.DateTime = DateTime.Now;
             _context.Review.Add(Review);
             await _context.SaveChangesAsync();  
-            return RedirectToPage("./Listings");
+            return Redirect("./ListingDetails?id=" + id);
         }
     }
 }

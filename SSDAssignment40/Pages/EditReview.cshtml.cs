@@ -26,8 +26,6 @@ namespace SSDAssignment40
         [BindProperty]
         public Listing Listing { get; set; }
 
-        public string listingId { get; set; }
-
         public async Task<IActionResult> OnGetAsync(string id, string listingid)
         {
             if (id == null)
@@ -37,7 +35,7 @@ namespace SSDAssignment40
 
             Review = await _context.Review.FirstOrDefaultAsync(m => m.ReviewId == id);
 
-            listingId = listingid;
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == listingid); 
 
             if (Review == null)
             {
@@ -71,7 +69,7 @@ namespace SSDAssignment40
                 }
             }
 
-            return RedirectToPage("./Listings");
+            return Redirect("./ListingDetails?id=" + Listing.ListingId);
         }
 
         private bool ReviewExists(string id)
@@ -86,7 +84,7 @@ namespace SSDAssignment40
                 _context.Review.Remove(Review);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToPage("./Listings");
+            return Redirect("./ListingDetails?id=" + Listing.ListingId);
         }
 
     }

@@ -84,6 +84,9 @@
                                 }
                             </div>
                             <div style="float:left;width:77%;margin-bottom:5px;">@Model.ReviewList[i].ReviewDesc</div>
+                            <div style="float:left;width:50%;font-size:10px">@Model.ReviewList[i].DateTime</div>
+                            <span style="float:right;width:49%;font-size:10px;text-align:right;"><a href="/Profile/@Model.ReviewList[i].Lodger.UserName">@Model.ReviewList[i].Lodger.UserName</a></span>
+
                         </div>
                     }
                 }
