@@ -26,5 +26,6 @@ namespace SSDAssignment40.Data
         public DbSet<UserReview> UserReview { get; set; }
         public DbSet<UserReport> UserReport { get; set; }
         public DbSet<AuditRecord> AuditRecords { get; set; }
+        public DbSet<SSDAssignment40.Data.LodgerRole> LodgerRole { get; set; }
     }
 }
