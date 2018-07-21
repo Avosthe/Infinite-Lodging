@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    int stars = 0;
 }
 
 <h2>Edit Review</h2>
@@ -21,11 +22,15 @@
             <div class="form-group">
                 <label asp-for="Review.Rating" class="control-label"></label>
                 <div class="ratingStars" style="width:100%;text-align:left;">
-                    <span class="reviewStar" onclick="rating(1)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(2)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(3)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(4)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(5)">&#9734</span>
+                    @for (int i = 1; i < Model.Review.Rating + 1; i++)
+                    {
+                        stars += 1;
+                        <span class="reviewStar" onclick="rating(@i)">&#9733</span>
+                    }
+                    @for (int i = stars; i < (Model.Review.Rating); i++)
+                    {
+                        <span class="reviewStar" onclick="rating(@i)">&#9734</span>
+                    }
                     <input asp-for="Review.Rating" class="hidden" required id="ratingValue" />
                     <span asp-validation-for="Review.Rating" class="text-danger"></span>
                 </div>
@@ -36,15 +41,19 @@
                 <span asp-validation-for="Review.ReviewDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-success" />
-                <input asp-page-handler="DeleteReview" style="margin-left:30px;" type="submit" value="Delete Review" class="btn btn-danger" />
+                <input asp-route-listingid="@Model.Listing.ListingId" type="submit" value="Save" class="btn btn-success" />
+                <input asp-route-listingid="@Model.Listing.ListingId" asp-page-handler="DeleteReview" style="margin-left:30px;" type="submit" value="Delete Review" class="btn btn-danger" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
+<div class="buttoncontainer">
+    <a asp-page="./ListingDetails" asp-route-id="@Model.Listing.ListingId">
+        <div class="clickbuttonnoshadow">
+            <<< Back to Listing
+        </div>
+    </a>
 </div>
 
 @section Scripts {
