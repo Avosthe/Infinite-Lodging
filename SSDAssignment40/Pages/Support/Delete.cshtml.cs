@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +14,15 @@ namespace SSDAssignment40.Pages.Support
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public DeleteModel(SSDAssignment40.Data.ApplicationDbContext context)
+        public DeleteModel(SSDAssignment40.Data.ApplicationDbContext context, UserManager<Lodger> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
         public CustomerSupport CustomerSupport { get; set; }
+        public UserManager<Lodger> _userManager { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -49,7 +52,20 @@ namespace SSDAssignment40.Pages.Support
             if (CustomerSupport != null)
             {
                 _context.CustomerSupport.Remove(CustomerSupport);
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    var auditrecord = new AuditRecord();
+                    auditrecord.AuditActionType = "Delete Customer Support Record";
+                    auditrecord.DateTimeStamp = DateTime.Now;
+                    auditrecord.Lodger = user;
+                    var userID = User.Identity.Name.ToString();
+                    auditrecord.Username = userID;
+                    _context.AuditRecords.Add(auditrecord);
+                    await _context.SaveChangesAsync();
+                }
             }
 
             return RedirectToPage("./Index");
