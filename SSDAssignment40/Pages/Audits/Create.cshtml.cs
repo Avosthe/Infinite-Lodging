@@ -11,7 +11,7 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages.Audits
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
