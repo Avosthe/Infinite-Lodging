@@ -12,7 +12,7 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages.LodgerRoles
 {
-    [Authorize(Roles = "Admin")]
+
     public class EditModel : PageModel
     {
         private readonly RoleManager<LodgerRole> _roleManager;

@@ -10,7 +10,6 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages.Audits
 {
-    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;

@@ -11,7 +11,7 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages.LodgerRoles
 {
-    [Authorize(Roles = "Admin")]
+
     public class DeleteModel : PageModel
     {
         private readonly RoleManager<LodgerRole> _roleManager;
