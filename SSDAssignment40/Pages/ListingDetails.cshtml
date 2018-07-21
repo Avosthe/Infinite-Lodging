@@ -98,7 +98,7 @@
                     <input asp-for="Review.Rating" class="hidden" required id="ratingValue" />
                     <span asp-validation-for="Review.Rating" class="text-danger"></span>
                 </div>
-                <textarea asp-for="Review.ReviewDesc" style="width:80%;height:200px;margin-top:10px;" placeholder="Enter Review Here" class="mytextarea"></textarea>
+                <textarea asp-for="Review.ReviewDesc" style="width:80%;height:200px;margin-top:10px;" placeholder="Enter Review Here" class="mytextarea" required></textarea>
                 <input style="float:right; margin-bottom:20px;" type="submit" asp-page-handler="SubmitReview" asp-route-id="@Model.Listing.ListingId" class="btn btn-success" value="Submit Review" />
             </form>
         </div>

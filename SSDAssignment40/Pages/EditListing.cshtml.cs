@@ -60,11 +60,12 @@ namespace SSDAssignment40.Pages
                 return NotFound();
             }
 
-            if (Lodger.Id != id)
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+
+            if (Lodger.Id != Listing.Lodger.Id)
             {
                 return RedirectToPage("./Error/NiceTry");
             }
-            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
 
             _filename = Listing.CoverPic;
 

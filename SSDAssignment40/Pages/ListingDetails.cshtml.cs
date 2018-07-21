@@ -73,6 +73,11 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostSubmitReviewAsync(string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+
+            }
             Review.Lodger = await userManager.GetUserAsync(User);
             Review.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
             Review.DateTime = DateTime.Now;
