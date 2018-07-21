@@ -4,6 +4,7 @@
 @inject UserManager<Lodger> _userManager
 @{
     ViewData["Title"] = "Details";
+    int listLength = @Model.ReviewList.Count;
 }
 
 <script src="~/js/listings.js"></script>
@@ -12,14 +13,6 @@
     @if (@Model.Listing.Lodger.Id == _userManager.GetUserId(User))
     {
         <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">
-            <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
-                Edit Listing
-            </div>
-        </a>
-    }
-    else
-    {
-        <a asp-page="./CreateReview" asp-route-id="@Model.Listing.ListingId" asp-route-userid="@Model.Listing.Lodger.Id">
             <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
                 Edit Listing
             </div>
@@ -53,12 +46,67 @@
         <div style="font-size:16px;">
             @Html.DisplayFor(model => model.Listing.Desc)
         </div>
+        <div class="reviewList">
+            <div style="margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
 
+            <div style="font-size:24px;margin-bottom:20px;margin-top:10px"><u>Reviews</u></div>
+            <div>
+                @if (listLength > 0)
+                {
+                    @for (int i = 0; i < listLength; i++)
+                    {
+                        <div>
+                            <div style="font-size:22px;width:77%;float:left;margin-bottom:5px">@Model.ReviewList[i].ReviewTitle</div>
+                            <div style="float:right;text-align:right;width:20%">
+                                @for (int x = 0; x < Model.ReviewList[i].Rating; x++)
+                                {
+                                    <span style="font-size:20px">&#9733</span>
+                                }
+                                @for (int y = 0; y < (5 - Model.ReviewList[i].Rating); y++)
+                                {
+                                    <span style="font-size:20px">&#9734</span>
+                                }
+                            </div>
+                            <div style="float:left;width:77%;margin-bottom:5px;">@Model.ReviewList[i].ReviewDesc</div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div style="color:red;">There are currently no reviews for this listing. Be the first to add one below!</div>
+
+                }
+            </div>
+        </div>
+        <div style="float:left;margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
+        <div>
+            <div style="float:left;width:100%;text-decoration:underline;text-align:center;font-size:18px;margin-bottom:10px;margin-top:10px;">
+                Create a Review
+            </div>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <label asp-for="Review.ReviewTitle" style="width:10%;float:left">Title:</label>
+                <input asp-for="Review.ReviewTitle" style="width:60%;float:left" required type="text" />
+                <span asp-validation-for="Review.ReviewTitle" class="text-danger"></span>
+                <div class="ratingStars" style="float:right;">
+                    <label style="font-size:20px">Rating: </label>
+                    <span class="reviewStar" onclick="rating(1)">&#9734</span>
+                    <span class="reviewStar" onclick="rating(2)">&#9734</span>
+                    <span class="reviewStar" onclick="rating(3)">&#9734</span>
+                    <span class="reviewStar" onclick="rating(4)">&#9734</span>
+                    <span class="reviewStar" onclick="rating(5)">&#9734</span>
+                    <input asp-for="Review.Rating" class="hidden" required id="ratingValue" />
+                    <span asp-validation-for="Review.Rating" class="text-danger"></span>
+                </div>
+                <textarea asp-for="Review.ReviewDesc" style="width:80%;height:200px;margin-top:10px;" placeholder="Enter Review Here" class="mytextarea"></textarea>
+                <input style="float:right; margin-bottom:20px;" type="submit" asp-page-handler="SubmitReview" asp-route-id="@Model.Listing.ListingId" class="btn btn-success" value="Submit Review" />
+            </form>
+        </div>
     </div>
     <div class="hidden" id="price">@Model.Listing.Price</div>
     <div style="float:left;">
         <div class="listingbooking">
-            <b style="font-size:24px;">$SGD @Model.Listing.Price</b> per night
+            <b style="font-size:24px;">S$@Model.Listing.Price</b> per night
             <form method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -85,6 +133,9 @@
         </div>
     </div>
 </div>
+
+
+
 <div class="buttoncontainer">
     <a asp-page="./Listings">
         <div class="clickbuttonnoshadow">
@@ -93,7 +144,7 @@
     </a>
 </div>
 
-<script>
+<script defer>
     // Get the modal
     var modal = document.getElementById('myModal');
 
@@ -112,4 +163,14 @@
     span.onclick = function () {
         modal.style.display = "none";
     }
+
+    $(function () {
+        $(".reviewStar".hover(function (e) {
+            $(".reviewStar").html("&#9733");
+        }, function (e) {
+            $(".reviewStar").html("&#9734");
+        }))
+    })
+
+
 </script>

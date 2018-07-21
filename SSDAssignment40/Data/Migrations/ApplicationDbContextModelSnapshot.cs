@@ -365,6 +365,8 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("ReviewDesc");
 
+                    b.Property<string>("ReviewTitle");
+
                     b.HasKey("ReviewId");
 
                     b.HasIndex("ListingId");

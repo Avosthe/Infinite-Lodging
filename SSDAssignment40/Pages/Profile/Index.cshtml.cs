@@ -92,7 +92,7 @@ namespace SSDAssignment40.Pages
             Rater = await _userManager.GetUserAsync(User);
             if (LodgerUser.Id == Rater.Id)
             {
-                return Page();
+                return RedirectToPage("/Profile/Index", new { Username = Username });
             }
             if (_context.UserRating.Where(r => ((r.Rater.Id == Rater.Id) && (r.Rated.UserName == Username))).ToList().Count > 0)
             {

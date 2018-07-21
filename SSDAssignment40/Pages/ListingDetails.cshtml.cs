@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -12,17 +13,26 @@ namespace SSDAssignment40.Pages
 {
     public class DetailsModel : PageModel
     {
-        private readonly SSDAssignment40.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(SSDAssignment40.Data.ApplicationDbContext context, UserManager<Lodger> user)
+        public DetailsModel(ApplicationDbContext context, UserManager<Lodger> user)
         {
             _context = context;
             userManager = user;
         }
 
         [BindProperty]
+        public IList<Review> ReviewList { get; set; }
+
+        [Required]
+        [BindProperty]
+        public Review Review { get; set; }
+
+        [Required]
+        [BindProperty]
         public Booking Booking { get; set; }
 
+        [BindProperty]
         public Listing Listing { get; set; }
 
         public UserManager<Lodger> userManager { get; set; }
@@ -42,6 +52,9 @@ namespace SSDAssignment40.Pages
                 return NotFound();
             }
 
+            var reviews = from r in _context.Review where r.Listing.ListingId == id select r;
+            ReviewList = await reviews.ToListAsync();
+
             return Page();
         }
 
@@ -55,7 +68,17 @@ namespace SSDAssignment40.Pages
             _context.Booking.Add(Booking);
             await _context.SaveChangesAsync();
 
-            return Page();
+            return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnPostSubmitReviewAsync(string id)
+        {
+            Review.Lodger = await userManager.GetUserAsync(User);
+            Review.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+            Review.DateTime = DateTime.Now;
+            _context.Review.Add(Review);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Listings");
         }
     }
 }

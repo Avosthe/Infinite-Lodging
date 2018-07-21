@@ -36,6 +36,10 @@ function getURL() {
         var location = url.search("location=");
         location += 9;
         location = url.substring(location);
+        while (location.includes("+")) {
+            location = location.replace("+", " ")
+        }
+
         if (location == "") {
             document.getElementById("myheader").innerHTML = "Showing all results"
         }
@@ -79,5 +83,17 @@ function updateDate() {
     var dateStart = new Date(document.getElementById("dateStart").value);
     document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + dateStart.getMonth() + "-" + dateStart.getDate());
     
+}
+
+function rating(a) {
+    var starList = document.getElementsByClassName("reviewStar");
+    document.getElementById("ratingValue").value = a;
+    for (var i = 0; i < a; i++) {
+        starList[i].innerHTML = "&#9733"
+    }
+
+    for (var x = a; x < 5; x++) {
+        starList[x].innerHTML = "&#9734"
+    }
 }
 
