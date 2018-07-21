@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,11 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40
 {
-    public class EditModel : PageModel
+    public class EditReviewModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public EditModel(SSDAssignment40.Data.ApplicationDbContext context)
+        public EditReviewModel(SSDAssignment40.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +23,12 @@ namespace SSDAssignment40
         [BindProperty]
         public Review Review { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string id)
+        [BindProperty]
+        public Listing Listing { get; set; }
+
+        public string listingId { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(string id, string listingid)
         {
             if (id == null)
             {
@@ -30,6 +36,8 @@ namespace SSDAssignment40
             }
 
             Review = await _context.Review.FirstOrDefaultAsync(m => m.ReviewId == id);
+
+            listingId = listingid;
 
             if (Review == null)
             {
@@ -63,12 +71,23 @@ namespace SSDAssignment40
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Listings");
         }
 
         private bool ReviewExists(string id)
         {
             return _context.Review.Any(e => e.ReviewId == id);
         }
+
+        public async Task<IActionResult> OnPostDeleteReviewAsync()
+        {
+            if (Review != null)
+            {
+                _context.Review.Remove(Review);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage("./Listings");
+        }
+
     }
 }

@@ -5,6 +5,7 @@
 @{
     ViewData["Title"] = "Details";
     int listLength = @Model.ReviewList.Count;
+    bool reviewCheck = false;
 }
 
 <script src="~/js/listings.js"></script>
@@ -18,6 +19,21 @@
             </div>
         </a>
     }
+
+    @for (int x = 0; x < listLength; x++)
+    {
+        if (Model.ReviewList[x].Lodger.Id == _userManager.GetUserId(User))
+        {
+            reviewCheck = true;
+            <div style="float:right;margin-top:10px;" class="buttoncontainer">
+                <a asp-page="./EditReview" asp-route-id="@Model.ReviewList[x].ReviewId" asp-route-listingid="@Model.Listing.ListingId">
+                    <div class="clickbuttonnoshadow">Edit My Review</div>
+                </a>
+            </div>
+            break;
+        }
+    }
+
 </div>
 <section style="width:100%;height:50vh;overflow:hidden;display:inline-block">
     <img class="detailscoverpic" id="coverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
@@ -49,7 +65,7 @@
         <div class="reviewList">
             <div style="margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
 
-            <div style="font-size:24px;margin-bottom:20px;margin-top:10px"><u>Reviews</u></div>
+            <div style="font-size:24px;margin-bottom:20px;margin-top:10px;width:50%;float:left;"><u>Reviews</u></div>
             <div>
                 @if (listLength > 0)
                 {
@@ -79,29 +95,34 @@
             </div>
         </div>
         <div style="float:left;margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
-        <div>
-            <div style="float:left;width:100%;text-decoration:underline;text-align:center;font-size:18px;margin-bottom:10px;margin-top:10px;">
-                Create a Review
-            </div>
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <label asp-for="Review.ReviewTitle" style="width:10%;float:left">Title:</label>
-                <input asp-for="Review.ReviewTitle" style="width:60%;float:left" required type="text" />
-                <span asp-validation-for="Review.ReviewTitle" class="text-danger"></span>
-                <div class="ratingStars" style="float:right;">
-                    <label style="font-size:20px">Rating: </label>
-                    <span class="reviewStar" onclick="rating(1)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(2)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(3)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(4)">&#9734</span>
-                    <span class="reviewStar" onclick="rating(5)">&#9734</span>
-                    <input asp-for="Review.Rating" class="hidden" required id="ratingValue" />
-                    <span asp-validation-for="Review.Rating" class="text-danger"></span>
+
+        @if (!reviewCheck)
+        {
+            <div>
+                <div style="float:left;width:100%;text-decoration:underline;text-align:center;font-size:18px;margin-bottom:10px;margin-top:10px;">
+                    Create a Review
                 </div>
-                <textarea asp-for="Review.ReviewDesc" style="width:80%;height:200px;margin-top:10px;" placeholder="Enter Review Here" class="mytextarea" required></textarea>
-                <input style="float:right; margin-bottom:20px;" type="submit" asp-page-handler="SubmitReview" asp-route-id="@Model.Listing.ListingId" class="btn btn-success" value="Submit Review" />
-            </form>
-        </div>
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <label asp-for="Review.ReviewTitle" style="width:10%;float:left">Title:</label>
+                    <input asp-for="Review.ReviewTitle" style="width:60%;float:left" required type="text" />
+                    <span asp-validation-for="Review.ReviewTitle" class="text-danger"></span>
+                    <div class="ratingStars" style="float:right;">
+                        <label style="font-size:20px">Rating: </label>
+                        <span class="reviewStar" onclick="rating(1)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(2)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(3)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(4)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(5)">&#9734</span>
+                        <input asp-for="Review.Rating" class="hidden" required id="ratingValue" />
+                        <span asp-validation-for="Review.Rating" class="text-danger"></span>
+                    </div>
+                    <textarea asp-for="Review.ReviewDesc" style="width:80%;height:200px;margin-top:10px;" placeholder="Enter Review Here" class="mytextarea" required></textarea>
+                    <input style="float:right; margin-bottom:20px;" type="submit" asp-page-handler="SubmitReview" asp-route-id="@Model.Listing.ListingId" class="btn btn-success" value="Submit Review" />
+                </form>
+            </div>
+
+        }
     </div>
     <div class="hidden" id="price">@Model.Listing.Price</div>
     <div style="float:left;">
@@ -126,7 +147,7 @@
                 </div>
                 <div class="buttoncontainer" style="margin:auto">
                     <div class="form-group">
-                        <input type="submit" value="Book" class="clickbuttonnoshadow" />
+                        <input asp-route-id="@Model.Listing.ListingId"  type="submit" value="Book" class="clickbuttonnoshadow" />
                     </div>
                 </div>
             </form>
@@ -174,3 +195,7 @@
 
 
 </script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

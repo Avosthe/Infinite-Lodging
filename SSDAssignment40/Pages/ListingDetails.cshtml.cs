@@ -32,14 +32,18 @@ namespace SSDAssignment40.Pages
         [BindProperty]
         public Booking Booking { get; set; }
 
+        public Lodger Lodger { get; set; }
+
         [BindProperty]
         public Listing Listing { get; set; }
 
         public UserManager<Lodger> userManager { get; set; }
 
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            
+            Lodger = await userManager.GetUserAsync(User);
+
             if (id == null)
             {
                 return NotFound();
@@ -82,7 +86,7 @@ namespace SSDAssignment40.Pages
             Review.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
             Review.DateTime = DateTime.Now;
             _context.Review.Add(Review);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();  
             return RedirectToPage("./Listings");
         }
     }
