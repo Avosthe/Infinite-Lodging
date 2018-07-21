@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
-namespace SSDAssignment40.Pages.Audit
+namespace SSDAssignment40.Pages.Audits
 {
     public class IndexModel : PageModel
     {

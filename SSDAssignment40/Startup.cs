@@ -44,10 +44,9 @@ namespace SSDAssignment40
                 options.UseLazyLoadingProxies()
                 .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<Lodger, IdentityRole>(config =>
+            services.AddIdentity<Lodger, LodgerRole>(config =>
             {
                 config.SignIn.RequireConfirmedEmail = true;
-                config.Lockout.MaxFailedAccessAttempts = 3;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();

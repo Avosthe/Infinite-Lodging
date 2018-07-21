@@ -32,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Pages\LodgerRoles\" />
 
 	<Folder Include="wwwroot\ListingCover\" />
 

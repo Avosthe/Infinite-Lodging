@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180721113834_DropAuditRecord")]
+    partial class DropAuditRecord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,26 +105,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.AuditRecord", b =>
-                {
-                    b.Property<string>("AuditRecordId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AuditActionType");
-
-                    b.Property<DateTime>("DateTimeStamp");
-
-                    b.Property<string>("IPAddress");
-
-                    b.Property<string>("PerformedById");
-
-                    b.HasKey("AuditRecordId");
-
-                    b.HasIndex("PerformedById");
-
-                    b.ToTable("AuditRecords");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
@@ -494,13 +476,6 @@ namespace SSDAssignment40.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.AuditRecord", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.Lodger", "PerformedBy")
-                        .WithMany()
-                        .HasForeignKey("PerformedById");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>

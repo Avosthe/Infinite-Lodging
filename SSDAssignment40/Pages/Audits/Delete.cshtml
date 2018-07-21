@@ -1,8 +1,9 @@
 ﻿@page
-@model SSDAssignment40.Pages.Audit.DeleteModel
+@model SSDAssignment40.Pages.Audits.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
 <h2>Delete</h2>
@@ -19,21 +20,21 @@
             @Html.DisplayFor(model => model.AuditRecord.AuditActionType)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AuditRecord.Username)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AuditRecord.Username)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.AuditRecord.DateTimeStamp)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AuditRecord.DateTimeStamp)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditRecord.IPAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditRecord.IPAddress)
+        </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="AuditRecord.Audit_ID" />
+        <input type="hidden" asp-for="AuditRecord.AuditRecordId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-page="./Index">Back to List</a>
     </form>

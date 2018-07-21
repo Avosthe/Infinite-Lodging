@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
-namespace SSDAssignment40.Pages.Audit
+namespace SSDAssignment40.Pages.Audits
 {
+    [Authorize]
     public class DetailsModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
@@ -20,14 +22,14 @@ namespace SSDAssignment40.Pages.Audit
 
         public AuditRecord AuditRecord { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            AuditRecord = await _context.AuditRecords.FirstOrDefaultAsync(m => m.Audit_ID == id);
+            AuditRecord = await _context.AuditRecords.FirstOrDefaultAsync(m => m.AuditRecordId == id);
 
             if (AuditRecord == null)
             {

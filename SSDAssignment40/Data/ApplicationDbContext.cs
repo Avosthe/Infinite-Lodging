@@ -8,7 +8,7 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Lodger>
+    public class ApplicationDbContext : IdentityDbContext<Lodger, LodgerRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
