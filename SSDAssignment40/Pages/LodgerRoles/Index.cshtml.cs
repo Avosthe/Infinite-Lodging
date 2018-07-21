@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
-namespace SSDAssignment40.Pages.Audit
+namespace SSDAssignment40.Pages.LodgerRoles
 {
     public class IndexModel : PageModel
     {
@@ -18,11 +18,11 @@ namespace SSDAssignment40.Pages.Audit
             _context = context;
         }
 
-        public IList<AuditRecord> AuditRecord { get;set; }
+        public IList<LodgerRole> LodgerRole { get;set; }
 
         public async Task OnGetAsync()
         {
-            AuditRecord = await _context.AuditRecords.ToListAsync();
+            LodgerRole = await _context.LodgerRole.ToListAsync();
         }
     }
 }

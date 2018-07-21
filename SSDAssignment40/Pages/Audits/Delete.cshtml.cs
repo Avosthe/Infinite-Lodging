@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
-namespace SSDAssignment40.Pages.Audit
+namespace SSDAssignment40.Pages.Audits
 {
     public class DeleteModel : PageModel
     {
@@ -21,14 +21,14 @@ namespace SSDAssignment40.Pages.Audit
         [BindProperty]
         public AuditRecord AuditRecord { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            AuditRecord = await _context.AuditRecords.FirstOrDefaultAsync(m => m.Audit_ID == id);
+            AuditRecord = await _context.AuditRecords.FirstOrDefaultAsync(m => m.AuditRecordId == id);
 
             if (AuditRecord == null)
             {
@@ -37,7 +37,7 @@ namespace SSDAssignment40.Pages.Audit
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
             if (id == null)
             {

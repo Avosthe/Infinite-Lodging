@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
-namespace SSDAssignment40.Pages.Audit
+namespace SSDAssignment40.Pages.Audits
 {
     public class EditModel : PageModel
     {
@@ -22,14 +22,14 @@ namespace SSDAssignment40.Pages.Audit
         [BindProperty]
         public AuditRecord AuditRecord { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            AuditRecord = await _context.AuditRecords.FirstOrDefaultAsync(m => m.Audit_ID == id);
+            AuditRecord = await _context.AuditRecords.FirstOrDefaultAsync(m => m.AuditRecordId == id);
 
             if (AuditRecord == null)
             {
@@ -53,7 +53,7 @@ namespace SSDAssignment40.Pages.Audit
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuditRecordExists(AuditRecord.Audit_ID))
+                if (!AuditRecordExists(AuditRecord.AuditRecordId))
                 {
                     return NotFound();
                 }
@@ -66,9 +66,9 @@ namespace SSDAssignment40.Pages.Audit
             return RedirectToPage("./Index");
         }
 
-        private bool AuditRecordExists(int id)
+        private bool AuditRecordExists(string id)
         {
-            return _context.AuditRecords.Any(e => e.Audit_ID == id);
+            return _context.AuditRecords.Any(e => e.AuditRecordId == id);
         }
     }
 }

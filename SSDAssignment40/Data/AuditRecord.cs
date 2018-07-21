@@ -9,19 +9,18 @@ namespace SSDAssignment40.Data
 {
     public class AuditRecord
     {
-        [Key]
-        public int Audit_ID { get; set; }
+        public string AuditRecordId { get; set; }
 
         [Display(Name = "Audit Action")]
         public string AuditActionType { get; set; }
 
         [Display(Name = "Performed By")]
-        public string Username { get; set; }
+        public virtual Lodger PerformedBy { get; set; }
 
         [Display(Name = "Date/Time Stamp")]
         [DataType(DataType.DateTime)]
         public DateTime DateTimeStamp { get; set; }
-
-        public virtual Lodger Lodger { get; set; }
+        [Display(Name = "IP Address")]
+        public string IPAddress { get; set; }
     }
 }

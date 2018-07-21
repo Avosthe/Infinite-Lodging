@@ -1,0 +1,40 @@
+﻿@page
+@model SSDAssignment40.Pages.LodgerRoles.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>LodgerRole</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LodgerRole.RoleDescription" class="control-label"></label>
+                <input asp-for="LodgerRole.RoleDescription" class="form-control" />
+                <span asp-validation-for="LodgerRole.RoleDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LodgerRole.Name" class="control-label"></label>
+                <input asp-for="LodgerRole.Name" class="form-control" />
+                <span asp-validation-for="LodgerRole.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
