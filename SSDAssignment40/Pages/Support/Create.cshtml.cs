@@ -37,12 +37,25 @@ namespace SSDAssignment40.Pages.Support
             {
                 return Page();
             }
+
             var user = await _userManager.GetUserAsync(User);
             CustomerSupport.Username = await _userManager.GetUserNameAsync(user);
             CustomerSupport.DateTimeStamp = DateTime.Now;
             CustomerSupport.Lodger = user;
             _context.CustomerSupport.Add(CustomerSupport);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "Add Customer Support Record";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                auditrecord.Lodger = user;
+                var userID = User.Identity.Name.ToString();
+                auditrecord.Username = userID;
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToPage("./Index");
         }
