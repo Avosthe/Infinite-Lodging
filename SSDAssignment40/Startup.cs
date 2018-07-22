@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 namespace SSDAssignment40
 {
@@ -42,10 +44,9 @@ namespace SSDAssignment40
                 options.UseLazyLoadingProxies()
                 .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<Lodger, IdentityRole>(config =>
+            services.AddIdentity<Lodger, LodgerRole>(config =>
             {
                 config.SignIn.RequireConfirmedEmail = true;
-                config.Lockout.MaxFailedAccessAttempts = 3;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
@@ -76,8 +77,6 @@ namespace SSDAssignment40
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/RedirToLogin";
                 options.Cookie = new CookieBuilder() { SecurePolicy = CookieSecurePolicy.Always, Expiration = TimeSpan.FromHours(1), HttpOnly = true };
-
-
             });
             services.AddAuthentication().AddFacebook(fbOptions =>
             {
@@ -91,6 +90,7 @@ namespace SSDAssignment40
             });
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, SmsSender>();
+            services.AddTransient<IVirusScanner, VirusScanner>();
             services.AddRecaptcha(new RecaptchaOptions
             {
                 SiteKey = Configuration["reCaptcha:siteKey"],
@@ -99,9 +99,15 @@ namespace SSDAssignment40
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // security (authorization) portion
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin"));
+            });
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account");
+                options.Conventions.AuthorizeFolder("/LodgerRoles", "RequireAdministratorRole");
+                options.Conventions.AuthorizeFolder("/Audits", "RequireAdministratorRole");
             });
             services.AddHttpsRedirection(options =>
             {
@@ -111,6 +117,8 @@ namespace SSDAssignment40
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+            services.AddDataProtection()
+                .SetDefaultKeyLifetime(new TimeSpan(30, 0, 0, 0));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,30 @@
+﻿@page
+@{
+    ViewData["Title"] = "Wrong File Type";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+<style>
+    u{
+        color:red;
+    }
+    a{
+        text-decoration:none;
+    }
+</style>
+<div class="container" style="text-align: center;">
+    <h1 style="color:red;font-size:80px;">ERROR</h1>
+    <div style="font-size:20px;">Dear Customer, your listing has not been deleted.</div>
+    <div style="font-size:20px;">Please ensure that you have no more bookings for the specified listing that you are trying to delete!</div>
+    <br />
+    <div style="font-size:16px;">Please click on the button below to return to the home page</div>
+    <div class="buttoncontainer" style="margin:auto;margin-top:60px;">
+        <a href="/Index">
+            <div class="clickbuttonnoshadow">
+                Return Home
+            </div>
+        </a>
+    </div>
+</div>
+

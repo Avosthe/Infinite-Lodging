@@ -8,10 +8,11 @@
 <h2>Editing Listing</h2>
 <script src="~/js/listings.js"></script>
 <hr />
+
 <body onload="init();">
     <div class="row">
         <div class="col-md-4">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Listing.ListingId" />
                 <div class="form-group">
@@ -36,11 +37,13 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.CoverPic" class="control-label"></label>
-                    <input asp-for="Listing.CoverPic" class="form-control" required/>
+                    <input id='fileinput' onchange="loadFile()" asp-for="Upload" accept="image/jpg" />
                     <span asp-validation-for="Listing.CoverPic" class="text-danger"></span>
+                    <div id="pls"></div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <input type="submit" value="Save Changes" class="btn btn-success" />
+                    <input asp-page-handler="DeleteListing" style="margin-left:30px;" type="submit" value="Delete Listing" class="btn btn-danger" /> 
                 </div>
             </form>
         </div>

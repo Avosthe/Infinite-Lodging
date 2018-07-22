@@ -20,8 +20,9 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public async Task<IActionResult> OnGetAsync(string userId, string code, string newEmail = null)
         {
+            IdentityResult result = null;
             if (userId == null || code == null)
             {
                 return RedirectToPage("/Index");
@@ -32,20 +33,27 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
             {
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
+            if (newEmail == null)
+            {
+                result = await _userManager.ConfirmEmailAsync(user, code);
+            }
+            else
+            {
+                result = await _userManager.ChangeEmailAsync(user, newEmail, code);
+            }
 
-            var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
                 Lodger User = await _userManager.FindByIdAsync(userId);
                 string Email = await _userManager.GetEmailAsync(User);
                 List<Lodger> Lodgers = _userManager.Users.Where(l => l.Email == Email).ToList<Lodger>();
-                foreach(Lodger l in Lodgers)
-                {
-                    if (!(l.EmailConfirmed))
+                    foreach(Lodger l in Lodgers)
                     {
-                        await _userManager.DeleteAsync(l);
+                        if (!(l.EmailConfirmed))
+                        {
+                            await _userManager.DeleteAsync(l);
+                        }
                     }
-                }
             }
             if (!result.Succeeded)
             {

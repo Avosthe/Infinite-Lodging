@@ -16,13 +16,18 @@ namespace SSDAssignment40.Data
         public string ProfilePic { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public int ThumbsUp { get; set; }
-        public int ThumbsDown { get; set; }
         public string Hobbies { get; set; }
         public string GovernmentID { get; set; }
         public string Status { get; set; }
         public string is3AuthEnabled { get; set; }
         public string is3AuthPattern {get; set;}
-
+        public string Nric { get; set; }
+        public string SiteLabel { get; set; }
+        public string Address { get; set; }
+        public string Occupation { get; set; }
+        public int Rating { get; set; }
+        public string IPAddress { get; set; }
+        public bool RequireAdditionalVerification { get; set; }
+        public string AdditionalVerificationSecret { get; set; }
     }
 }

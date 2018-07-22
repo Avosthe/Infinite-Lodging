@@ -19,30 +19,6 @@ namespace SSDAssignment40.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -127,6 +103,26 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.AuditRecord", b =>
+                {
+                    b.Property<string>("AuditRecordId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuditActionType");
+
+                    b.Property<DateTime>("DateTimeStamp");
+
+                    b.Property<string>("IPAddress");
+
+                    b.Property<string>("PerformedById");
+
+                    b.HasKey("AuditRecordId");
+
+                    b.HasIndex("PerformedById");
+
+                    b.ToTable("AuditRecords");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
@@ -224,6 +220,10 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("AdditionalVerificationSecret");
+
+                    b.Property<string>("Address");
+
                     b.Property<string>("AlternateEmail");
 
                     b.Property<string>("Biography");
@@ -252,6 +252,8 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("Hobbies");
 
+                    b.Property<string>("IPAddress");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -262,6 +264,10 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
+                    b.Property<string>("Nric");
+
+                    b.Property<string>("Occupation");
+
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhoneNumber");
@@ -270,13 +276,15 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("ProfilePic");
 
+                    b.Property<int>("Rating");
+
+                    b.Property<bool>("RequireAdditionalVerification");
+
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<string>("SiteLabel");
+
                     b.Property<string>("Status");
-
-                    b.Property<int>("ThumbsDown");
-
-                    b.Property<int>("ThumbsUp");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -300,6 +308,40 @@ namespace SSDAssignment40.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.LodgerRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<string>("IPAddress");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("RoleDescription");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Reply", b =>
@@ -332,6 +374,8 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("ReviewDesc");
 
+                    b.Property<string>("ReviewTitle");
+
                     b.HasKey("ReviewId");
 
                     b.HasIndex("ListingId");
@@ -341,9 +385,75 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("Review");
                 });
 
+            modelBuilder.Entity("SSDAssignment40.Data.UserRating", b =>
+                {
+                    b.Property<string>("UserRatingId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("RatedId");
+
+                    b.Property<string>("RaterId");
+
+                    b.HasKey("UserRatingId");
+
+                    b.HasIndex("RatedId");
+
+                    b.HasIndex("RaterId");
+
+                    b.ToTable("UserRating");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.UserReport", b =>
+                {
+                    b.Property<string>("UserReportId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ReportFileEvidence");
+
+                    b.Property<string>("ReportedContent");
+
+                    b.Property<string>("ReportedUserId");
+
+                    b.Property<string>("ReportingUserId");
+
+                    b.Property<DateTime>("TimeStamp");
+
+                    b.Property<bool>("isReviewd");
+
+                    b.HasKey("UserReportId");
+
+                    b.HasIndex("ReportedUserId");
+
+                    b.HasIndex("ReportingUserId");
+
+                    b.ToTable("UserReport");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.UserReview", b =>
+                {
+                    b.Property<string>("UserReviewId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ReviewById");
+
+                    b.Property<string>("ReviewContent");
+
+                    b.Property<string>("ReviewForId");
+
+                    b.Property<DateTime>("ReviewTimeStamp");
+
+                    b.HasKey("UserReviewId");
+
+                    b.HasIndex("ReviewById");
+
+                    b.HasIndex("ReviewForId");
+
+                    b.ToTable("UserReview");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("SSDAssignment40.Data.LodgerRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -367,7 +477,7 @@ namespace SSDAssignment40.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("SSDAssignment40.Data.LodgerRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -384,6 +494,13 @@ namespace SSDAssignment40.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.AuditRecord", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Lodger", "PerformedBy")
+                        .WithMany()
+                        .HasForeignKey("PerformedById");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Booking", b =>
@@ -418,6 +535,13 @@ namespace SSDAssignment40.Data.Migrations
                         .HasForeignKey("LodgerId");
                 });
 
+            modelBuilder.Entity("SSDAssignment40.Data.LodgerRole", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Lodger", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+                });
+
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
                 {
                     b.HasOne("SSDAssignment40.Data.Listing", "Listing")
@@ -427,6 +551,39 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasOne("SSDAssignment40.Data.Lodger", "Lodger")
                         .WithMany()
                         .HasForeignKey("LodgerId");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.UserRating", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Lodger", "Rated")
+                        .WithMany()
+                        .HasForeignKey("RatedId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "Rater")
+                        .WithMany()
+                        .HasForeignKey("RaterId");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.UserReport", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Lodger", "ReportedUser")
+                        .WithMany()
+                        .HasForeignKey("ReportedUserId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "ReportingUser")
+                        .WithMany()
+                        .HasForeignKey("ReportingUserId");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.UserReview", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.Lodger", "ReviewBy")
+                        .WithMany()
+                        .HasForeignKey("ReviewById");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "ReviewFor")
+                        .WithMany()
+                        .HasForeignKey("ReviewForId");
                 });
 #pragma warning restore 612, 618
         }

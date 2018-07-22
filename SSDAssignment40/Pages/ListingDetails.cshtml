@@ -1,23 +1,46 @@
 ﻿@page
 @model SSDAssignment40.Pages.DetailsModel
 
-
+@inject UserManager<Lodger> _userManager
 @{
     ViewData["Title"] = "Details";
+    int listLength = @Model.ReviewList.Count;
+    bool reviewCheck = false;
 }
 
+<script src="~/js/listings.js"></script>
 <div style="width:100%;display:block;">
     <h2 style="width:50%;display:inline-block;float:left">Listing Details</h2>
-    @*<a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">
+    @if (@Model.Listing.Lodger.Id == _userManager.GetUserId(User))
+    {
+        <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">
             <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
                 Edit Listing
             </div>
-        </a>*@
+        </a>
+    }
+
+    @for (int x = 0; x < listLength; x++)
+    {
+        if (Model.ReviewList[x].Lodger.Id == _userManager.GetUserId(User))
+        {
+            reviewCheck = true;
+            <div style="float:right;margin-top:10px;" class="buttoncontainer">
+                <a asp-page="./EditReview" asp-route-id="@Model.ReviewList[x].ReviewId" asp-route-listingid="@Model.Listing.ListingId">
+                    <div class="clickbuttonnoshadow">Edit My Review</div>
+                </a>
+            </div>
+            break;
+        }
+    }
+
 </div>
 <section style="width:100%;height:50vh;overflow:hidden;display:inline-block">
-    <a href="~/ListingCover/@Model.Listing.CoverPic">
-        <img class="detailscoverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
-    </a>
+    <img class="detailscoverpic" id="coverpic" src="~/ListingCover/@Model.Listing.CoverPic" />
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="detailscoverpic modal-content" id="modalcover" src="~/ListingCover/@Model.Listing.CoverPic" />
+    </div>
 </section>
 <div class="listingwrapper">
     <div class="listingdetails">
@@ -36,37 +59,107 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div style="font-size:16px;">
             @Html.DisplayFor(model => model.Listing.Desc)
         </div>
+        <div class="reviewList">
+            <div style="margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
 
+            <div style="font-size:24px;margin-bottom:20px;margin-top:10px;width:50%;float:left;"><u>Reviews</u></div>
+            <div>
+                @if (listLength > 0)
+                {
+                    @for (int i = 0; i < listLength; i++)
+                    {
+                        <div>
+                            <div style="font-size:22px;width:77%;float:left;margin-bottom:5px">@Model.ReviewList[i].ReviewTitle</div>
+                            <div style="float:right;text-align:right;width:20%">
+                                @for (int x = 0; x < Model.ReviewList[i].Rating; x++)
+                                {
+                                    <span style="font-size:20px">&#9733</span>
+                                }
+                                @for (int y = 0; y < (5 - Model.ReviewList[i].Rating); y++)
+                                {
+                                    <span style="font-size:20px">&#9734</span>
+                                }
+                            </div>
+                            <div style="float:left;width:77%;margin-bottom:5px;">@Model.ReviewList[i].ReviewDesc</div>
+                            <div style="float:left;width:50%;font-size:10px">@Model.ReviewList[i].DateTime</div>
+                            <span style="float:right;width:49%;font-size:10px;text-align:right;"><a href="/Profile/@Model.ReviewList[i].Lodger.UserName">@Model.ReviewList[i].Lodger.UserName</a></span>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div style="float:left;width:100%;color:red;">There are currently no reviews for this listing. Be the first to add one below!</div>
+
+                }
+            </div>
+        </div>
+        <div style="float:left;margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
+
+        @if (!reviewCheck)
+        {
+            <div>
+                <div style="float:left;width:100%;text-decoration:underline;text-align:center;font-size:18px;margin-bottom:10px;margin-top:10px;">
+                    Create a Review
+                </div>
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <label asp-for="Review.ReviewTitle" style="width:10%;float:left">Title:</label>
+                    <input asp-for="Review.ReviewTitle" style="width:60%;float:left" required type="text" />
+                    <span asp-validation-for="Review.ReviewTitle" class="text-danger"></span>
+                    <div class="ratingStars" style="float:right;">
+                        <label style="font-size:20px">Rating: </label>
+                        <span class="reviewStar" onclick="rating(1)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(2)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(3)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(4)">&#9734</span>
+                        <span class="reviewStar" onclick="rating(5)">&#9734</span>
+                        <input asp-for="Review.Rating" class="hidden" required id="ratingValue" />
+                        <span asp-validation-for="Review.Rating" class="text-danger"></span>
+                    </div>
+                    <textarea asp-for="Review.ReviewDesc" style="width:80%;height:200px;margin-top:10px;" placeholder="Enter Review Here" class="mytextarea" required></textarea>
+                    <input style="float:right; margin-bottom:20px;" type="submit" asp-page-handler="SubmitReview" asp-route-id="@Model.Listing.ListingId" class="btn btn-success" value="Submit Review" />
+                </form>
+            </div>
+
+        }
     </div>
+    <div class="hidden" id="price">@Model.Listing.Price</div>
     <div style="float:left;">
         <div class="listingbooking">
-            $SGD @Convert.ToInt16(Model.Listing.Price) per night
+            <b style="font-size:24px;">S$@Model.Listing.Price</b> per night
             <form method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label>From</label>
-                    <input type="date" asp-for="Booking.DateStart" class="form-control" required />
+                    <input type="date" onchange="updatePrice(); updateDate();" id="dateStart" asp-for="Booking.DateStart" class="form-control" required />
                     <span asp-validation-for="Booking.DateStart" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>To</label>
-                    <input type="date" asp-for="Booking.DateEnd" class="form-control" required />
+                    <input type="date" onchange="updatePrice(); updateDate();" id="dateEnd" asp-for="Booking.DateEnd" class="form-control" required />
                     <span asp-validation-for="Booking.DateEnd" class="text-danger"></span>
                 </div>
-                <div class="buttoncontainer" style="margin:auto;">
+                <div id="bookingprice">
+                    <div id="calculation"></div><div id="calctotal"></div>
+                    <div id="line"></div>
+                    <div id="totalprice">Total Price</div><div id="total"></div>
+                </div>
+                <div class="buttoncontainer" style="margin:auto">
                     <div class="form-group">
-                        <div>
-                            <input type="submit" value="Book" class="clickbuttonnoshadow"/>
-                        </div>
+                        <input asp-route-id="@Model.Listing.ListingId"  type="submit" value="Book" class="clickbuttonnoshadow" />
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+
+
 <div class="buttoncontainer">
     <a asp-page="./Listings">
         <div class="clickbuttonnoshadow">
@@ -74,3 +167,38 @@
         </div>
     </a>
 </div>
+
+<script defer>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById('coverpic');
+    var modalImg = document.getElementById("modalcover");
+    img.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+    }
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    $(function () {
+        $(".reviewStar".hover(function (e) {
+            $(".reviewStar").html("&#9733");
+        }, function (e) {
+            $(".reviewStar").html("&#9734");
+        }))
+    })
+
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

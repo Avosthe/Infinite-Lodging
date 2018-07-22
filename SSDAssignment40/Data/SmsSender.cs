@@ -36,7 +36,7 @@ namespace SSDAssignment40.Data
             long recipient = Convert.ToInt64(number);
             try
             {
-                MessageBird.Objects.Message Response = client.SendMessage("Inf Lodging", message, new[] { recipient });
+                Message Response = client.SendMessage("Inf Lodging", message, new[] { recipient });
             }
             catch(ErrorException e)
             {

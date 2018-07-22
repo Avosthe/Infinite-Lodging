@@ -8,4 +8,4 @@
             if (log_alert != null) {
                 document.getElementById("close_alert").click();
             }
-        }, 2500));
+        }, 10000));

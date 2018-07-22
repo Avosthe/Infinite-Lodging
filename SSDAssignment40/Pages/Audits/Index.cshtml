@@ -1,0 +1,55 @@
+﻿@page
+@model SSDAssignment40.Pages.Audits.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditRecord[0].PerformedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditRecord[0].AuditActionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditRecord[0].DateTimeStamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditRecord[0].IPAddress)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.AuditRecord) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerformedBy.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuditActionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IPAddress)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.AuditRecordId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AuditRecordId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AuditRecordId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
