@@ -9,6 +9,7 @@ using SSDAssignment40.Data;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SSDAssignment40.Pages
 {
@@ -37,6 +38,9 @@ namespace SSDAssignment40.Pages
         [BindProperty]
         public Listing Listing { get; set; }
 
+        [MinValue(1)]
+        public int Price { get; set; }
+
         public string hex { get; set; }
 
         List<string> allowedFileTypes = new List<string>() { "FFD8", "8950" };
@@ -49,6 +53,7 @@ namespace SSDAssignment40.Pages
             {
                 Listing.Lodger = await userManager.GetUserAsync(User);
 
+                Listing.Price = Price;
 
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
@@ -85,7 +90,20 @@ namespace SSDAssignment40.Pages
             }
         }
 
+        public class MinValueAttribute : ValidationAttribute
+        {
+            private readonly int _minValue;
 
+            public MinValueAttribute(int minValue)
+            {
+                _minValue = minValue;
+            }
+
+            public override bool IsValid(object value)
+            {
+                return (int)value <= _minValue;
+            }
+        }
 
     }
 }
