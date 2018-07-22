@@ -9,7 +9,6 @@ namespace SSDAssignment40.Data
 {
     public class CreditCard
     {
-        public string format = "MM/yyyy";
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Card Number")]
         [RegularExpression(@"^(\d{13,16})$")]
@@ -22,9 +21,11 @@ namespace SSDAssignment40.Data
         [RegularExpression(@"^(\d{3})$", ErrorMessage = "CVV must be of length 3")]
         public int CVV { get; set; }
 
+        [Required]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
 
         public virtual Lodger Lodger { get; set; }
+       
     }
 }
