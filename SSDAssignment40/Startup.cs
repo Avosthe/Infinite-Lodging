@@ -99,9 +99,15 @@ namespace SSDAssignment40
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // security (authorization) portion
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin"));
+            });
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account");
+                options.Conventions.AuthorizeFolder("/LodgerRoles", "RequireAdministratorRole");
+                options.Conventions.AuthorizeFolder("/Audits", "RequireAdministratorRole");
             });
             services.AddHttpsRedirection(options =>
             {
