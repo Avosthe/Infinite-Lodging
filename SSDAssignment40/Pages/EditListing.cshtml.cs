@@ -65,8 +65,6 @@ namespace SSDAssignment40.Pages
                 return RedirectToPage("./Error/NiceTry");
             }
 
-            _filename = Listing.CoverPic;
-
             if (Listing == null)
             {
                 return NotFound();
