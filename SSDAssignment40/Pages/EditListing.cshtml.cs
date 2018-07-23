@@ -38,9 +38,6 @@ namespace SSDAssignment40.Pages
 
         public bool changePic = false;
 
-        [BindProperty]
-        public string _filename { get; set; }
-
         public string hex { get; set; }
 
         List<string> allowedFileTypes = new List<string>() { "FFD8", "8950" };
@@ -50,7 +47,7 @@ namespace SSDAssignment40.Pages
         public async Task<IActionResult> OnGetAsync(string id)
         {
             Lodger = await userManager.GetUserAsync(User);
-            
+
             if (Lodger == null)
             {
                 return RedirectToPage("/Error/NiceTry");
@@ -83,7 +80,7 @@ namespace SSDAssignment40.Pages
             {
                 return Page();
             }
-
+            
             if (Upload != null)
             {
                 changePic = true;
@@ -107,14 +104,15 @@ namespace SSDAssignment40.Pages
                 }
             }
 
+            _context.Attach(Listing).State = EntityState.Modified;
+
             if (!changePic)
             {
-                Listing.CoverPic = _filename;
+                var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
+                Listing.CoverPic = existingPic[0];
                 _context.Listing.Update(Listing);
             }
 
-            _context.Attach(Listing).State = EntityState.Modified;
-            
             try
             {
                 await _context.SaveChangesAsync();

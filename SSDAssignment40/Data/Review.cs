@@ -16,6 +16,7 @@ namespace SSDAssignment40.Data
         public string ReviewTitle { get; set; }
 
         [Required]
+        [Range(1,5)]
         public int Rating { get; set; }
 
         [Display(Name = "Review Description")]
