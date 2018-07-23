@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SSDAssignment40.Data;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages
 {
@@ -74,6 +73,8 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
+            var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -82,8 +83,18 @@ namespace SSDAssignment40.Pages
             if (Upload != null)
             {
                 changePic = true;
+
+                string fullPath = "./wwwroot/ListingCover/" + existingPic[0];
+                fullPath = Path.GetFullPath(fullPath);
+
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
+
                 using (var fileStream = new FileStream(file, FileMode.Create))
                 {
                     await Upload.CopyToAsync(fileStream);
@@ -106,7 +117,6 @@ namespace SSDAssignment40.Pages
 
             if (!changePic)
             {
-                var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
                 Listing.CoverPic = existingPic[0];
                 _context.Listing.Update(Listing);
             }
@@ -135,12 +145,22 @@ namespace SSDAssignment40.Pages
             return _context.Listing.Any(e => e.ListingId == id);
         }
 
-        public async Task<IActionResult> OnPostDeleteListingAsync()
+        public async Task<IActionResult> OnPostDeleteListingAsync(string id)
         {
+            var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
+            Listing.CoverPic = existingPic[0];
             try
             {
                 if (Listing != null)
                 {
+                    string fullPath = "./wwwroot/ListingCover/" + Listing.CoverPic;
+                    fullPath = Path.GetFullPath(fullPath);
+
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+
                     _context.Listing.Remove(Listing);
                     await _context.SaveChangesAsync();
                 }
