@@ -38,7 +38,8 @@ namespace SSDAssignment40.Pages
 
         public bool changePic = false;
 
-        public string _filename;
+        [BindProperty]
+        public string _filename { get; set; }
 
         public string hex { get; set; }
 
@@ -78,10 +79,6 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
-
-            _filename = Listing.CoverPic;
-
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -110,13 +107,14 @@ namespace SSDAssignment40.Pages
                 }
             }
 
-            _context.Attach(Listing).State = EntityState.Modified;
-
             if (!changePic)
             {
                 Listing.CoverPic = _filename;
                 _context.Listing.Update(Listing);
             }
+
+            _context.Attach(Listing).State = EntityState.Modified;
+            
             try
             {
                 await _context.SaveChangesAsync();
