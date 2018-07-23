@@ -38,9 +38,6 @@ namespace SSDAssignment40.Pages
         [BindProperty]
         public Listing Listing { get; set; }
 
-        [MinValue(1)]
-        public int Price { get; set; }
-
         public string hex { get; set; }
 
         List<string> allowedFileTypes = new List<string>() { "FFD8", "8950" };
@@ -53,7 +50,15 @@ namespace SSDAssignment40.Pages
             {
                 Listing.Lodger = await userManager.GetUserAsync(User);
 
-                Listing.Price = Price;
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                if (Listing.Price < 1)
+                {
+                    return RedirectToPage("./Error/MinPrice");
+                }
 
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
@@ -71,10 +76,6 @@ namespace SSDAssignment40.Pages
                             return RedirectToPage("/Error/wrongFileType");
                         }
                     }
-                }
-                if (!ModelState.IsValid)
-                {
-                    return Page();
                 }
 
                 Listing.CoverPic = filename;
