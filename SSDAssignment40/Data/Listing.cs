@@ -12,6 +12,7 @@ namespace SSDAssignment40.Data
         public string ListingId { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Title { get; set; }
 
         [Required]
@@ -19,9 +20,11 @@ namespace SSDAssignment40.Data
 
         [Display(Name = "Description")]
         [Required]
+        [MaxLength(1000)]
         public string Desc { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Location { get; set; }
 
         [Display(Name ="Cover Picture")]
