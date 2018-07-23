@@ -24,15 +24,30 @@ namespace SSDAssignment40.Pages.Support
         [BindProperty]
         public CustomerSupport CustomerSupport { get; set; }
         public UserManager<Lodger> _userManager { get; set; }
+        public Lodger Lodger { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+                Lodger = await _userManager.GetUserAsync(User);
 
-            CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
+                if (Lodger == null)
+                {
+                    return RedirectToPage("/Error/NiceTry");
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
+
+                if (Lodger.Id != CustomerSupport.Lodger.Id)
+                {
+                    return RedirectToPage("./Error/NiceTry");
+                }
+
+                CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
 
             if (CustomerSupport == null)
             {
@@ -47,9 +62,9 @@ namespace SSDAssignment40.Pages.Support
             {
                 return Page();
             }
-            CustomerSupport.Username = await _userManager.GetUserNameAsync(await (_userManager.GetUserAsync(User)));
-            CustomerSupport.DateTimeStamp = DateTime.Now;
-            _context.Attach(CustomerSupport).State = EntityState.Modified;
+            //CustomerSupport.Username = await _userManager.GetUserNameAsync(await (_userManager.GetUserAsync(User)));
+            //CustomerSupport.DateTimeStamp = DateTime.Now;
+            //_context.Attach(CustomerSupport).State = EntityState.Modified;
 
             try
             {
