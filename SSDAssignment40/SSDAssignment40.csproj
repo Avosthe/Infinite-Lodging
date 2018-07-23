@@ -50,6 +50,9 @@
     <Content Update="Pages\Error\NiceTry.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\Error\MinPrice.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\Error\wrongFileType.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

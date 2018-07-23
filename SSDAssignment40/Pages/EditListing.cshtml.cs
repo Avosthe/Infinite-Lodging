@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SSDAssignment40.Data;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages
 {
@@ -38,8 +37,6 @@ namespace SSDAssignment40.Pages
 
         public bool changePic = false;
 
-        public string _filename;
-
         public string hex { get; set; }
 
         List<string> allowedFileTypes = new List<string>() { "FFD8", "8950" };
@@ -49,7 +46,7 @@ namespace SSDAssignment40.Pages
         public async Task<IActionResult> OnGetAsync(string id)
         {
             Lodger = await userManager.GetUserAsync(User);
-            
+
             if (Lodger == null)
             {
                 return RedirectToPage("/Error/NiceTry");
@@ -67,8 +64,6 @@ namespace SSDAssignment40.Pages
                 return RedirectToPage("./Error/NiceTry");
             }
 
-            _filename = Listing.CoverPic;
-
             if (Listing == null)
             {
                 return NotFound();
@@ -78,20 +73,28 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
-
-            _filename = Listing.CoverPic;
+            var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
 
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
+            
             if (Upload != null)
             {
                 changePic = true;
+
+                string fullPath = "./wwwroot/ListingCover/" + existingPic[0];
+                fullPath = Path.GetFullPath(fullPath);
+
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
+
                 using (var fileStream = new FileStream(file, FileMode.Create))
                 {
                     await Upload.CopyToAsync(fileStream);
@@ -114,9 +117,10 @@ namespace SSDAssignment40.Pages
 
             if (!changePic)
             {
-                Listing.CoverPic = _filename;
+                Listing.CoverPic = existingPic[0];
                 _context.Listing.Update(Listing);
             }
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -141,12 +145,22 @@ namespace SSDAssignment40.Pages
             return _context.Listing.Any(e => e.ListingId == id);
         }
 
-        public async Task<IActionResult> OnPostDeleteListingAsync()
+        public async Task<IActionResult> OnPostDeleteListingAsync(string id)
         {
+            var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
+            Listing.CoverPic = existingPic[0];
             try
             {
                 if (Listing != null)
                 {
+                    string fullPath = "./wwwroot/ListingCover/" + Listing.CoverPic;
+                    fullPath = Path.GetFullPath(fullPath);
+
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+
                     _context.Listing.Remove(Listing);
                     await _context.SaveChangesAsync();
                 }

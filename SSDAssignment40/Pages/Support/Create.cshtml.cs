@@ -12,6 +12,7 @@ using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Pages.Support
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;

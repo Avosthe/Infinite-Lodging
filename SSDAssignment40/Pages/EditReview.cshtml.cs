@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,16 +16,18 @@ namespace SSDAssignment40
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public EditReviewModel(SSDAssignment40.Data.ApplicationDbContext context)
+        public EditReviewModel(SSDAssignment40.Data.ApplicationDbContext context, UserManager<Lodger> user)
         {
             _context = context;
+            userManager = user;
         }
 
         [BindProperty]
         public Review Review { get; set; }
 
-        [BindProperty]
         public Listing Listing { get; set; }
+
+        public UserManager<Lodger> userManager { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id, string listingid)
         {
@@ -44,8 +47,16 @@ namespace SSDAssignment40
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string listingid)
         {
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == listingid);
+
+            Review.Listing = Listing;
+            Review.Lodger = await userManager.GetUserAsync(User);
+            Review.DateTime = DateTime.Now;
+
+            var errors = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -77,13 +88,23 @@ namespace SSDAssignment40
             return _context.Review.Any(e => e.ReviewId == id);
         }
 
-        public async Task<IActionResult> OnPostDeleteReviewAsync()
+        public async Task<IActionResult> OnPostDeleteReviewAsync(string reviewid, string listingid)
         {
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == listingid);
+
+            if (reviewid == null)
+            {
+                return NotFound();
+            }
+
+            Review = await _context.Review.FindAsync(reviewid);
+
             if (Review != null)
             {
                 _context.Review.Remove(Review);
                 await _context.SaveChangesAsync();
             }
+
             return Redirect("./ListingDetails?id=" + Listing.ListingId);
         }
 
