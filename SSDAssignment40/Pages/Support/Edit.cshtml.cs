@@ -56,7 +56,7 @@ namespace SSDAssignment40.Pages.Support
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -64,7 +64,13 @@ namespace SSDAssignment40.Pages.Support
             }
             //CustomerSupport.Username = await _userManager.GetUserNameAsync(await (_userManager.GetUserAsync(User)));
             //CustomerSupport.DateTimeStamp = DateTime.Now;
-            //_context.Attach(CustomerSupport).State = EntityState.Modified;
+            var username = (from l in _context.CustomerSupport where l.CustomerSupport_ID == id select l.Username).ToList();
+            var datetime= (from l in _context.CustomerSupport where l.CustomerSupport_ID == id select l.DateTimeStamp).ToList();
+            var noreplies = (from l in _context.CustomerSupport where l.CustomerSupport_ID == id select l.NoReplies).ToList();
+            CustomerSupport.Username = username[0];
+            CustomerSupport.DateTimeStamp = datetime[0];
+            CustomerSupport.NoReplies = noreplies[0];
+            _context.Attach(CustomerSupport).State = EntityState.Modified;
 
             try
             {

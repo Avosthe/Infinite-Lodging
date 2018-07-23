@@ -69,6 +69,8 @@ namespace SSDAssignment40.Pages.Support
             Reply curReply = new Reply();
             curReply.Replies = StringContent;
             curReply.CustomerSupport_ID = CustomerSupport.CustomerSupport_ID;
+            curReply.Username= User.Identity.Name.ToString();
+            curReply.DateTimeStamp = DateTime.Now;
             _context.Reply.Add(curReply);
             HttpContext.Session.Remove("currentId");
             CustomerSupport.NoReplies += 1;
