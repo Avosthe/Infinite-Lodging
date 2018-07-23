@@ -11,7 +11,7 @@
 <script src="~/js/listings.js"></script>
 <div style="width:100%;display:block;">
     <h2 style="width:50%;display:inline-block;float:left">Listing Details</h2>
-    @if (@Model.Listing.Lodger.Id == _userManager.GetUserId(User))
+    @if (Model.Listing.Lodger.Id == _userManager.GetUserId(User))
     {
         <a asp-page="./EditListing" asp-route-id="@Model.Listing.ListingId">
             <div style="display:block;float:right;margin-top:20px;" class="clickbutton">
