@@ -55,11 +55,6 @@ namespace SSDAssignment40.Pages
                     return Page();
                 }   
 
-                if (Listing.Price < 1)
-                {
-                    return RedirectToPage("./Error/MinPrice");
-                }
-
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
                 using (var fileStream = new FileStream(file, FileMode.Create))

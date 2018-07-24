@@ -80,11 +80,6 @@ namespace SSDAssignment40.Pages
                 return Page();
             }
 
-            if (Listing.Price < 1)
-            {
-                return RedirectToPage("./Error/MinPrice");
-            }
-
             if (Upload != null)
             {
                 changePic = true;
