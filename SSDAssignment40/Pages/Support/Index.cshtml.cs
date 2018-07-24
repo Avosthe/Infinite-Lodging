@@ -22,9 +22,19 @@ namespace SSDAssignment40.Pages.Support
 
         public IList<CustomerSupport> CustomerSupport { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchString)
         {
             CustomerSupport = await _context.CustomerSupport.ToListAsync();
+
+            var requests = from m in _context.CustomerSupport
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                requests = requests.Where(s => s.Request.Contains(searchString));
+            }
+
+            CustomerSupport = await requests.ToListAsync();
         }
     }
 }

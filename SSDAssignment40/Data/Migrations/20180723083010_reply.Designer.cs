@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180723083010_reply")]
+    partial class reply
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,20 +200,17 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<string>("CoverPic");
 
                     b.Property<string>("Desc")
-                        .IsRequired()
-                        .HasMaxLength(1000);
+                        .IsRequired();
 
                     b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                        .IsRequired();
 
                     b.Property<string>("LodgerId");
 
                     b.Property<int>("Price");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                        .IsRequired();
 
                     b.HasKey("ListingId");
 
@@ -359,7 +358,11 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<int>("CustomerSupport_ID");
 
+                    b.Property<DateTime>("DateTimeStamp");
+
                     b.Property<string>("Replies");
+
+                    b.Property<string>("Username");
 
                     b.HasKey("reply_ID");
 
@@ -380,12 +383,10 @@ namespace SSDAssignment40.Data.Migrations
                     b.Property<int>("Rating");
 
                     b.Property<string>("ReviewDesc")
-                        .IsRequired()
-                        .HasMaxLength(500);
+                        .IsRequired();
 
                     b.Property<string>("ReviewTitle")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                        .IsRequired();
 
                     b.HasKey("ReviewId");
 

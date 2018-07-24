@@ -81,8 +81,17 @@ function resizelistingimg() {
 
 function updateDate() {
     var dateStart = new Date(document.getElementById("dateStart").value);
-    document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + dateStart.getMonth() + "-" + dateStart.getDate());
-    
+
+    if (dateStart.getMonth() < 10)
+        var MM = "0" + dateStart.getMonth();
+    else
+        var MM = dateStart.getMonth();
+    if (dateStart.getDate() < 10)
+        var DD = "0" + dateStart.getDate();
+    else
+        var DD = dateStart.getDate();
+
+    document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + MM + "-" + DD);
 }
 
 function rating(a) {

@@ -9,6 +9,7 @@ using SSDAssignment40.Data;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SSDAssignment40.Pages
 {
@@ -49,6 +50,15 @@ namespace SSDAssignment40.Pages
             {
                 Listing.Lodger = await userManager.GetUserAsync(User);
 
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                if (Listing.Price < 1)
+                {
+                    return RedirectToPage("./Error/MinPrice");
+                }
 
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
@@ -67,10 +77,6 @@ namespace SSDAssignment40.Pages
                         }
                     }
                 }
-                if (!ModelState.IsValid)
-                {
-                    return Page();
-                }
 
                 Listing.CoverPic = filename;
                 _context.Listing.Add(Listing);
@@ -85,7 +91,20 @@ namespace SSDAssignment40.Pages
             }
         }
 
+        public class MinValueAttribute : ValidationAttribute
+        {
+            private readonly int _minValue;
 
+            public MinValueAttribute(int minValue)
+            {
+                _minValue = minValue;
+            }
+
+            public override bool IsValid(object value)
+            {
+                return (int)value <= _minValue;
+            }
+        }
 
     }
 }

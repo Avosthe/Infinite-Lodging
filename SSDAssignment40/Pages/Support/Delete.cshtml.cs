@@ -23,12 +23,27 @@ namespace SSDAssignment40.Pages.Support
         [BindProperty]
         public CustomerSupport CustomerSupport { get; set; }
         public UserManager<Lodger> _userManager { get; set; }
+        public Lodger Lodger { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            Lodger = await _userManager.GetUserAsync(User);
+
+            if (Lodger == null)
+            {
+                return RedirectToPage("/Error/NiceTry");
+            }
+
             if (id == null)
             {
                 return NotFound();
+            }
+
+            CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
+
+            if (Lodger.Id != CustomerSupport.Lodger.Id)
+            {
+                return RedirectToPage("./Error/NiceTry");
             }
 
             CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);

@@ -9,6 +9,7 @@
     <Compile Remove="Areas\Identity\Pages\Account\AccessDenied.cshtml.cs" />
     <Compile Remove="Data\Migrations\20180714043712_AddCustomerSupport.cs" />
     <Compile Remove="Data\Migrations\20180715084656_addreply.cs" />
+    <Compile Remove="Data\Paypal.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\Error\NiceTry.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Error\MinPrice.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\Error\wrongFileType.cshtml">

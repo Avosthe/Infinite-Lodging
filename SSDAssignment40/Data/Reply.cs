@@ -15,5 +15,13 @@ namespace SSDAssignment40.Data
 
         [Display(Name = "Replies")]
         public string Replies { get; set; }
+
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Display(Name = "Date/Time Stamp")]
+        [DataType(DataType.DateTime)]
+        public DateTime DateTimeStamp { get; set; }
+
     }
 }
