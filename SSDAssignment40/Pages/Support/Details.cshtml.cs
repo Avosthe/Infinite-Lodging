@@ -63,17 +63,30 @@ namespace SSDAssignment40.Pages.Support
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
+            //adding reply
             CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == HttpContext.Session.GetInt32("currentId"));
             Reply curReply = new Reply();
             curReply.Replies = StringContent;
             curReply.CustomerSupport_ID = CustomerSupport.CustomerSupport_ID;
             curReply.Username= User.Identity.Name.ToString();
             curReply.DateTimeStamp = DateTime.Now;
-            _context.Reply.Add(curReply);
             HttpContext.Session.Remove("currentId");
             CustomerSupport.NoReplies += 1;
+            _context.Reply.Add(curReply);
+
+            //audit adding reply
+            var user = await _userManager.GetUserAsync(User);
+            var auditrecord = new AuditRecord();
+            //auditrecord.AuditActionType = "Adding Reply id: " + curReply.reply_ID +"into CustomerSupport id: " + id;
+            auditrecord.AuditActionType = "Added Reply into CustomerSupport id: " + id;
+            auditrecord.DateTimeStamp = DateTime.Now;
+            auditrecord.PerformedBy = user;
+            auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+            auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            _context.AuditRecords.Add(auditrecord);
+
             await _context.SaveChangesAsync();
             return RedirectToPage(new { id = CustomerSupport.CustomerSupport_ID});
         }
