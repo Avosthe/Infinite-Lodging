@@ -135,6 +135,11 @@ namespace SSDAssignment40
                 app.UseHsts();
             }
 
+            app.UseXfo(options => options.SameOrigin());
+            app.UseXXssProtection(options => options.EnabledWithBlockMode());
+            app.UseXContentTypeOptions();
+            app.UseReferrerPolicy(options => options.StrictOriginWhenCrossOrigin());
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
