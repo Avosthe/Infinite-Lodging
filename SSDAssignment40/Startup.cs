@@ -107,7 +107,7 @@ namespace SSDAssignment40
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account");
                 options.Conventions.AuthorizeFolder("/LodgerRoles", "RequireAdministratorRole");
-                options.Conventions.AuthorizeFolder("/Audits", "RequireAdministratorRole");
+                //options.Conventions.AuthorizeFolder("/Audits", "RequireAdministratorRole");
             });
             services.AddHttpsRedirection(options =>
             {

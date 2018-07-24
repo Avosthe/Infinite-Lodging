@@ -79,7 +79,12 @@ namespace SSDAssignment40.Pages
             {
                 return Page();
             }
-            
+
+            if (Listing.Price < 1)
+            {
+                return RedirectToPage("./Error/MinPrice");
+            }
+
             if (Upload != null)
             {
                 changePic = true;
@@ -156,13 +161,14 @@ namespace SSDAssignment40.Pages
                     string fullPath = "./wwwroot/ListingCover/" + Listing.CoverPic;
                     fullPath = Path.GetFullPath(fullPath);
 
+                    _context.Listing.Remove(Listing);
+                    await _context.SaveChangesAsync();
+
                     if (System.IO.File.Exists(fullPath))
                     {
                         System.IO.File.Delete(fullPath);
                     }
 
-                    _context.Listing.Remove(Listing);
-                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
