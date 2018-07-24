@@ -5,13 +5,35 @@
 
 }
 <link rel="stylesheet" type="text/css" href="~/css/PaymentOptions.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
+<h2>Confirm and Pay</h2>
+<h1>Pay with</h1>
+<select name="paymentoptions" class="countrytext" id="paymentoptions" onchange="myFunction()">
+    <option value="method" disabled>Please choose a payment method</option>
+    <option value="creditcard" id="creditcard">Credit Card</option>
+    <option value="paypal" id="paypal">Paypal</option>
+</select>
+<div class="icon-container">
+    <i class="fa fa-cc-visa" style="color:navy;"></i>
+    <i class="fa fa-cc-amex" style="color:blue;"></i>
+    <i class="fa fa-cc-mastercard" style="color:red;"></i>
+    <i class="fa fa-cc-discover" style="color:orange;"></i>
+</div>
+@*@foreach (var item in Model.CreditCard)
+{
+    <select>
+        <option value="">@Html.DisplayFor(modelItem => item.CreditCardId)</option>
+    </select>
 
+}*@
+    <select name="cards" class="countrytext" id="cards">
+        <option value="card1"></option>
+    </select>
 <div class="row">
     <div class="col-75">
         <div class="container">
-            <form action="/action_page.php">
-                <h2>Confirm and Pay</h2>
+            <form id="paymentform">
                 <div class="row">
                     <div class="col-50">
                         <h3>Billing Address</h3>
@@ -291,12 +313,12 @@
                 </div>
                 <input type="submit" value="Continue to checkout" class="btn">
             </form>
+            <div id="paypal-button" hidden></div>
         </div>
     </div>
 </div>
 
 
-<div id="paypal-button"></div>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
     paypal.Button.render({
@@ -321,5 +343,33 @@
                 });
         }
     }, '#paypal-button');
+
+    //function myFunction() {
+    //    var x = document.getElementById('paypaloptions');
+    //    var y = document.getElementById('paypal-button');
+    //    var z = document.getElementById('paymentform');
+    //    if (x.nodeValue == 'paypal') {
+    //        y.style.display = 'block';
+    //        z.style.display = 'none';
+    //    }
+    //    else if (x.nodeValue == 'creditcard') {
+    //        y.style.display = 'none';
+    //        z.style.display = 'block';
+    //    }
+    //}
+    function myFunction() {
+        var x = $('#paymentoptions option:selected').text();
+        var y = document.getElementById('paypal-button');
+        var z = document.getElementById('paymentform');
+        if (x == 'Paypal') {
+            $('#paypal-button').show();
+            $('#paymentform').hide();
+        }
+        else if (x == 'Credit Card') {
+            $('#paypal-button').hide();
+            $('#paymentform').show();
+        }
+    }
+
+
 </script>
-<a href="http://www.credit-card-images.com"><img alt="credit card logos" title="visa logs" src="http://www.free-credit-card-logos.com/credit_card_logos_1.gif" width="176" height="35" border="0" /></a>
