@@ -22,6 +22,7 @@ namespace SSDAssignment40
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseKestrel(c => c.AddServerHeader = false)
                 .UseStartup<Startup>();
     }
 }
