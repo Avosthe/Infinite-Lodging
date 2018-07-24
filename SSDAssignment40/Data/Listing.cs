@@ -16,6 +16,7 @@ namespace SSDAssignment40.Data
         public string Title { get; set; }
 
         [Required]
+        [Range(1,Int32.MaxValue)]
         public int Price { get; set; }
 
         [Display(Name = "Description")]
