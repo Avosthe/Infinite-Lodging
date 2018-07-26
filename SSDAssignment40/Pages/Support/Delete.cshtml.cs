@@ -31,6 +31,14 @@ namespace SSDAssignment40.Pages.Support
 
             if (Lodger == null)
             {
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "Anonymous User Tried To Delete Customer Support id:"+id+ " Record";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                auditrecord.PerformedBy = null;
+                auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
                 return RedirectToPage("/Error/NiceTry");
             }
 
@@ -43,6 +51,15 @@ namespace SSDAssignment40.Pages.Support
 
             if (Lodger.Id != CustomerSupport.Lodger.Id)
             {
+                var user = await _userManager.GetUserAsync(User);
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "User Tried To Delete Another User's Customer Support" + id + " Record";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                auditrecord.PerformedBy = user;
+                auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
                 return RedirectToPage("./Error/NiceTry");
             }
 
