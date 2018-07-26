@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "CheckoutReview";
 }
+@inject UserManager<Lodger> _userManager
 
-<h2>CheckoutReview</h2>
 
+<div>@Model.Listing.Price</div>
+<a href="./PaymentOptions">Agree and Continue</a>
+
+<div>@Model.dateStart</div>
+
+<div>@Model.dateEnd</div>
+
+<div></div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

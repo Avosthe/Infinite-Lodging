@@ -359,7 +359,11 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<int>("CustomerSupport_ID");
 
+                    b.Property<DateTime>("DateTimeStamp");
+
                     b.Property<string>("Replies");
+
+                    b.Property<string>("Username");
 
                     b.HasKey("reply_ID");
 

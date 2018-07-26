@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SSDAssignment40.Data;
 
+
 namespace SSDAssignment40.Pages.PaymentMethod
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
@@ -18,7 +21,7 @@ namespace SSDAssignment40.Pages.PaymentMethod
             _context = context;
         }
 
-        public IList<CreditCard> CreditCard { get;set; }
+        public IList<CreditCard> CreditCard { get; set; }
 
         public async Task OnGetAsync()
         {
