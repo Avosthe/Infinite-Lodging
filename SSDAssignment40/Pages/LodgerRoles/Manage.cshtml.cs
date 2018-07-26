@@ -18,11 +18,13 @@ namespace SSDAssignment40.Pages.LodgerRoles
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
         private readonly UserManager<Lodger> _userManager;
         private readonly RoleManager<LodgerRole> _roleManager;
-        public ManageModel(ApplicationDbContext context, UserManager<Lodger> userManager, RoleManager<LodgerRole> roleManager)
+        public SignInManager<Lodger> _signInManager { get; set; }
+        public ManageModel(ApplicationDbContext context, UserManager<Lodger> userManager, RoleManager<LodgerRole> roleManager, SignInManager<Lodger> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
         public SelectList RolesSelectList;
         //contain a list of roles to populate select box

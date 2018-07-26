@@ -72,6 +72,19 @@ namespace SSDAssignment40.Pages.Support
             CustomerSupport.NoReplies = noreplies[0];
             _context.Attach(CustomerSupport).State = EntityState.Modified;
 
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "Edit Customer Support Record id: "+ id;
+                auditrecord.DateTimeStamp = DateTime.Now;
+                auditrecord.PerformedBy = user;
+                auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
+            }
+
             try
             {
                 await _context.SaveChangesAsync();
