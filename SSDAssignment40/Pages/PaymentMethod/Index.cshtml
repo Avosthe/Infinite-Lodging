@@ -4,6 +4,10 @@
 @{
     ViewData["Title"] = "Index";
 }
+@inject UserManager<Lodger> userManager
+@{
+    var user = await userManager.GetUserAsync(User);
+}
 
 <h2>Index</h2>
 
@@ -23,20 +27,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.CreditCard) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreditCardId)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.CreditCardId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.CreditCardId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.CreditCardId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.CreditCard)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditCardId)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CreditCardId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CreditCardId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CreditCardId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
