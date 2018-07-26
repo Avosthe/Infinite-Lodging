@@ -90,16 +90,19 @@
                         </div>
                     }
                 }
+                else if (_userManager.GetUserId(User) == null)
+                {
+                    <div style="float:left;width:100%;color:red;">There are currently no reviews for this listing.</div>
+                }
                 else
                 {
                     <div style="float:left;width:100%;color:red;">There are currently no reviews for this listing. Be the first to add one below!</div>
-
                 }
             </div>
         </div>
         <div style="float:left;margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
 
-        @if (!reviewCheck && Model.Listing.Lodger.Id != _userManager.GetUserId(User))
+        @if (!reviewCheck && Model.Listing.Lodger.Id != _userManager.GetUserId(User) && _userManager.GetUserId(User) != null)
         {
             <div>
                 <div style="float:left;width:100%;text-decoration:underline;text-align:center;font-size:18px;margin-bottom:10px;margin-top:10px;">
