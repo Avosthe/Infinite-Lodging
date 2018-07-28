@@ -88,7 +88,11 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (Lodger.Id == Listing.Lodger.Id)
+            Lodger = await userManager.GetUserAsync(User);
+
+            var creator = (from l in _context.Listing where l.ListingId == id select l.Lodger.Id).ToList();
+
+            if (Lodger.Id == creator[0])
             {
                 var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
 
