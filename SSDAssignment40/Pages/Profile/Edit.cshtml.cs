@@ -22,25 +22,37 @@ namespace SSDAssignment40.Pages.Profile
         public IFormFile ProfilePicture { get; set; }
         [Required]
         [Display(Name = "Full Name")]
+        [StringLength(50, ErrorMessage = "Full Name too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid full name!")]
         public string FullName { get; set; }
         [Required]
         public string Gender { get; set; }
+        [StringLength(500, ErrorMessage = "Biography too long!")]
         public string Biography { get; set; }
         [Required]
         [EmailAddress]
         public string AlternateEmail { get; set; }
         [Required]
+        [StringLength(45, ErrorMessage = "Country too Long!")]
         public string Country { get; set; }
         [Required]
         public string City { get; set; }
         [Required]
         [Display(Name = "Government Identification")]
         public IFormFile GovernmentID { get; set; }
+        [StringLength(50, ErrorMessage = "Too long content!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9.,/\\s]*$", ErrorMessage = "Invalid characters found!")]
         public string Hobbies { get; set; }
+        [StringLength(50, ErrorMessage = "Status too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Invalid characters found!")]
         public string Status { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Address too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_#-@\\s]*$", ErrorMessage = "Invalid characters found!")]
         public string Address { get; set; }
         [Required]
+        [StringLength(30, ErrorMessage = "Content too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_/,.\\s]*$", ErrorMessage = "Invalid characters found!")]
         public string Occupation { get; set; }
     }
 
@@ -141,6 +153,11 @@ namespace SSDAssignment40.Pages.Profile
             {
                 LodgerUser.Gender = (LodgerUser.Gender == UserInput.Gender) ? LodgerUser.Gender : UserInput.Gender;
             }
+            else
+            {
+                ModelState.AddModelError("Invalid Gender", "Invalid Gender!");
+                return Page();
+            }
             //else return Page();
             LodgerUser.Biography = (LodgerUser.Biography == UserInput.Biography) ? LodgerUser.Biography : UserInput.Biography;
             LodgerUser.AlternateEmail = (LodgerUser.AlternateEmail == UserInput.AlternateEmail) ? LodgerUser.AlternateEmail : UserInput.AlternateEmail;
@@ -166,7 +183,7 @@ namespace SSDAssignment40.Pages.Profile
             if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
             {
                 var CurrentGovernmentID = LodgerUser.GovernmentID;
-                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentGovernmentID));
+                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", CurrentGovernmentID));
             }
             LodgerUser.GovernmentID = gFileName;
             var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", gFileName);
