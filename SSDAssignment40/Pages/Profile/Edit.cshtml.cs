@@ -33,6 +33,7 @@ namespace SSDAssignment40.Pages.Profile
         [EmailAddress]
         public string AlternateEmail { get; set; }
         [Required]
+        [StringLength(45, ErrorMessage = "Country too Long!")]
         public string Country { get; set; }
         [Required]
         public string City { get; set; }
@@ -182,7 +183,7 @@ namespace SSDAssignment40.Pages.Profile
             if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
             {
                 var CurrentGovernmentID = LodgerUser.GovernmentID;
-                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentGovernmentID));
+                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", CurrentGovernmentID));
             }
             LodgerUser.GovernmentID = gFileName;
             var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", gFileName);
