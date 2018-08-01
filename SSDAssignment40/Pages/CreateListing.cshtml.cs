@@ -53,7 +53,7 @@ namespace SSDAssignment40.Pages
                 if (!ModelState.IsValid)
                 {
                     return Page();
-                }   
+                }
 
                 var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
                 var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
@@ -77,18 +77,15 @@ namespace SSDAssignment40.Pages
                 _context.Listing.Add(Listing);
                 await _context.SaveChangesAsync();
 
-                // Once a record is added, create an audit record
-                if (await _context.SaveChangesAsync() > 0)
-                {
-                    // Create an auditrecord object
-                    var auditrecord = new AuditRecord();
-                    auditrecord.AuditActionType = "New Listing created with id " + Listing.ListingId;
-                    auditrecord.DateTimeStamp = DateTime.Now;
-                    // Get current logged-in user
-                    auditrecord.PerformedBy = await userManager.GetUserAsync(User);
-                    _context.AuditRecords.Add(auditrecord);
-                    await _context.SaveChangesAsync();
-                }
+                // Create an auditrecord object
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "New Listing created with id " + Listing.ListingId;
+                auditrecord.DateTimeStamp = DateTime.Now;
+                // Get current logged-in user
+                auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
                 return RedirectToPage("./Listings");
             }
             catch (Exception ex)
