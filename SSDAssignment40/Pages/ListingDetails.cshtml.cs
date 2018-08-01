@@ -28,9 +28,9 @@ namespace SSDAssignment40.Pages
         [BindProperty]
         public Review Review { get; set; }
 
-        [Required]
-        [BindProperty]
-        public Booking Booking { get; set; }
+        public DateTime dateStart { get; set; }
+
+        public DateTime dateEnd { get; set; }
 
         public Lodger Lodger { get; set; }
 
@@ -59,25 +59,15 @@ namespace SSDAssignment40.Pages
             var reviews = from r in _context.Review where r.Listing.ListingId == id select r;
             ReviewList = await reviews.ToListAsync();
 
+            dateStart = DateTime.Now.Date;
+
+            dateEnd = DateTime.Now.Date.AddDays(1);
+
             return Page();
-        }
-
-
-        public async Task<IActionResult> OnPostAsync(string id)
-        {
-            Booking.Lodger = await userManager.GetUserAsync(User);
-            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
-
-            Booking.Listing = Listing;
-            _context.Booking.Add(Booking);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
         }
 
         public async Task<IActionResult> OnPostSubmitReviewAsync(string id)
         {
-
             Review.Lodger = await userManager.GetUserAsync(User);
             Review.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
             Review.DateTime = DateTime.Now;
