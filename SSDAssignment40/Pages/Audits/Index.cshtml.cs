@@ -24,7 +24,7 @@ namespace SSDAssignment40.Pages.Audits
 
         public async Task OnGetAsync()
         {
-            AuditRecord = await (from a in _context.AuditRecords orderby a.DateTimeStamp descending select a).ToListAsync();
+            AuditRecord = await _context.AuditRecords.ToListAsync();
         }
     }
 }
