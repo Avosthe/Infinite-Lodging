@@ -155,6 +155,16 @@ namespace SSDAssignment40.Pages
                 try
                 {
                     await _context.SaveChangesAsync();
+
+                    // Create an auditrecord object
+                    var auditrecord = new AuditRecord();
+                    auditrecord.AuditActionType = "Listing " + Listing.ListingId + " was edited";
+                    auditrecord.DateTimeStamp = DateTime.Now;
+                    // Get current logged-in user
+                    auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                    auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                    _context.AuditRecords.Add(auditrecord);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -200,6 +210,15 @@ namespace SSDAssignment40.Pages
                         System.IO.File.Delete(fullPath);
                     }
 
+                    // Create an auditrecord object
+                    var auditrecord = new AuditRecord();
+                    auditrecord.AuditActionType = "Listing " + Listing.ListingId + " was deleted";
+                    auditrecord.DateTimeStamp = DateTime.Now;
+                    // Get current logged-in user
+                    auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                    auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                    _context.AuditRecords.Add(auditrecord);
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
