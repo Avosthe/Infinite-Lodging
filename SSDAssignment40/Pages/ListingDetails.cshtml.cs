@@ -87,8 +87,24 @@ namespace SSDAssignment40.Pages
                 return Page();
             }
 
+            if (Review.Lodger == null)
+            {
+                return Redirect("./Identity/Account/Login");
+            }
+
             _context.Review.Add(Review);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
+
+            // Create an auditrecord object
+            var auditrecord = new AuditRecord();
+            auditrecord.AuditActionType = "Review was created with id " + Review.ReviewId;
+            auditrecord.DateTimeStamp = DateTime.Now;
+            // Get current logged-in user
+            auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+            auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+            _context.AuditRecords.Add(auditrecord);
+            await _context.SaveChangesAsync();
+
             return Redirect("./ListingDetails?id=" + id);
         }
     }

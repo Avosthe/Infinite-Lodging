@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40
@@ -38,7 +39,7 @@ namespace SSDAssignment40
 
             Review = await _context.Review.FirstOrDefaultAsync(m => m.ReviewId == id);
 
-            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == listingid); 
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == listingid);
 
             if (Review == null)
             {
@@ -49,6 +50,8 @@ namespace SSDAssignment40
 
         public async Task<IActionResult> OnPostAsync(string listingid)
         {
+            EntityEntry entry = _context.Entry(Review);
+
             Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == listingid);
 
             Review.Listing = Listing;
@@ -67,6 +70,18 @@ namespace SSDAssignment40
             try
             {
                 await _context.SaveChangesAsync();
+
+                // Create an auditrecord object
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "Review " + Review.ReviewId + " was edited";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                // Get current logged-in user
+                auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
+
+                
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -101,7 +116,19 @@ namespace SSDAssignment40
 
             if (Review != null)
             {
+                _context.ChangeTracker.DetectChanges();
+
                 _context.Review.Remove(Review);
+                await _context.SaveChangesAsync();
+
+                // Create an auditrecord object
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "Review " + Review.ReviewId + " was deleted";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                // Get current logged-in user
+                auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                _context.AuditRecords.Add(auditrecord);
                 await _context.SaveChangesAsync();
             }
 
