@@ -72,7 +72,7 @@ namespace SSDAssignment40.Pages
                         }
                     }
                 }
-
+                Listing.isSuspended = false;
                 Listing.CoverPic = filename;
                 _context.Listing.Add(Listing);
                 await _context.SaveChangesAsync();

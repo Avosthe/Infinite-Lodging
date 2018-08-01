@@ -31,6 +31,8 @@ namespace SSDAssignment40.Data
         [Display(Name ="Cover Picture")]
         public string CoverPic { get; set; }
 
+        public bool isSuspended { get; set; }
+
         public virtual Lodger Lodger { get; set; }
     }
 }

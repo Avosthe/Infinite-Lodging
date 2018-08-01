@@ -29,7 +29,7 @@ namespace SSDAssignment40.Pages
         {
             //search by location from home page
             //var result = _context.Listing.AsQueryable();
-            var listings = from l in _context.Listing select l;
+            var listings = from l in _context.Listing where l.isSuspended == false select l;
 
             if (!String.IsNullOrEmpty(location))
             {

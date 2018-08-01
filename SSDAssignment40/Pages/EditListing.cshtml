@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.Price" class="control-label"></label>
-                    <input asp-for="Listing.Price" class="form-control" required min="1"/>
+                    <input asp-for="Listing.Price" class="form-control" required min="1" />
                     <span asp-validation-for="Listing.Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -32,18 +32,24 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.Location" class="control-label"></label>
-                    <input asp-for="Listing.Location" class="form-control" required/>
+                    <input asp-for="Listing.Location" class="form-control" required />
                     <span asp-validation-for="Listing.Location" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.CoverPic" class="control-label"></label>
-                    <input id='fileinput' onchange="loadFile()" asp-for="Upload" type="file" accept="image/*" required />
+                    <input id='fileinput' onchange="loadFile()" asp-for="Upload" type="file" accept="image/*" />
                     <span asp-validation-for="Listing.CoverPic" class="text-danger"></span>
                     <div id="pls"></div>
                 </div>
                 <div class="form-group">
+                    <input asp-for="Listing.isSuspended" type="checkbox" />
+                    <label style="margin-left:20px;font-size:14px;" class="control-label">Suspend Listing</label>
+                    <span asp-validation-for="Listing.isSuspended" class="text-danger"></span>
+                    <div id="pls"></div>
+                </div>
+                <div class="form-group">
                     <input type="submit" value="Save Changes" class="btn btn-success" />
-                    <input asp-page-handler="DeleteListing" asp-route-id="@Model.Listing.ListingId" style="margin-left:30px;" type="submit" value="Delete Listing" class="btn btn-danger" /> 
+                    <input asp-page-handler="DeleteListing" asp-route-id="@Model.Listing.ListingId" style="margin-left:30px;" type="submit" value="Delete Listing" class="btn btn-danger" />
                 </div>
             </form>
         </div>
