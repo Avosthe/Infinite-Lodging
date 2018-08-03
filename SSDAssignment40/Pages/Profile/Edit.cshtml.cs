@@ -23,36 +23,40 @@ namespace SSDAssignment40.Pages.Profile
         [Required]
         [Display(Name = "Full Name")]
         [StringLength(50, ErrorMessage = "Full Name too long!")]
-        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid full name!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid Full Name!")]
         public string FullName { get; set; }
         [Required]
         public string Gender { get; set; }
-        [StringLength(500, ErrorMessage = "Biography too long!")]
+        [StringLength(500, ErrorMessage = "Sorry, your Biography is too long!")]
         public string Biography { get; set; }
         [Required]
         [EmailAddress]
+        [StringLength(100, ErrorMessage = "Sorry, your Alternate Email Address is too long!")]
         public string AlternateEmail { get; set; }
         [Required]
-        [StringLength(45, ErrorMessage = "Country too Long!")]
+        [StringLength(70, ErrorMessage = "Sorry, your Country is too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid Country!")]
         public string Country { get; set; }
         [Required]
+        [StringLength(60, ErrorMessage = "Sorry, your City is too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid City!")]
         public string City { get; set; }
         [Required]
         [Display(Name = "Government Identification")]
         public IFormFile GovernmentID { get; set; }
-        [StringLength(50, ErrorMessage = "Too long content!")]
-        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9.,/\\s]*$", ErrorMessage = "Invalid characters found!")]
+        [StringLength(50, ErrorMessage = "Sorry your hobbies are too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9.,/\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Hobbies { get; set; }
-        [StringLength(50, ErrorMessage = "Status too long!")]
-        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Invalid characters found!")]
+        [StringLength(50, ErrorMessage = "Sorry, you status is too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Status { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage = "Address too long!")]
-        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_#-@\\s]*$", ErrorMessage = "Invalid characters found!")]
+        [StringLength(50, ErrorMessage = "Sorry, your address is too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_#-@\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Address { get; set; }
         [Required]
-        [StringLength(30, ErrorMessage = "Content too long!")]
-        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_/,.\\s]*$", ErrorMessage = "Invalid characters found!")]
+        [StringLength(30, ErrorMessage = "Sorry, your occupation is too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_/,.\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Occupation { get; set; }
     }
 
