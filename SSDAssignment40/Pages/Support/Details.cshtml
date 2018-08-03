@@ -21,7 +21,7 @@
                 @r.Replies
             </td>
             <td>
-                Posted by User: <a href="../Profile/@Model.CustomerSupport.Lodger.UserName"><u>@r.Username</u></a>
+                Posted by User: <a href="../Profile/@r.Username"><u>@r.Username</u></a>
                 Time Posted: <u>@r.DateTimeStamp</u>
             </td>
         </tr>
@@ -31,7 +31,7 @@
     </table>
 
 <form method="post">
-    <input asp-for="@Model.StringContent" required style="height:40px;width:400px" placeholder="Type your answers here" /><br /><br />
+    <input asp-for="@Model.StringContent" required maxlength="400" style="height:40px;width:400px" placeholder="Type your answers here" /><br /><br />
     <input type="submit" value="Post" />
 </form><br /><br />
 

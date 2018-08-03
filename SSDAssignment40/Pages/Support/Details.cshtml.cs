@@ -56,10 +56,6 @@ namespace SSDAssignment40.Pages.Support
 
             CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
 
-            if (Lodger.Id != CustomerSupport.Lodger.Id)
-            {
-                return RedirectToPage("./Error/NiceTry");
-            }
 
             HttpContext.Session.SetInt32("currentId", Convert.ToInt32(id));
             CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == HttpContext.Session.GetInt32("currentId"));

@@ -29,6 +29,11 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AuditRecord.IPAddress)
+        </dd><dt>
+            @Html.DisplayNameFor(model => model.AuditRecord.PerformedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditRecord.PerformedBy.UserName)
         </dd>
     </dl>
 </div>

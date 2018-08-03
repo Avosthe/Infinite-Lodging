@@ -9,7 +9,7 @@
 <script src="~/js/listings.js"></script>
 <hr />
 
-<body onload="init();">
+<body onload="init()">
     <div class="row">
         <div class="col-md-4">
             <form method="post" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.Price" class="control-label"></label>
-                    <input asp-for="Listing.Price" class="form-control" required min="1"/>
+                    <input asp-for="Listing.Price" class="form-control" required min="1" />
                     <span asp-validation-for="Listing.Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -32,18 +32,24 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.Location" class="control-label"></label>
-                    <input asp-for="Listing.Location" class="form-control" required/>
+                    <input asp-for="Listing.Location" class="form-control" required />
                     <span asp-validation-for="Listing.Location" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Listing.CoverPic" class="control-label"></label>
-                    <input id='fileinput' onchange="loadFile()" asp-for="Upload" accept="image/jpg" />
+                    <input id='fileinput' onchange="loadFile()" asp-for="Upload" type="file" accept="image/*" />
                     <span asp-validation-for="Listing.CoverPic" class="text-danger"></span>
                     <div id="pls"></div>
                 </div>
                 <div class="form-group">
+                    <input asp-for="Listing.isSuspended" type="checkbox" />
+                    <label style="margin-left:20px;font-size:14px;" class="control-label">Suspend Listing</label>
+                    <span asp-validation-for="Listing.isSuspended" class="text-danger"></span>
+                    <div id="pls"></div>
+                </div>
+                <div class="form-group">
                     <input type="submit" value="Save Changes" class="btn btn-success" />
-                    <input asp-page-handler="DeleteListing" asp-route-id="@Model.Listing.ListingId" style="margin-left:30px;" type="submit" value="Delete Listing" class="btn btn-danger" /> 
+                    <input asp-page-handler="DeleteListing" asp-route-id="@Model.Listing.ListingId" style="margin-left:30px;" type="submit" value="Delete Listing" class="btn btn-danger" />
                 </div>
             </form>
         </div>
@@ -60,3 +66,45 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+
+    function loadFile() {
+        var input, file, fr;
+
+        input = document.getElementById('fileinput');
+
+        file = input.files[0];
+
+        fr = new FileReader();
+        fr.onload = receivedBinary;
+        fr.readAsBinaryString(file);
+
+        function receivedBinary() {
+            showResult(fr, "Binary");
+        }
+    }
+
+    function showResult(fr, label) {
+        var markup, result, n, aByte, byteStr;
+
+        markup = [];
+        result = fr.result;
+        for (n = 0; n < result.length; ++n) {
+            aByte = result.charCodeAt(n);
+            byteStr = aByte.toString(16);
+            if (byteStr.length < 2) {
+                byteStr = "0" + byteStr;
+            }
+            markup.push(byteStr);
+        }
+        var pls = markup.join(" ")
+        if (!(pls.substring(0, 5) == "ff d8" || pls.substring(0, 5) == "89 50")) {
+            document.getElementById("pls").innerHTML = "Only JPG, JPEG and PNG files are allowed"
+        }
+        else {
+            document.getElementById("pls").innerHTML = ""
+        }
+
+    }
+</script>

@@ -61,7 +61,7 @@ namespace SSDAssignment40.Pages.Support
                 auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
                 _context.AuditRecords.Add(auditrecord);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Error/NiceTry");
+                return RedirectToPage("/Error/NiceTry");
                 }
 
                 CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);
