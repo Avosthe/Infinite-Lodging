@@ -156,7 +156,11 @@
                     </div>
 
                     <div class="buttoncontainer" style="margin:auto;display:inline-block;margin-left:30px;">
-                        <input class="clickbuttonnoshadow" value="Book" type="submit" asp-page-handler="SubmitBooking" asp-page="./Checkout/CheckoutReview" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart" asp-route-endDate="@Model.dateEnd" />
+                        <a asp-page="./Checkout/CheckoutReview" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart" asp-route-endDate="@Model.dateEnd">
+                            <div class="clickbuttonnoshadow">
+                                Book
+                            </div>
+                        </a>
                     </div>
                 </form>
             </div>
