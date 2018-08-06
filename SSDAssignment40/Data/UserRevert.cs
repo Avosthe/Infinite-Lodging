@@ -22,8 +22,9 @@ namespace SSDAssignment40.Data
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string PhoneNumber { get; set; }
-        public string PhoneNumberConfirmed { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
         public string is3AuthEnabled { get; set; }
+        public virtual AuditRecord AuditRecord { get; set; }
 
     }
 }

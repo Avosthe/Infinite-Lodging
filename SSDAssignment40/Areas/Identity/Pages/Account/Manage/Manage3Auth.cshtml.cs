@@ -28,21 +28,42 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         }
         public async Task<IActionResult> OnPostDisable3AuthAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            _dbContext.Update(user);
-            if(user.is3AuthEnabled == "True")
+            var LodgerUser = await _userManager.GetUserAsync(User);
+            UserRevert ur = new UserRevert()
             {
-                user.is3AuthEnabled = "False";
-                user.is3AuthPattern = "";
+                UserRevertId = Guid.NewGuid().ToString(),
+                FullName = LodgerUser.FullName,
+                Gender = LodgerUser.Gender,
+                AlternateEmail = LodgerUser.AlternateEmail,
+                Country = LodgerUser.Country,
+                City = LodgerUser.City,
+                Occupation = LodgerUser.Occupation,
+                Address = LodgerUser.Address,
+                GovernmentID = LodgerUser.GovernmentID,
+                Status = LodgerUser.Status,
+                Biography = LodgerUser.Biography,
+                Hobbies = LodgerUser.Hobbies,
+                Email = LodgerUser.Email,
+                PasswordHash = LodgerUser.PasswordHash,
+                PhoneNumber = LodgerUser.PhoneNumber,
+                PhoneNumberConfirmed = LodgerUser.PhoneNumberConfirmed,
+                is3AuthEnabled = LodgerUser.is3AuthEnabled
+            };
+            if (LodgerUser.is3AuthEnabled == "True")
+            {
+                LodgerUser.is3AuthEnabled = "False";
+                LodgerUser.is3AuthPattern = "";
                 await _dbContext.SaveChangesAsync();
                 StatusMessage = "Profile changes updated successfully!";
             }
-            AuditRecord ar = new AuditRecord();
-            ar.AuditActionType = "Disabled 3-Factor-Authentication";
-            ar.AuditRecordId = Guid.NewGuid().ToString();
-            ar.DateTimeStamp = DateTime.Now;
-            ar.PerformedBy = user;
-            ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            AuditRecord auditRecord = new AuditRecord();
+            auditRecord.AuditActionType = "Disabled 3-Factor-Authentication";
+            auditRecord.AuditRecordId = Guid.NewGuid().ToString();
+            auditRecord.DateTimeStamp = DateTime.Now;
+            auditRecord.PerformedBy = LodgerUser;
+            auditRecord.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            ur.AuditRecord = auditRecord;
+            _dbContext.UserReverts.Add(ur);
             await _dbContext.SaveChangesAsync();
             return Page();
         }

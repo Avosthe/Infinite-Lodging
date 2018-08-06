@@ -79,13 +79,32 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var LodgerUser = await _userManager.GetUserAsync(User);
+            if (LodgerUser == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
+            UserRevert ur = new UserRevert()
+            {
+                UserRevertId = Guid.NewGuid().ToString(),
+                FullName = LodgerUser.FullName,
+                Gender = LodgerUser.Gender,
+                AlternateEmail = LodgerUser.AlternateEmail,
+                Country = LodgerUser.Country,
+                City = LodgerUser.City,
+                Occupation = LodgerUser.Occupation,
+                Address = LodgerUser.Address,
+                GovernmentID = LodgerUser.GovernmentID,
+                Status = LodgerUser.Status,
+                Biography = LodgerUser.Biography,
+                Hobbies = LodgerUser.Hobbies,
+                Email = LodgerUser.Email,
+                PasswordHash = LodgerUser.PasswordHash,
+                PhoneNumber = LodgerUser.PhoneNumber,
+                PhoneNumberConfirmed = LodgerUser.PhoneNumberConfirmed,
+                is3AuthEnabled = LodgerUser.is3AuthEnabled
+            };
+            var changePasswordResult = await _userManager.ChangePasswordAsync(LodgerUser, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 foreach (var error in changePasswordResult.Errors)
@@ -94,14 +113,16 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 }
                 return Page();
             }
-            AuditRecord ar = new AuditRecord();
-            ar.AuditActionType = "Changed Password";
-            ar.AuditRecordId = Guid.NewGuid().ToString();
-            ar.DateTimeStamp = DateTime.Now;
-            ar.PerformedBy = user;
-            ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            AuditRecord auditRecord = new AuditRecord();
+            auditRecord.AuditActionType = "Changed Password";
+            auditRecord.AuditRecordId = Guid.NewGuid().ToString();
+            auditRecord.DateTimeStamp = DateTime.Now;
+            auditRecord.PerformedBy = LodgerUser;
+            auditRecord.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            ur.AuditRecord = auditRecord;
+            _context.UserReverts.Add(ur);
             await _context.SaveChangesAsync();
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(LodgerUser);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 

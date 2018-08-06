@@ -42,17 +42,36 @@ namespace SSDAssignment40.Pages.Audits
                 ModelState.AddModelError("Error!", "Audit Record Not Found!");
                 return Page();
             }
-            Lodger currentUser = _context.Users.First(u => (u.Id == usingAuditRecord.PerformedBy.Id));
-            if(!(currentUser is Lodger))
+            Lodger cu = _context.Users.First(u => (u.Id == usingAuditRecord.PerformedBy.Id));
+            if(!(cu is Lodger))
             {
                 ModelState.AddModelError("Error!", "User Not Found!");
                 return Page();
             }
-            RevertChanges rc = _context.RevertChanges.First(rc2 => (rc2.AuditRecord.AuditRecordId == usingAuditRecord.AuditRecordId));
-            currentUser = rc.OldLodgerUser;
+            UserRevert rt = _context.UserReverts.First(ur => (ur.AuditRecord.AuditRecordId == usingAuditRecord.AuditRecordId));
+            if(rt == null)
+            {
+                ModelState.AddModelError("Error!", "Revert Backup not found!");
+                return Page();
+            }
+            cu.FullName = rt.FullName;
+            cu.Gender = rt.Gender;
+            cu.AlternateEmail = rt.AlternateEmail;
+            cu.Country = rt.Country;
+            cu.City = rt.City;
+            cu.Occupation = rt.Occupation;
+            cu.Address = rt.Address;
+            cu.GovernmentID = rt.GovernmentID;
+            cu.Status = rt.Status;
+            cu.Biography = rt.Biography;
+            cu.Hobbies = rt.Hobbies;
+            cu.Email = rt.Email;
+            cu.PasswordHash = rt.PasswordHash;
+            cu.PhoneNumber = rt.PhoneNumber;
+            cu.PhoneNumberConfirmed = rt.PhoneNumberConfirmed;
+            cu.is3AuthEnabled = rt.is3AuthEnabled;
             await _context.SaveChangesAsync();
-
-            return RedirectToPage("/Index");
+            return RedirectToPage();
         }
     }
 }

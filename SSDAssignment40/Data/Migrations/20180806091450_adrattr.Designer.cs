@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180806091450_adrattr")]
+    partial class adrattr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -372,6 +374,24 @@ namespace SSDAssignment40.Data.Migrations
                     b.ToTable("Reply");
                 });
 
+            modelBuilder.Entity("SSDAssignment40.Data.RevertChanges", b =>
+                {
+                    b.Property<string>("RevertChangesId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuditRecordId");
+
+                    b.Property<string>("OldLodgerUserId");
+
+                    b.HasKey("RevertChangesId");
+
+                    b.HasIndex("AuditRecordId");
+
+                    b.HasIndex("OldLodgerUserId");
+
+                    b.ToTable("RevertChanges");
+                });
+
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
                 {
                     b.Property<string>("ReviewId")
@@ -479,7 +499,7 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<string>("PhoneNumberConfirmed");
 
                     b.Property<string>("Status");
 
@@ -603,6 +623,17 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasOne("SSDAssignment40.Data.Lodger", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.RevertChanges", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.AuditRecord", "AuditRecord")
+                        .WithMany()
+                        .HasForeignKey("AuditRecordId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "OldLodgerUser")
+                        .WithMany()
+                        .HasForeignKey("OldLodgerUserId");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
