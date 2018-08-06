@@ -4,16 +4,83 @@
     ViewData["Title"] = "CheckoutReview";
 }
 @inject UserManager<Lodger> _userManager
+@*<script src="~/js/listings.js"></script>*@
+
+<style>
+    .form {
+        max-width: 500px;
+        background: #FAFAFA;
+        padding: 30px;
+        margin: 50px auto;
+        box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+        border-radius: 10px;
+        border: 6px solid #305A72;
+        float: right;
+
+    }
 
 
-<div>@Model.Listing.Price</div>
-<a href="./PaymentOptions">Agree and Continue</a>
+    img {
+        float: right;
+        width: 40%;
+        height: 25%;
+    }
+    hr {
+        border-color:dimgray;
+    }
+</style>
+<form>
+    <b>Things to keep in mind</b>
+    <ul>
+        <li>No smoking and no parties</li>
+        <li>Check-in is anytime after 2PM</li>
+        <li>Checkout time is anytime before 10AM</li>
+    </ul>
+</form>
+<form class="form">
+   <div>
+       <div>@Model.Listing.Title</div>
+       <div><img src="~/ListingCover/@Model.Listing.CoverPic" /></div>
+   </div>
+    <hr />
+    <div>
+        <div>@Model.dateStart.ToString("d MMM yyyy") &#x25B6; @Model.dateEnd.ToString("d MMM yyyy")</div>
+        <label for="numofguests" id="nog">Number of Guests</label>
+        <select>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option disabled>5 guests maximum</option>
+        </select>
+    </div>
+    <hr />
+    <div style="width:100%; display:table;">
+        <div style="display: table-row">
+            <div style="display:table-cell">
+                S$@Model.Listing.Price x @Model.datediff night
+            </div>
+            <div style="display:table-cell">S$@Model.Listing.Price</div>
+        </div>
+        <div style="display: table-row">
+            <div style="display:table-cell">
+                Cleaning fee
+            </div>
+            <div style="display:table-cell"><b>S$@Model.Cleaningfee</b></div>
+        </div>
+        <hr />
+        <div style="display: table-row">
+            <div style="display:table-cell">
+                Total Price
+            </div>
+            <div style="display:table-cell">S$@Model.TotalPrice</div>
+        </div>
+    </div>
+    <br />
+    <a asp-page="./PaymentOptions" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart" asp-route-endDate="@Model.dateEnd">Agree and Continue</a>
+</form>
 
-<div>@Model.dateStart</div>
-
-<div>@Model.dateEnd</div>
-
-<div></div>
 
 
 @section Scripts {

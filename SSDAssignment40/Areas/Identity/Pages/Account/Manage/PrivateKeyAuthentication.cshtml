@@ -1,0 +1,56 @@
+﻿@page
+@model PrivateKeyAuthenticationModel
+@{
+}
+
+
+
+@{
+    if (Model.AlertMessage != null)
+    {
+        <div id="log_alert" class="alert alert-info fade in alert-dismissible" style="text-align: center;">
+            <p style="font-size: large">@Model.AlertMessage</p>
+            <a href="#" id="close_alert" class="close" data-dismiss="alert" aria-label="close" title="close">x</a>
+        </div>
+    }
+
+}
+
+@if (string.IsNullOrWhiteSpace(@Model.LodgerUser.secretFileVerificationHash))
+{
+    <h2>Add a new file to setup PrivateFileAuthentication?</h2>
+}
+else
+{
+    <h2>Change your current file for PrivateFileAuthentication?</h2>
+}
+<br />
+
+@if (ModelState.ContainsKey("PrivateKeyFileReportLink"))
+{
+    <script defer>
+        @{
+            ModelState.TryGetValue("PrivateKeyFileReportLink", out var value);
+        }
+        window.open("@value.Errors.ToList()[0].ErrorMessage", '_blank');
+    </script>
+    @ModelState.Remove("PrivateKeyFileReportLink");
+}
+
+<div asp-validation-summary="All"></div>
+
+<h4>
+    <span style="color: red">
+        Note!: This is an alternative, faster (and maybe more secure) method of logging in!<br />
+        But, please ensure that you keep your <strong>computer</strong>, and this <strong>file</strong> safe!
+    </span>
+</h4>
+
+<br />
+
+    <form method="post" enctype="multipart/form-data">
+        <input asp-for="@Model.PrivateKeyFile" type="file" />
+        <br />
+        <br />
+        <button class="clickbutton">Submit File</button>
+    </form>

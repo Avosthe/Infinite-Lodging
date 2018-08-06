@@ -310,6 +310,22 @@
                     </div>
                 </div>
                 <input type="submit" value="Request to Booknbh3" class="btn">
+
+            </form>
+            <form method="POST">
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+
+                        data-key="pk_test_0pJAHw30ApxHinac390VRaSt"
+                        data-amount= total 
+                        data-name="Demo Site"
+                        data-description="Example charge"
+                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                        data-locale="auto"
+                        data-currency="sgd">
+                    var total = document.getElementById('total').nodeValue;
+
+                </script>
+
             </form>
             <div id="paypal-button" hidden></div>
         </div>
@@ -342,19 +358,6 @@
         }
     }, '#paypal-button');
 
-    //function myFunction() {
-    //    var x = document.getElementById('paypaloptions');
-    //    var y = document.getElementById('paypal-button');
-    //    var z = document.getElementById('paymentform');
-    //    if (x.nodeValue == 'paypal') {
-    //        y.style.display = 'block';
-    //        z.style.display = 'none';
-    //    }
-    //    else if (x.nodeValue == 'creditcard') {
-    //        y.style.display = 'none';
-    //        z.style.display = 'block';
-    //    }
-    //}
     function myFunction() {
         var x = $('#paymentoptions option:selected').text();
         var y = document.getElementById('paypal-button');

@@ -50,6 +50,8 @@ namespace SSDAssignment40.Pages
         public IVirusScanner _virusScanner { get; set; }
         public IHostingEnvironment _environment { get; set; }
 
+        public bool hasRated { get; set; }
+
         public ProfileModel(UserManager<Lodger> userManager, ApplicationDbContext context, IVirusScanner virusScanner, IHostingEnvironment environment)
         {
             _userManager = userManager;
@@ -66,7 +68,12 @@ namespace SSDAssignment40.Pages
                 return Page();
             }
             await ValidateAndInitializeAsync();
-            return Page();
+            Rater = await _userManager.GetUserAsync(User);
+            if (_context.UserRating.Where(r => ((r.Rater.Id == Rater.Id) && (r.Rated.UserName == Username))).ToList().Count > 0)
+            {
+                hasRated = true;
+            }
+                return Page();
         }
 
         private async Task<bool> ValidateAndInitializeAsync()
