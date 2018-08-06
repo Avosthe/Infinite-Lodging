@@ -24,6 +24,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public static string ChangeMobileNumber => "ChangeMobileNumber";
 
         public static string Manage3Auth => "Manage3Auth";
+        public static string PrivateKeyAuthentication => "PrivateKeyAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -42,6 +43,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public static string ChangeMobileNumberNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangeMobileNumber);
 
         public static string Manage3AuthNavClass(ViewContext viewContext) => PageNavClass(viewContext, Manage3Auth);
+        public static string PrivateKeyAuthenticationClass(ViewContext viewContext) => PageNavClass(viewContext, PrivateKeyAuthentication);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

@@ -29,5 +29,6 @@ namespace SSDAssignment40.Data
         public string IPAddress { get; set; }
         public bool RequireAdditionalVerification { get; set; }
         public string AdditionalVerificationSecret { get; set; }
+        public string secretFileVerificationHash { get; set; }
     }
 }
