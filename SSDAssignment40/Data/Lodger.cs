@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SSDAssignment40.Data
 {
-    public class Lodger : IdentityUser
+    public class Lodger : IdentityUser, ICloneable
     {
         public string FullName { get; set; }
         public bool isVerified { get; set; }
@@ -29,5 +29,10 @@ namespace SSDAssignment40.Data
         public string IPAddress { get; set; }
         public bool RequireAdditionalVerification { get; set; }
         public string AdditionalVerificationSecret { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

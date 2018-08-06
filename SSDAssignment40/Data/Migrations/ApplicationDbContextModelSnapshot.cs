@@ -213,6 +213,8 @@ namespace SSDAssignment40.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<bool>("isSuspended");
+
                     b.HasKey("ListingId");
 
                     b.HasIndex("LodgerId");
@@ -368,6 +370,24 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasKey("reply_ID");
 
                     b.ToTable("Reply");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.RevertChanges", b =>
+                {
+                    b.Property<string>("RevertChangesId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuditRecordId");
+
+                    b.Property<string>("OldLodgerUserId");
+
+                    b.HasKey("RevertChangesId");
+
+                    b.HasIndex("AuditRecordId");
+
+                    b.HasIndex("OldLodgerUserId");
+
+                    b.ToTable("RevertChanges");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
@@ -555,6 +575,17 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasOne("SSDAssignment40.Data.Lodger", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.RevertChanges", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.AuditRecord", "AuditRecord")
+                        .WithMany()
+                        .HasForeignKey("AuditRecordId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "OldLodgerUser")
+                        .WithMany()
+                        .HasForeignKey("OldLodgerUserId");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>

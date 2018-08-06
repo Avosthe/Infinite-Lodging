@@ -21,11 +21,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public IndexModel(
             UserManager<Lodger> userManager,
             SignInManager<Lodger> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _context = context;
         }
 
         public string Username { get; set; }
@@ -39,6 +41,8 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public InputModel Input { get; set; }
         [TempData]
         public string userAlertMessage { get; set; }
+
+        public ApplicationDbContext _context { get; set; }
 
         public class InputModel
         {
@@ -106,6 +110,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                     "Confirm your email",
                     $"<div style=width: 70%; margin: 0 auto;'><p><img style='display: block; margin-left: auto; margin-right: auto;' src='https://image.ibb.co/dyXbEy/test.png' alt='Infinite Lodging' width='198' height='94' /></p><h3 style='text-align: center;'>For security reasons, please verify your new email address.</h3><p style='text-align: center;'><a href='{HtmlEncoder.Default.Encode(callbackUrl)}'><img src='https://image.ibb.co/gEX9mo/Logo_Makr_0k_Wnu_O.png' alt='Confirm Email' width='344' height='43' /></a></p><p style='text-align: center;'>&nbsp;</p><span style='color: #808080; font-size: small;'><em>This message was sent to {Input.Email}. You are receiving this because you're a &infin;Lodging member, or you've signed up to receive email from us. Manage your preferences or unsubscribe. </em></span></div>");
                 userAlertMessage = "Please verify your new email address before logging in!";
+                AuditRecord ar = new AuditRecord();
+                ar.AuditActionType = "Changed Email";
+                ar.AuditRecordId = Guid.NewGuid().ToString();
+                ar.DateTimeStamp = DateTime.Now;
+                ar.PerformedBy = user;
+                ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                await _context.SaveChangesAsync();
                 await _signInManager.SignOutAsync();
                 return RedirectToPage("/Index", new { area = ""});
                 //if (!setEmailResult.Succeeded)

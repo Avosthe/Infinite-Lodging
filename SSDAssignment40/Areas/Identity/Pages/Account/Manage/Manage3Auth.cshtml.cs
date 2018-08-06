@@ -37,6 +37,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 await _dbContext.SaveChangesAsync();
                 StatusMessage = "Profile changes updated successfully!";
             }
+            AuditRecord ar = new AuditRecord();
+            ar.AuditActionType = "Disabled 3-Factor-Authentication";
+            ar.AuditRecordId = Guid.NewGuid().ToString();
+            ar.DateTimeStamp = DateTime.Now;
+            ar.PerformedBy = user;
+            ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            await _dbContext.SaveChangesAsync();
             return Page();
         }
         public async Task<IActionResult> OnPostEnable3AuthAsync()
@@ -47,6 +54,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 HttpContext.Session.SetString("3AuthSetup", "True");
                 return RedirectToPage("../Auth3Setup");
             }
+            AuditRecord ar = new AuditRecord();
+            ar.AuditActionType = "Enabled 3-Factor-Authentication";
+            ar.AuditRecordId = Guid.NewGuid().ToString();
+            ar.DateTimeStamp = DateTime.Now;
+            ar.PerformedBy = user;
+            ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            await _dbContext.SaveChangesAsync();
             return Page();
         }
     }

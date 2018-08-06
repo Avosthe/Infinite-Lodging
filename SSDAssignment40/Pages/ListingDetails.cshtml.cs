@@ -34,10 +34,14 @@ namespace SSDAssignment40.Pages
 
         public Lodger Lodger { get; set; }
 
+        public Booking Booking { get; set; }
+
         //[BindProperty]
         public Listing Listing { get; set; }
 
         public UserManager<Lodger> userManager { get; set; }
+
+        public List<DateTime> DateList { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -68,7 +72,6 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostSubmitReviewAsync(string id)
         {
-
             Review.Lodger = await userManager.GetUserAsync(User);
             Review.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
             Review.DateTime = DateTime.Now;
@@ -78,8 +81,64 @@ namespace SSDAssignment40.Pages
                 return Page();
             }
 
+            if (Review.Lodger == null)
+            {
+                return Redirect("./Identity/Account/Login");
+            }
+
+            if (Review.Lodger == Review.Listing.Lodger)
+            {
+                return NotFound();
+            }
+
             _context.Review.Add(Review);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
+
+            // Create an auditrecord object
+            var auditrecord = new AuditRecord();
+            auditrecord.AuditActionType = "Review was created with id " + Review.ReviewId;
+            auditrecord.DateTimeStamp = DateTime.Now;
+            // Get current logged-in user
+            auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+            auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+            _context.AuditRecords.Add(auditrecord);
+            await _context.SaveChangesAsync();
+
+            return Redirect("./ListingDetails?id=" + id);
+        }
+
+        public async Task<IActionResult> OnPostSubmitBookingAsync(string id, DateTime startDate, DateTime endDate)
+        {
+            //for (DateTime date = startDate; date < endDate.AddDays(1); date.AddDays(1))
+            //{
+            //    DateList.Add(date);
+            //}
+            Booking.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+            Booking.Lodger = await userManager.GetUserAsync(User);
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (Booking.Lodger == null)
+            {
+                return Redirect("./Identity/Account/Login");
+            }
+
+            if (Booking.Listing == null)
+            {
+                return NotFound();
+            }
+
+            if (Booking.Listing.isSuspended)
+            {
+                return NotFound();
+            }
+
+            _context.Booking.Add(Booking);
+            await _context.SaveChangesAsync();
+
             return Redirect("./ListingDetails?id=" + id);
         }
     }

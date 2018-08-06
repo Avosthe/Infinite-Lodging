@@ -31,6 +31,7 @@ namespace SSDAssignment40.Pages
 
         [Required]
         [BindProperty]
+        [StringLength(500, ErrorMessage = "Sorry, your review is too long!")]
         public string ReviewInput { get; set; }
         [Required]
         [BindProperty]

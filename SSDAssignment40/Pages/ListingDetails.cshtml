@@ -90,16 +90,19 @@
                         </div>
                     }
                 }
+                else if (_userManager.GetUserId(User) == null)
+                {
+                    <div style="float:left;width:100%;color:red;">There are currently no reviews for this listing.</div>
+                }
                 else
                 {
                     <div style="float:left;width:100%;color:red;">There are currently no reviews for this listing. Be the first to add one below!</div>
-
                 }
             </div>
         </div>
         <div style="float:left;margin-top:20px;height:1px;background-color:gray;width:100%;"></div>
 
-        @if (!reviewCheck && Model.Listing.Lodger.Id != _userManager.GetUserId(User))
+        @if (!reviewCheck && Model.Listing.Lodger.Id != _userManager.GetUserId(User) && _userManager.GetUserId(User) != null)
         {
             <div>
                 <div style="float:left;width:100%;text-decoration:underline;text-align:center;font-size:18px;margin-bottom:10px;margin-top:10px;">
@@ -128,37 +131,49 @@
         }
     </div>
     <div class="hidden" id="price">@Model.Listing.Price</div>
-    <div style="float:left;">
-        <div class="listingbooking">
-            <b style="font-size:24px;">S$@Model.Listing.Price</b> per night
-            <form method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label>From</label>
-                    <input type="date" onchange="updatePrice(); updateDate();" id="dateStart" asp-for="dateStart" class="form-control" required />
-                    <span asp-validation-for="dateStart" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label>To</label>
-                    <input type="date" onchange="updatePrice(); updateDate();" id="dateEnd" asp-for="dateEnd" class="form-control" required />
-                    <span asp-validation-for="dateEnd" class="text-danger"></span>
-                </div>
-                <div id="bookingprice">
-                    <div id="calculation"></div><div id="calctotal"></div>
-                    <div id="line"></div>
-                    <div id="totalprice">Total Price</div><div id="total"></div>
-                </div>
 
-                <div class="buttoncontainer" style="margin:auto;display:inline-block;margin-left:30px;">
-                    <a asp-page="./Checkout/CheckoutReview" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart" asp-route-endDate="@Model.dateEnd">
-                        <div class="clickbuttonnoshadow">
-                            Book
-                        </div>
-                    </a>
-                </div>
-            </form>
+    @if (!Model.Listing.isSuspended)
+    {
+        <div style="float:left;">
+            <div class="listingbooking">
+                <b style="font-size:24px;">S$@Model.Listing.Price</b> per night
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="date" onchange="updatePrice(); updateDate();" id="dateStart" asp-for="Booking.DateStart" class="form-control" required />
+                        <span asp-validation-for="Booking.DateStart" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="date" onchange="updatePrice(); updateDate();" id="dateEnd" asp-for="Booking.DateEnd" class="form-control" required />
+                        <span asp-validation-for="Booking.DateEnd" class="text-danger"></span>
+                    </div>
+                    <div id="bookingprice">
+                        <div id="calculation"></div><div id="calctotal"></div>
+                        <div id="line"></div>
+                        <div id="totalprice">Total Price</div><div id="total"></div>
+                    </div>
+
+                    <div class="buttoncontainer" style="margin:auto;display:inline-block;margin-left:30px;">
+                        <a asp-page="./Checkout/CheckoutReview" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.Booking.DateStart" asp-route-endDate="@Model.Booking.DateEnd">
+                            <div class="clickbuttonnoshadow">
+                                Book
+                            </div>
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div style="float:left;">
+            <div style="color:red;font-size:24px" class="listingbooking">
+                This listing is currently suspended and cannot be booked!
+            </div>
+        </div>
+    }
 </div>
 
 

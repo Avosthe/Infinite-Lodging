@@ -32,7 +32,15 @@ namespace SSDAssignment40.Pages.Support
 
                 if (Lodger == null)
                 {
-                    return RedirectToPage("/Error/NiceTry");
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "Anonymous User Tried To Edit Customer Support id:" + id + " Record";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                auditrecord.PerformedBy = null;
+                auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("/Error/NiceTry");
                 }
 
                 if (id == null)
@@ -44,7 +52,16 @@ namespace SSDAssignment40.Pages.Support
 
                 if (Lodger.Id != CustomerSupport.Lodger.Id)
                 {
-                    return RedirectToPage("./Error/NiceTry");
+                var user = await _userManager.GetUserAsync(User);
+                var auditrecord = new AuditRecord();
+                auditrecord.AuditActionType = "User Tried To Edit Another User's Customer Support" + id + " Record";
+                auditrecord.DateTimeStamp = DateTime.Now;
+                auditrecord.PerformedBy = user;
+                auditrecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditrecord.IPAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                _context.AuditRecords.Add(auditrecord);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("/Error/NiceTry");
                 }
 
                 CustomerSupport = await _context.CustomerSupport.FirstOrDefaultAsync(m => m.CustomerSupport_ID == id);

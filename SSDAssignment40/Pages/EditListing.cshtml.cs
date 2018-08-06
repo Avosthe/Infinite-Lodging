@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using VirusTotalNET;
+using VirusTotalNET.Results;
 
 namespace SSDAssignment40.Pages
 {
@@ -18,11 +20,12 @@ namespace SSDAssignment40.Pages
     {
         private readonly SSDAssignment40.Data.ApplicationDbContext _context;
 
-        public EditListingModel(SSDAssignment40.Data.ApplicationDbContext context, IHostingEnvironment environment, UserManager<Lodger> user)
+        public EditListingModel(SSDAssignment40.Data.ApplicationDbContext context, IHostingEnvironment environment, UserManager<Lodger> user, IVirusScanner virusScanner)
         {
             _context = context;
             _environment = environment;
             userManager = user;
+            _virusScanner = virusScanner;
         }
 
         [BindProperty]
@@ -42,6 +45,18 @@ namespace SSDAssignment40.Pages
         List<string> allowedFileTypes = new List<string>() { "FFD8", "8950" };
 
         public UserManager<Lodger> userManager { get; set; }
+
+        public IVirusScanner _virusScanner { get; set; }
+
+        private async Task<VirusReport> ScanForVirus(IFormFile hostile)
+        {
+            using (var ms = new MemoryStream())
+            {
+                hostile.CopyTo(ms);
+                var HostileFileBytes = ms.ToArray();
+                return await _virusScanner.ScanForVirus(HostileFileBytes);
+            }
+        }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -73,71 +88,102 @@ namespace SSDAssignment40.Pages
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
+            Lodger = await userManager.GetUserAsync(User);
 
-            if (!ModelState.IsValid)
+            var creator = (from l in _context.Listing where l.ListingId == id select l.Lodger.Id).ToList();
+
+            if (Lodger.Id == creator[0])
             {
-                return Page();
-            }
+                var existingPic = (from l in _context.Listing where l.ListingId == id select l.CoverPic).ToList();
 
-            if (Upload != null)
-            {
-                changePic = true;
-
-                string fullPath = "./wwwroot/ListingCover/" + existingPic[0];
-                fullPath = Path.GetFullPath(fullPath);
-
-                if (System.IO.File.Exists(fullPath))
+                if (!ModelState.IsValid)
                 {
-                    System.IO.File.Delete(fullPath);
+                    return Page();
                 }
 
-                var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
-                var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
-
-                using (var fileStream = new FileStream(file, FileMode.Create))
+                if (Upload != null)
                 {
-                    await Upload.CopyToAsync(fileStream);
-                    using (var ms = new MemoryStream())
+                    VirusReport vr = await ScanForVirus(Upload);
+                    if (vr.Positives > 0)
                     {
-                        Upload.CopyTo(ms);
-                        var fileBytes = ms.ToArray();
-                        hex = BitConverter.ToString(fileBytes).Replace("-", "").Substring(0, 4);
+                        ModelState.AddModelError("CoverPicFailedVirusCheck", "Cover Picture failed virus scan!");
+                        ModelState.AddModelError("CoverPicReportLink", vr.ReportLink);
+                        return Page();
+                    }
 
-                        if (!allowedFileTypes.Contains(hex))
+                    changePic = true;
+
+                    string fullPath = "./wwwroot/ListingCover/" + existingPic[0];
+                    fullPath = Path.GetFullPath(fullPath);
+
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+
+                    var filename = Guid.NewGuid().ToString() + Path.GetExtension(Upload.FileName);
+                    var file = Path.Combine(_environment.ContentRootPath, "wwwroot", "ListingCover", filename);
+
+                    using (var fileStream = new FileStream(file, FileMode.Create))
+                    {
+                        await Upload.CopyToAsync(fileStream);
+                        using (var ms = new MemoryStream())
                         {
-                            return RedirectToPage("/Error/wrongFileType");
+                            Upload.CopyTo(ms);
+                            var fileBytes = ms.ToArray();
+                            hex = BitConverter.ToString(fileBytes).Replace("-", "").Substring(0, 4);
+
+                            if (!allowedFileTypes.Contains(hex))
+                            {
+                                return RedirectToPage("/Error/wrongFileType");
+                            }
+
+
+                            Listing.CoverPic = filename;
                         }
-                        Listing.CoverPic = filename;
                     }
                 }
-            }
 
-            _context.Attach(Listing).State = EntityState.Modified;
+                _context.Attach(Listing).State = EntityState.Modified;
 
-            if (!changePic)
-            {
-                Listing.CoverPic = existingPic[0];
-                _context.Listing.Update(Listing);
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ListingExists(Listing.ListingId))
+                if (!changePic)
                 {
-                    return NotFound();
+                    Listing.CoverPic = existingPic[0];
+                    _context.Listing.Update(Listing);
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return RedirectToPage("./Listings");
+                try
+                {
+                    await _context.SaveChangesAsync();
+
+                    // Create an auditrecord object
+                    var auditrecord = new AuditRecord();
+                    auditrecord.AuditActionType = "Listing " + Listing.ListingId + " was edited";
+                    auditrecord.DateTimeStamp = DateTime.Now;
+                    // Get current logged-in user
+                    auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                    auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                    _context.AuditRecords.Add(auditrecord);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ListingExists(Listing.ListingId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToPage("./Listings");
+            }
+            else
+            {
+                return RedirectToPage("./Error/NiceTry");
+            }
         }
 
         private bool ListingExists(string id)
@@ -164,6 +210,16 @@ namespace SSDAssignment40.Pages
                         System.IO.File.Delete(fullPath);
                     }
 
+
+                    // Create an auditrecord object
+                    var auditrecord = new AuditRecord();
+                    auditrecord.AuditActionType = "Listing " + Listing.ListingId + " was deleted";
+                    auditrecord.DateTimeStamp = DateTime.Now;
+                    // Get current logged-in user
+                    auditrecord.PerformedBy = await userManager.GetUserAsync(User);
+                    auditrecord.IPAddress = auditrecord.PerformedBy.IPAddress;
+                    _context.AuditRecords.Add(auditrecord);
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)

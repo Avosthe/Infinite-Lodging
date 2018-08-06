@@ -22,25 +22,41 @@ namespace SSDAssignment40.Pages.Profile
         public IFormFile ProfilePicture { get; set; }
         [Required]
         [Display(Name = "Full Name")]
+        [StringLength(50, ErrorMessage = "Full Name too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid Full Name!")]
         public string FullName { get; set; }
         [Required]
         public string Gender { get; set; }
+        [StringLength(500, ErrorMessage = "Sorry, your Biography is too long!")]
         public string Biography { get; set; }
         [Required]
         [EmailAddress]
+        [StringLength(100, ErrorMessage = "Sorry, your Alternate Email Address is too long!")]
         public string AlternateEmail { get; set; }
         [Required]
+        [StringLength(70, ErrorMessage = "Sorry, your Country is too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid Country!")]
         public string Country { get; set; }
         [Required]
+        [StringLength(60, ErrorMessage = "Sorry, your City is too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter a valid City!")]
         public string City { get; set; }
-        [Required]
+        //[Required]
         [Display(Name = "Government Identification")]
         public IFormFile GovernmentID { get; set; }
+        [StringLength(50, ErrorMessage = "Sorry your hobbies are too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9.,/\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Hobbies { get; set; }
+        [StringLength(50, ErrorMessage = "Sorry, you status is too long!")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Status { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Sorry, your address is too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_#-@\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Address { get; set; }
         [Required]
+        [StringLength(30, ErrorMessage = "Sorry, your occupation is too long!")]
+        [RegularExpression("^[a-zA-Z0-9][a-zA-Z0-9_/,.\\s]*$", ErrorMessage = "Please enter valid characters only!")]
         public string Occupation { get; set; }
     }
 
@@ -59,21 +75,36 @@ namespace SSDAssignment40.Pages.Profile
         public ApplicationDbContext _context { get; set; }
 
         public Lodger LodgerUser { get; set; }
+        public Lodger SavedLodgerUser { get; set; }
         List<byte[]> allowedHeaders = new List<byte[]>() { new byte[] { 0xFF, 0xD8, 0xFF }, new byte[] { 0x89, 0x50, 0x4E } };
         public IDataProtector _protector { get; set; }
         public IVirusScanner _virusScanner { get; set; }
+        public IDataProtectionProvider _provider { get; set; }
+        public string Occupation { get; set; }
+        public string Address { get; set; }
 
         public EditModel(UserManager<Lodger> userManager, IHostingEnvironment environment, ApplicationDbContext context, IDataProtectionProvider provider, IVirusScanner virusScanner)
         {
             _userManager = userManager;
             _environment = environment;
             _context = context;
+            _provider = provider;
             _protector = provider.CreateProtector("SSDAssignment40.Pages.Profile.Edit");
             _virusScanner = virusScanner;
         }
         public async Task<IActionResult> OnGetAsync()
         {
             LodgerUser = await _userManager.GetUserAsync(User);
+            Occupation = "";
+            Address = "";
+            if(LodgerUser.Occupation != null)
+            {
+                Occupation = _protector.Unprotect(LodgerUser.Occupation);
+            }
+            if (LodgerUser.Address != null)
+            {
+                Address = _protector.Unprotect(LodgerUser.Address);
+            }
             return Page();
         }
 
@@ -103,6 +134,7 @@ namespace SSDAssignment40.Pages.Profile
         public async Task<IActionResult> OnPostAsync()
         {
             LodgerUser = await _userManager.GetUserAsync(User);
+            SavedLodgerUser = (Lodger)LodgerUser.Clone();
             if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
             {
                 ModelState.Remove("GovernmentID"); // remove governmentId req if already have
@@ -141,40 +173,62 @@ namespace SSDAssignment40.Pages.Profile
             {
                 LodgerUser.Gender = (LodgerUser.Gender == UserInput.Gender) ? LodgerUser.Gender : UserInput.Gender;
             }
-            //else return Page();
+            else
+            {
+                ModelState.AddModelError("Invalid Gender", "Invalid Gender!");
+                return Page();
+            }
             LodgerUser.Biography = (LodgerUser.Biography == UserInput.Biography) ? LodgerUser.Biography : UserInput.Biography;
             LodgerUser.AlternateEmail = (LodgerUser.AlternateEmail == UserInput.AlternateEmail) ? LodgerUser.AlternateEmail : UserInput.AlternateEmail;
             LodgerUser.Country = (LodgerUser.Country == UserInput.Country) ? LodgerUser.Country : UserInput.Country;
             LodgerUser.City = (LodgerUser.City == UserInput.City) ? LodgerUser.City : UserInput.City;
-            LodgerUser.Address = (LodgerUser.Address == UserInput.Address) ? LodgerUser.Address : UserInput.Address;
-            LodgerUser.Occupation = (LodgerUser.Occupation == UserInput.Occupation) ? LodgerUser.Occupation : UserInput.Occupation;
+            LodgerUser.Address = (LodgerUser.Address == _protector.Protect(UserInput.Address)) ? LodgerUser.Address : _protector.Protect(UserInput.Address);
+            LodgerUser.Occupation = (LodgerUser.Occupation == _protector.Protect(UserInput.Occupation)) ? LodgerUser.Occupation : _protector.Protect(UserInput.Occupation);
             LodgerUser.Hobbies = (LodgerUser.Hobbies == UserInput.Hobbies) ? LodgerUser.Hobbies : UserInput.Hobbies;
             LodgerUser.Status = (LodgerUser.Status == UserInput.Status) ? LodgerUser.Status : UserInput.Status;
-            VirusReport vr2 = await ScanForVirus(UserInput.GovernmentID);
-            if (vr2.Positives > 0)
+            if(UserInput.GovernmentID != null)
             {
-                ModelState.AddModelError("GovernmentIDFailedVirusCheck", "GovernmentID failed virus scan!");
-                ModelState.AddModelError("GovernmentIDReportLink", vr2.ReportLink);
-                return Page();
+                if (!(checkPictureHeader(UserInput.GovernmentID)))
+                {
+                    ModelState.AddModelError("GovernmentIDPhoto", "Invalid file format for GovernmentID (Only .jpg/.jpeg/.png are accepted!)");
+                    return Page();
+                }
+                VirusReport vr2 = await ScanForVirus(UserInput.GovernmentID);
+                if (vr2.Positives > 0)
+                {
+                    ModelState.AddModelError("GovernmentIDFailedVirusCheck", "GovernmentID failed virus scan!");
+                    ModelState.AddModelError("GovernmentIDReportLink", vr2.ReportLink);
+                    return Page();
+                }
+                var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
+                if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
+                {
+                    var CurrentGovernmentID = LodgerUser.GovernmentID;
+                    System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", CurrentGovernmentID));
+                }
+                LodgerUser.GovernmentID = _protector.Protect(gFileName);
+                var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", gFileName);
+                using (var fileStream = new FileStream(gFile, FileMode.Create))
+                {
+                    await UserInput.GovernmentID.CopyToAsync(fileStream);
+                }
             }
-            if (!(checkPictureHeader(UserInput.GovernmentID)))
+            if(await _context.SaveChangesAsync() > 0)
             {
-                ModelState.AddModelError("GovernmentIDPhoto", "Invalid file format for GovernmentID (Only .jpg/.jpeg/.png are accepted!)");
-                return Page();
+                AuditRecord auditRecord = new AuditRecord();
+                auditRecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditRecord.AuditActionType = "Edit Profile";
+                auditRecord.PerformedBy = LodgerUser;
+                auditRecord.DateTimeStamp = DateTime.Now;
+                auditRecord.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                _context.AuditRecords.Add(auditRecord);
+                //RevertChanges newRc = new RevertChanges();
+                //newRc.RevertChangesId = Guid.NewGuid().ToString();
+                //newRc.OldLodgerUser = SavedLodgerUser;
+                //newRc.AuditRecord = auditRecord;
+                //_context.RevertChanges.Add(newRc);
+                await _context.SaveChangesAsync();
             }
-            var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
-            if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
-            {
-                var CurrentGovernmentID = LodgerUser.GovernmentID;
-                System.IO.File.Delete(Path.Combine(_environment.ContentRootPath, "wwwroot", "profile-images", CurrentGovernmentID));
-            }
-            LodgerUser.GovernmentID = gFileName;
-            var gFile = Path.Combine(_environment.ContentRootPath, "wwwroot", "government-ids", gFileName);
-            using (var fileStream = new FileStream(gFile, FileMode.Create))
-            {
-                await UserInput.GovernmentID.CopyToAsync(fileStream);
-            }
-            await _context.SaveChangesAsync();
             alertMessage = "User Profile Updated Successfully";
             return Page();
         }
