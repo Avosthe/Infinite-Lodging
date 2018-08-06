@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SSDAssignment40.Data;
 
 namespace SSDAssignment40.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180806090839_RevertUser")]
+    partial class RevertUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,8 +308,6 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<bool>("isVerified");
 
-                    b.Property<string>("secretFileVerificationHash");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -372,6 +372,24 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasKey("reply_ID");
 
                     b.ToTable("Reply");
+                });
+
+            modelBuilder.Entity("SSDAssignment40.Data.RevertChanges", b =>
+                {
+                    b.Property<string>("RevertChangesId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuditRecordId");
+
+                    b.Property<string>("OldLodgerUserId");
+
+                    b.HasKey("RevertChangesId");
+
+                    b.HasIndex("AuditRecordId");
+
+                    b.HasIndex("OldLodgerUserId");
+
+                    b.ToTable("RevertChanges");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
@@ -457,8 +475,6 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("AlternateEmail");
 
-                    b.Property<string>("AuditRecordId");
-
                     b.Property<string>("Biography");
 
                     b.Property<string>("City");
@@ -481,15 +497,13 @@ namespace SSDAssignment40.Data.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<string>("PhoneNumberConfirmed");
 
                     b.Property<string>("Status");
 
                     b.Property<string>("is3AuthEnabled");
 
                     b.HasKey("UserRevertId");
-
-                    b.HasIndex("AuditRecordId");
 
                     b.ToTable("UserReverts");
                 });
@@ -607,6 +621,17 @@ namespace SSDAssignment40.Data.Migrations
                         .HasForeignKey("CreatedById");
                 });
 
+            modelBuilder.Entity("SSDAssignment40.Data.RevertChanges", b =>
+                {
+                    b.HasOne("SSDAssignment40.Data.AuditRecord", "AuditRecord")
+                        .WithMany()
+                        .HasForeignKey("AuditRecordId");
+
+                    b.HasOne("SSDAssignment40.Data.Lodger", "OldLodgerUser")
+                        .WithMany()
+                        .HasForeignKey("OldLodgerUserId");
+                });
+
             modelBuilder.Entity("SSDAssignment40.Data.Review", b =>
                 {
                     b.HasOne("SSDAssignment40.Data.Listing", "Listing")
@@ -638,13 +663,6 @@ namespace SSDAssignment40.Data.Migrations
                     b.HasOne("SSDAssignment40.Data.Lodger", "ReportingUser")
                         .WithMany()
                         .HasForeignKey("ReportingUserId");
-                });
-
-            modelBuilder.Entity("SSDAssignment40.Data.UserRevert", b =>
-                {
-                    b.HasOne("SSDAssignment40.Data.AuditRecord", "AuditRecord")
-                        .WithMany()
-                        .HasForeignKey("AuditRecordId");
                 });
 
             modelBuilder.Entity("SSDAssignment40.Data.UserReview", b =>

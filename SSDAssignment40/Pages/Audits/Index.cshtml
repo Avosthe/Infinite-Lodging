@@ -47,7 +47,7 @@
                 </td>
                 <td>
                     <a asp-page="./Details" asp-route-id="@item.AuditRecordId">Details</a> |
-                    @*@{
+                    @{
                         if (item.AuditActionType == "Edit Profile")
                         {
                             <form asp-page-handler="RevertChanges" method="post">
@@ -55,7 +55,7 @@
                                 <button type="submit" class="btn-danger">Revert</button>
                             </form>
                         }
-                    }*@
+                    }
                 </td>
             </tr>
         }

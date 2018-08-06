@@ -87,19 +87,38 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            Lodger LodgerUser = await _userManager.GetUserAsync(User);
+            if (LodgerUser == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var email = await _userManager.GetEmailAsync(user);
+            UserRevert ur = new UserRevert()
+            {
+                UserRevertId = Guid.NewGuid().ToString(),
+                FullName = LodgerUser.FullName,
+                Gender = LodgerUser.Gender,
+                AlternateEmail = LodgerUser.AlternateEmail,
+                Country = LodgerUser.Country,
+                City = LodgerUser.City,
+                Occupation = LodgerUser.Occupation,
+                Address = LodgerUser.Address,
+                GovernmentID = LodgerUser.GovernmentID,
+                Status = LodgerUser.Status,
+                Biography = LodgerUser.Biography,
+                Hobbies = LodgerUser.Hobbies,
+                Email = LodgerUser.Email,
+                PasswordHash = LodgerUser.PasswordHash,
+                PhoneNumber = LodgerUser.PhoneNumber,
+                PhoneNumberConfirmed = LodgerUser.PhoneNumberConfirmed,
+                is3AuthEnabled = LodgerUser.is3AuthEnabled
+            };
+            var email = await _userManager.GetEmailAsync(LodgerUser);
             if (Input.Email != email)
             {
                 //var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                user.EmailConfirmed = false;
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.Email);
+                LodgerUser.EmailConfirmed = false;
+                var userId = await _userManager.GetUserIdAsync(LodgerUser);
+                var code = await _userManager.GenerateChangeEmailTokenAsync(LodgerUser, Input.Email);
                 var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
@@ -110,12 +129,15 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                     "Confirm your email",
                     $"<div style=width: 70%; margin: 0 auto;'><p><img style='display: block; margin-left: auto; margin-right: auto;' src='https://image.ibb.co/dyXbEy/test.png' alt='Infinite Lodging' width='198' height='94' /></p><h3 style='text-align: center;'>For security reasons, please verify your new email address.</h3><p style='text-align: center;'><a href='{HtmlEncoder.Default.Encode(callbackUrl)}'><img src='https://image.ibb.co/gEX9mo/Logo_Makr_0k_Wnu_O.png' alt='Confirm Email' width='344' height='43' /></a></p><p style='text-align: center;'>&nbsp;</p><span style='color: #808080; font-size: small;'><em>This message was sent to {Input.Email}. You are receiving this because you're a &infin;Lodging member, or you've signed up to receive email from us. Manage your preferences or unsubscribe. </em></span></div>");
                 userAlertMessage = "Please verify your new email address before logging in!";
-                AuditRecord ar = new AuditRecord();
-                ar.AuditActionType = "Changed Email";
-                ar.AuditRecordId = Guid.NewGuid().ToString();
-                ar.DateTimeStamp = DateTime.Now;
-                ar.PerformedBy = user;
-                ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                AuditRecord auditRecord = new AuditRecord();
+                auditRecord.AuditActionType = "Changed Email";
+                auditRecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditRecord.DateTimeStamp = DateTime.Now;
+                auditRecord.PerformedBy = LodgerUser;
+                auditRecord.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                ur.AuditRecord = auditRecord;
+                _context.UserReverts.Add(ur);
+                await _context.SaveChangesAsync();
                 await _context.SaveChangesAsync();
                 await _signInManager.SignOutAsync();
                 return RedirectToPage("/Index", new { area = ""});
@@ -137,7 +159,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
             //    }
             //}
 
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(LodgerUser);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

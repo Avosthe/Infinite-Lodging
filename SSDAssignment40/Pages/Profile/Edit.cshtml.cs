@@ -75,7 +75,6 @@ namespace SSDAssignment40.Pages.Profile
         public ApplicationDbContext _context { get; set; }
 
         public Lodger LodgerUser { get; set; }
-        public Lodger SavedLodgerUser { get; set; }
         List<byte[]> allowedHeaders = new List<byte[]>() { new byte[] { 0xFF, 0xD8, 0xFF }, new byte[] { 0x89, 0x50, 0x4E } };
         public IDataProtector _protector { get; set; }
         public IVirusScanner _virusScanner { get; set; }
@@ -134,11 +133,30 @@ namespace SSDAssignment40.Pages.Profile
         public async Task<IActionResult> OnPostAsync()
         {
             LodgerUser = await _userManager.GetUserAsync(User);
-            SavedLodgerUser = (Lodger)LodgerUser.Clone();
             if (!(string.IsNullOrEmpty(LodgerUser.GovernmentID)))
             {
                 ModelState.Remove("GovernmentID"); // remove governmentId req if already have
             }
+            UserRevert ur = new UserRevert()
+            {
+                UserRevertId = Guid.NewGuid().ToString(),
+                FullName = LodgerUser.FullName,
+                Gender = LodgerUser.Gender,
+                AlternateEmail = LodgerUser.AlternateEmail,
+                Country = LodgerUser.Country,
+                City = LodgerUser.City,
+                Occupation = LodgerUser.Occupation,
+                Address = LodgerUser.Address,
+                GovernmentID = LodgerUser.GovernmentID,
+                Status = LodgerUser.Status,
+                Biography = LodgerUser.Biography,
+                Hobbies = LodgerUser.Hobbies,
+                Email = LodgerUser.Email,
+                PasswordHash = LodgerUser.PasswordHash,
+                PhoneNumber = LodgerUser.PhoneNumber,
+                PhoneNumberConfirmed = LodgerUser.PhoneNumberConfirmed,
+                is3AuthEnabled = LodgerUser.is3AuthEnabled
+            };
             if (!ModelState.IsValid) return Page();
             if (UserInput.ProfilePicture != null)
             {
@@ -222,11 +240,8 @@ namespace SSDAssignment40.Pages.Profile
                 auditRecord.DateTimeStamp = DateTime.Now;
                 auditRecord.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
                 _context.AuditRecords.Add(auditRecord);
-                //RevertChanges newRc = new RevertChanges();
-                //newRc.RevertChangesId = Guid.NewGuid().ToString();
-                //newRc.OldLodgerUser = SavedLodgerUser;
-                //newRc.AuditRecord = auditRecord;
-                //_context.RevertChanges.Add(newRc);
+                ur.AuditRecord = auditRecord;
+                _context.UserReverts.Add(ur);
                 await _context.SaveChangesAsync();
             }
             alertMessage = "User Profile Updated Successfully";
