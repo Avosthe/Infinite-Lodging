@@ -28,5 +28,6 @@ namespace SSDAssignment40.Data
         public DbSet<AuditRecord> AuditRecords { get; set; }
         public DbSet<SSDAssignment40.Data.LodgerRole> LodgerRole { get; set; }
         public DbSet<RevertChanges> RevertChanges { get; set; }
+        public DbSet<UserRevert> UserReverts { get; set; }
     }
 }
