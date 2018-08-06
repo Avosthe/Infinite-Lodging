@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-SSDAssignment40-0536A929-0970-4D62-94CB-BFB8A03B76AE</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETCOREAPP;NETCOREAPP2_1;RELEASE;NETCOREAPP;NETCOREAPP2_1</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Account\AccessDenied.cshtml.cs" />
     <Compile Remove="Data\Migrations\20180714043712_AddCustomerSupport.cs" />

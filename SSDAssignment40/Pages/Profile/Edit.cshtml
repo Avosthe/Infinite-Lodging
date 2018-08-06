@@ -412,21 +412,14 @@
                 <div class="form-group">
                     <label asp-for="UserInput.Occupation"></label>
                     <br />
-                    <input asp-for="UserInput.Occupation" class="form-control" value="@Model.LodgerUser.Occupation" required />
+                    <input asp-for="UserInput.Occupation" class="form-control" value="@Model.Occupation" required />
                     <span asp-validation-for="@Model.UserInput.Occupation"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.Address"></label>
                     <br />
-                    <input asp-for="UserInput.Address" class="form-control" value="@Model.LodgerUser.Address" required />
+                    <input asp-for="UserInput.Address" class="form-control" value="@Model.Address" required />
                     <span asp-validation-for="@Model.UserInput.Address"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UserInput.GovernmentID"></label>
-                    <br />
-                    <img src="~/images/dna.png" style="height: 60px; width: 60px;" onclick="document.getElementById('governmentID').click()" />
-                    <input asp-for="UserInput.GovernmentID" id="governmentID" accept="image/*" class="form-control" style="opacity: 0;" />
-                    <span asp-validation-for="@Model.UserInput.GovernmentID"></span>
                 </div>
                 <br />
 
@@ -436,6 +429,13 @@
                 <h3 style="background-color: lightblue; margin-top: 0; text-align: center; padding: 10px 0 10px 0; font-size: 40px; color: midnightblue;">Optional</h3>
             </div>
             <div style="width: 50%; margin: 0 auto;">
+                <div class="form-group">
+                    <label asp-for="UserInput.GovernmentID"></label>
+                    <br />
+                    <img src="~/images/dna.png" style="height: 60px; width: 60px;" onclick="document.getElementById('governmentID').click()" />
+                    <input asp-for="UserInput.GovernmentID" id="governmentID" accept="image/*" class="form-control" style="opacity: 0;" />
+                    <span asp-validation-for="@Model.UserInput.GovernmentID"></span>
+                </div>
                 <div class="form-group">
                     <label asp-for="UserInput.Status"></label>
                     <br />
@@ -448,7 +448,7 @@
                     @{
                         string Biography = string.IsNullOrEmpty(Model.LodgerUser.Biography) ? "" : Model.LodgerUser.Biography;
                     }
-                    <textarea width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;" placeholder="@Biography"></textarea>
+                    <textarea width:411px; max-width: 411px;" asp-for="UserInput.Biography" style="width: 100%;">@Biography</textarea>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserInput.Hobbies"></label>

@@ -9,5 +9,6 @@ namespace SSDAssignment40.Data
     {
         public string RevertChangesId { get; set; }
         public virtual Lodger OldLodgerUser { get; set; }
+        public virtual AuditRecord AuditRecord {get; set;}
     }
 }
