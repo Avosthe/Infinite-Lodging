@@ -205,14 +205,14 @@
     function myFunction() {
         var x = $('#paymentoptions option:selected').text();
         var y = document.getElementById('paypal-button');
-        var z = document.getElementById('paymentform');
+        var z = document.getElementById('payment-request-button');
         if (x == 'Paypal') {
             $('#paypal-button').show();
-            $('#paymentform').hide();
+            $('#payment-request-button').hide();
         }
         else if (x == 'Credit Card') {
             $('#paypal-button').hide();
-            $('#paymentform').show();
+            $('#payment-request-button').show();
         }
     }
 

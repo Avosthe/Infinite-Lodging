@@ -49,6 +49,8 @@ namespace SSDAssignment40.Pages.Checkout
         
         public double Cleaningfee { get; set; }
 
+        public double BPrice { get; set; }
+
         public UserManager<Lodger> userManager { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id, DateTime startDate, DateTime endDate)
@@ -72,6 +74,8 @@ namespace SSDAssignment40.Pages.Checkout
             datediff = (endDate - startDate).TotalDays;
 
             Cleaningfee = Price * 0.05;
+
+            BPrice = (Price * datediff);
 
             TotalPrice = (Price * datediff) + Cleaningfee;
 
