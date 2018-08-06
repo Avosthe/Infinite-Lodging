@@ -58,7 +58,6 @@ namespace SSDAssignment40.Pages.Checkout
                 return NotFound();
             }
             
-
             var reviews = from r in _context.Review where r.Listing.ListingId == id select r;
             ReviewList = await reviews.ToListAsync();
 
@@ -78,13 +77,5 @@ namespace SSDAssignment40.Pages.Checkout
 
             return Page();
         }
-        //public DateTime DateDiff(DateTime startDate, DateTime endDate)
-        //{
-        //    dateStart = startDate;
-        //    dateEnd = endDate;
-
-        //    var DateDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
-        //    return DateDiff;
-        //}
     }
 }
