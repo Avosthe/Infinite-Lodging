@@ -19,11 +19,31 @@ namespace SSDAssignment40.Pages.Checkout
         {
             _context = context;
         }
+
+        public Listing Listing { get; set; }
+
+        public DateTime dateStart { get; set; }
+
+        public DateTime dateEnd { get; set; }
+
         public IList<CreditCard> CreditCard { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string id, DateTime startDate, DateTime endDate)
         {
+            if (id == null || startDate == null || endDate == null)
+            {
+                return NotFound();
+            }
+
             CreditCard = await _context.CreditCard.ToListAsync();
+
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+
+            dateStart = startDate;
+
+            dateEnd = endDate;
+
+            return Page();
         }
     }
 }
