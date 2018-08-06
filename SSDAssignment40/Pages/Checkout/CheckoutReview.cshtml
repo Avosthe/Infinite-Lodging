@@ -78,7 +78,7 @@
         </div>
     </div>
     <br />
-    <a asp-page="./PaymentOptions" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart" asp-route-endDate="@Model.dateEnd">Agree and Continue</a>
+    <a asp-page="./PaymentOptions" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart.ToString("M/dd/yyyy hh:mm:ss")" asp-route-endDate="@Model.dateEnd.ToString("M/dd/yyyy hh:mm:ss")">Agree and Continue</a>
 </form>
 
 
