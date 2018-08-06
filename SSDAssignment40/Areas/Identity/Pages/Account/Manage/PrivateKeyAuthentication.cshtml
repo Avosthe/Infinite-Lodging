@@ -3,6 +3,19 @@
 @{
 }
 
+
+
+@{
+    if (Model.AlertMessage != null)
+    {
+        <div id="log_alert" class="alert alert-info fade in alert-dismissible" style="text-align: center;">
+            <p style="font-size: large">@Model.AlertMessage</p>
+            <a href="#" id="close_alert" class="close" data-dismiss="alert" aria-label="close" title="close">x</a>
+        </div>
+    }
+
+}
+
 @if (string.IsNullOrWhiteSpace(@Model.LodgerUser.secretFileVerificationHash))
 {
     <h2>Add a new file to setup PrivateFileAuthentication?</h2>
@@ -10,8 +23,8 @@
 else
 {
     <h2>Change your current file for PrivateFileAuthentication?</h2>
-
 }
+<br />
 
 @if (ModelState.ContainsKey("PrivateKeyFileReportLink"))
 {
@@ -22,14 +35,6 @@ else
         window.open("@value.Errors.ToList()[0].ErrorMessage", '_blank');
     </script>
     @ModelState.Remove("PrivateKeyFileReportLink");
-}
-
-@{
-    if(Model.AlertMessage != null)
-    {
-    <p style="font-size: large; color: darkblue;">@Model.AlertMessage</p>
-    }
-
 }
 
 <div asp-validation-summary="All"></div>
@@ -43,12 +48,9 @@ else
 
 <br />
 
-@if (string.IsNullOrWhiteSpace(@Model.LodgerUser.secretFileVerificationHash))
-{
     <form method="post" enctype="multipart/form-data">
         <input asp-for="@Model.PrivateKeyFile" type="file" />
         <br />
         <br />
         <button class="clickbutton">Submit File</button>
     </form>
-}

@@ -25,11 +25,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public IFormFile PrivateKeyFile { get; set; }
         public IVirusScanner _virusScanner { get; set; }
         public string AlertMessage { get; set; }
+        public ApplicationDbContext _context { get; set; }
 
-        public PrivateKeyAuthenticationModel(UserManager<Lodger> userManager, IVirusScanner virusScanner)
+        public PrivateKeyAuthenticationModel(UserManager<Lodger> userManager, IVirusScanner virusScanner, ApplicationDbContext context)
         {
             _userManager = userManager;
             _virusScanner = virusScanner;
+            _context = context;
         }
         public async Task<IActionResult> OnGetAsync()
         {
@@ -65,6 +67,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 byte[] HashedPrivateKeyFileBytes = sha512.ComputeHash(PrivateKeyFileBytes);
                 string HashedPrivateKeyFileString = Encoding.UTF8.GetString(HashedPrivateKeyFileBytes);
                 LodgerUser.secretFileVerificationHash = HashedPrivateKeyFileString;
+                await _context.SaveChangesAsync();
                 AlertMessage = "Success! You can now login to your account by uploading this file at the login page!";
             }
             return Page();
