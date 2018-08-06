@@ -31,11 +31,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public string StatusMessage { get; set; }
         public UserManager<Lodger> _userManager { get; set; }
         public ISmsSender _smsSender { get; set; }
+        public ApplicationDbContext _context { get; set; }
 
-        public ChangeMobileNumberModel(UserManager<Lodger> userManager, ISmsSender smsSender)
+        public ChangeMobileNumberModel(UserManager<Lodger> userManager, ISmsSender smsSender, ApplicationDbContext context)
         {
             _userManager = userManager;
             _smsSender = smsSender;
+            _context = context;
         }
         public async Task<IActionResult> OnGetAsync()
         {
@@ -67,6 +69,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                     }
                 }
                 StatusMessage = "Changes have been updated successfully!";
+                AuditRecord ar = new AuditRecord();
+                ar.AuditActionType = "Changed Phone Number";
+                ar.AuditRecordId = Guid.NewGuid().ToString();
+                ar.DateTimeStamp = DateTime.Now;
+                ar.PerformedBy = user;
+                ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                await _context.SaveChangesAsync();
                 return Page();
             }
             return Page();

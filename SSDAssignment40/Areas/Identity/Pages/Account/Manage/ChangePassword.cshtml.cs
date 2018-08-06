@@ -20,12 +20,15 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
         public ChangePasswordModel(
             UserManager<Lodger> userManager,
             SignInManager<Lodger> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
+        public ApplicationDbContext _context { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -91,7 +94,13 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account.Manage
                 }
                 return Page();
             }
-
+            AuditRecord ar = new AuditRecord();
+            ar.AuditActionType = "Changed Password";
+            ar.AuditRecordId = Guid.NewGuid().ToString();
+            ar.DateTimeStamp = DateTime.Now;
+            ar.PerformedBy = user;
+            ar.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            await _context.SaveChangesAsync();
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
