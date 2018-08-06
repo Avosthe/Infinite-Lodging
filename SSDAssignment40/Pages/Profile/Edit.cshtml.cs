@@ -162,7 +162,6 @@ namespace SSDAssignment40.Pages.Profile
                 ModelState.AddModelError("Invalid Gender", "Invalid Gender!");
                 return Page();
             }
-            //else return Page();
             LodgerUser.Biography = (LodgerUser.Biography == UserInput.Biography) ? LodgerUser.Biography : UserInput.Biography;
             LodgerUser.AlternateEmail = (LodgerUser.AlternateEmail == UserInput.AlternateEmail) ? LodgerUser.AlternateEmail : UserInput.AlternateEmail;
             LodgerUser.Country = (LodgerUser.Country == UserInput.Country) ? LodgerUser.Country : UserInput.Country;
@@ -195,7 +194,15 @@ namespace SSDAssignment40.Pages.Profile
             {
                 await UserInput.GovernmentID.CopyToAsync(fileStream);
             }
-            await _context.SaveChangesAsync();
+            if(await _context.SaveChangesAsync() > 0)
+            {
+                AuditRecord auditRecord = new AuditRecord();
+                auditRecord.AuditRecordId = Guid.NewGuid().ToString();
+                auditRecord.AuditActionType = "Edit Profile";
+                auditRecord.PerformedBy = LodgerUser;
+                auditRecord.DateTimeStamp = DateTime.Now;
+                auditRecord.IPAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            }
             alertMessage = "User Profile Updated Successfully";
             return Page();
         }
