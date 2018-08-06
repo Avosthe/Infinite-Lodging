@@ -80,6 +80,20 @@ namespace SSDAssignment40.Pages.Checkout
             TotalPrice = (Price * datediff) + Cleaningfee;
 
             return Page();
+
+        }
+        public async Task<IActionResult> OnPostAsync(string id, DateTime startDate, DateTime endDate)
+        {
+            Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
+            Booking.DateStart = startDate;
+            Booking.DateEnd = endDate;
+            Booking.Lodger = await userManager.GetUserAsync(User);
+            Booking.Listing = Listing;
+            
+            _context.Booking.Add(Booking);
+            await _context.SaveChangesAsync();
+
+            return Redirect("./PaymentOptions?id=" + id + "&startDate=" + Booking.DateStart.ToString("M/dd/yyyy hh:mm:ss") + "&endDate=" + Booking.DateEnd.ToString("M/dd/yyyy hh:mm:ss"));
         }
     }
 }

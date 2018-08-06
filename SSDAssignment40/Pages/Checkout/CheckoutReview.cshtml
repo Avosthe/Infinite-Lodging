@@ -37,11 +37,11 @@
         <li>Checkout time is anytime before 10AM</li>
     </ul>
 </form>
-<form class="form">
-   <div>
-       <div>@Model.Listing.Title</div>
-       <div><img src="~/ListingCover/@Model.Listing.CoverPic" /></div>
-   </div>
+<form class="form" method="post">
+    <div>
+        <div>@Model.Listing.Title</div>
+        <div><img src="~/ListingCover/@Model.Listing.CoverPic" /></div>
+    </div>
     <hr />
     <div>
         <div>@Model.dateStart.ToString("d MMM yyyy") &#x25B6; @Model.dateEnd.ToString("d MMM yyyy")</div>
@@ -78,7 +78,7 @@
         </div>
     </div>
     <br />
-    <a asp-page="./PaymentOptions" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart.ToString("M/dd/yyyy hh:mm:ss")" asp-route-endDate="@Model.dateEnd.ToString("M/dd/yyyy hh:mm:ss")">Agree and Continue</a>
+    <input type="submit" asp-route-id="@Model.Listing.ListingId" asp-route-startDate="@Model.dateStart.ToString("M/dd/yyyy hh:mm:ss")" asp-route-endDate="@Model.dateEnd.ToString("M/dd/yyyy hh:mm:ss")" value="Agree and Continue" />
 </form>
 
 
