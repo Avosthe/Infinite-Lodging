@@ -53,7 +53,6 @@ namespace SSDAssignment40.Pages.Checkout
 
         public async Task<IActionResult> OnGetAsync(string id, DateTime startDate, DateTime endDate)
         {
-            startDate = startDate.ToString("M/dd/yyyy hh:mm:ss");
             if (id == null || startDate == null || endDate == null)
             {
                 return NotFound();
