@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +35,7 @@ namespace SSDAssignment40.Pages
 
         public Lodger Lodger { get; set; }
 
+        [BindProperty]
         public Booking Booking { get; set; }
 
         //[BindProperty]
@@ -107,39 +109,9 @@ namespace SSDAssignment40.Pages
             return Redirect("./ListingDetails?id=" + id);
         }
 
-        public async Task<IActionResult> OnPostSubmitBookingAsync(string id, DateTime startDate, DateTime endDate)
+        public async Task<IActionResult> OnPostSubmitBookingAsync(string id)
         {
-            //for (DateTime date = startDate; date < endDate.AddDays(1); date.AddDays(1))
-            //{
-            //    DateList.Add(date);
-            //}
-            Booking.Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
-            Booking.Lodger = await userManager.GetUserAsync(User);
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            if (Booking.Lodger == null)
-            {
-                return Redirect("./Identity/Account/Login");
-            }
-
-            if (Booking.Listing == null)
-            {
-                return NotFound();
-            }
-
-            if (Booking.Listing.isSuspended)
-            {
-                return NotFound();
-            }
-
-            _context.Booking.Add(Booking);
-            await _context.SaveChangesAsync();
-
-            return Redirect("./ListingDetails?id=" + id);
+            return Redirect("./Checkout/CheckoutReview?id=" + id +  "&Bookingid="+ Booking.BookingId + "&startDate=" + Booking.DateStart.ToString("M/dd/yyyy hh:mm:ss") + "&endDate=" + Booking.DateEnd.ToString("M/dd/yyyy hh:mm:ss"));
         }
     }
 }
