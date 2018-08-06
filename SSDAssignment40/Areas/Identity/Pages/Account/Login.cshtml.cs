@@ -99,6 +99,11 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "Invalid username or password.");
                     return Page();
                 }
+                if(LodgerUser.LockoutEnd != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Sorry! Account locked out!");
+                    return Page();
+                }
                 if (LodgerUser.is3AuthEnabled == "True")
                 {
                     HttpContext.Session.SetString("Username", Input.UserName);
