@@ -28,6 +28,14 @@ namespace SSDAssignment40.Pages.Checkout
 
         public IList<CreditCard> CreditCard { get; set; }
 
+        public double Price { get; set; }
+
+        public double datediff { get; set; }
+
+        public double Cleaningfee { get; set; }
+
+        public double TotalPrice { get; set; }
+
         public async Task<IActionResult> OnGetAsync(string id, DateTime startDate, DateTime endDate)
         {
             if (id == null || startDate == null || endDate == null)
@@ -39,9 +47,17 @@ namespace SSDAssignment40.Pages.Checkout
 
             Listing = await _context.Listing.FirstOrDefaultAsync(m => m.ListingId == id);
 
+            Price = Listing.Price;
+
             dateStart = startDate;
 
             dateEnd = endDate;
+
+            datediff = (endDate - startDate).TotalDays;
+
+            Cleaningfee = Price * 0.05;
+
+            TotalPrice = (Price * datediff) + Cleaningfee;
 
             return Page();
         }

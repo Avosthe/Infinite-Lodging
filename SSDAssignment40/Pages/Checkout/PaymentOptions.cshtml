@@ -19,6 +19,7 @@
 <div id="payment-request-button">
     <!-- A Stripe Element will be inserted here. -->
 </div>
+<div id="totalpricea">@Model.TotalPrice</div>
 <form action="/charge" method="post" id="payment-form">
     <div class="form-row">
         <label for="card-element">
@@ -187,8 +188,8 @@
             return actions.payment.create({
                 transactions: [{
                     amount: {
-                        total: '0.01',
-                        currency: 'USD'
+                        total: parseInt(document.getElementById('totalpricea').innerHTML, 10),
+                        currency: 'SGD'
                     }
                 }]
             });
