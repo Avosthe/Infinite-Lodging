@@ -82,14 +82,14 @@ function resizelistingimg() {
 function updateDate() {
     var dateStart = new Date(document.getElementById("dateStart").value);
 
-    if (dateStart.getMonth() < 10)
-        var MM = "0" + dateStart.getMonth();
+    if ((dateStart.getMonth() + 1) < 10)
+        var MM = "0" + (dateStart.getMonth() + 1);
     else
-        var MM = dateStart.getMonth();
-    if (dateStart.getDate() < 10)
-        var DD = "0" + dateStart.getDate();
+        var MM = (dateStart.getMonth() + 1);
+    if ((dateStart.getDate() + 1) < 10)
+        var DD = "0" + (dateStart.getDate() + 1);
     else
-        var DD = dateStart.getDate();
+        var DD = (dateStart.getDate() + 1);
 
     document.getElementById("dateEnd").setAttribute("min", dateStart.getFullYear() + "-" + MM + "-" + DD);
 }
