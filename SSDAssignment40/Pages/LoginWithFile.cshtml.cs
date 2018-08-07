@@ -57,6 +57,11 @@ namespace SSDAssignment40.Pages
                 ModelState.AddModelError("Error!", verboseError);
                 return Page();
             }
+            if(LodgerUser.AccessFailedCount >= 3)
+            {
+                LodgerUser.AccessFailedCount = 0;
+                LodgerUser.LockoutEnd = DateTime.Now.Add(new TimeSpan(0, 15, 0));
+            }
             string SecretFileHashString = "";
             using (var ms = new MemoryStream())
             {
@@ -68,6 +73,7 @@ namespace SSDAssignment40.Pages
             if (LodgerUser.secretFileVerificationHash != SecretFileHashString)
             {
                 ModelState.AddModelError("Error!", verboseError);
+                LodgerUser.AccessFailedCount += 1;
                 return Page();
             }
             if (LodgerUser.LockoutEnd != null)
