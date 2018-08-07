@@ -15,7 +15,7 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label>Mobile Number</label>
-                <input class="form-control" value="@HttpContext.Session.GetString("MobileNumber")" disabled/>
+                <input class="form-control" value="@HttpContext.Session.GetString("MobileNumber")" disabled />
             </div>
             <div class="form-group">
                 <label asp-for="Input.UserName"></label>
@@ -37,6 +37,15 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <br />
+            <input type="checkbox" />
+            By clicking the button, you agree to our<br />
+            <a asp-page="/ToS">Terms of Service</a>. Our Terms include our 
+            <br />General Terms & Conditions, 
+            <br />Acceptable Use Policy, 
+            <br />Service Level Agreement and our Privacy Policy
+            <br />
+            <br />
             <button type="submit" class="btn btn-default">Register</button>
         </form>
     </div>
