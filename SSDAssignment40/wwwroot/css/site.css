@@ -412,3 +412,14 @@ input[type=date]::-webkit-inner-spin-button {
 .reviewStar:hover{
     cursor:pointer;
 }
+
+.polaroidnohover {
+    border: 1px thin lightgray;
+    padding: 5px;
+    margin-right: 7px;
+    margin-top: 10px;
+    left: -20px;
+    position: relative;
+    overflow: hidden;
+    width: 310px;
+}

@@ -1,0 +1,45 @@
+﻿@page
+@model SSDAssignment40.MyBookingsModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>My Bookings</h2>
+
+<table class="table">
+
+    <tbody>
+        @if (Model.Booking.Count > 0)
+{foreach (var item in Model.Booking) {
+        <tr>
+            <td style="padding-left:50px;">
+                <div style="width:300px">
+                    <a class="polaroidnohover" style="text-decoration:none;color:black;" href="./ListingDetails?id=@Html.DisplayFor(modelItem => item.Listing.ListingId)">
+
+                        <img class="listingimg" src="./ListingCover/@Html.DisplayFor(modelItem => item.Listing.CoverPic)" />
+
+                        <div class="listingtitle" style="text-align:center"> @Html.DisplayFor(modelItem => item.Listing.Title)</div>
+                    </a>
+                </div>
+            </td>
+            <td style="padding-top:100px;text-align:center;">
+                @Html.DisplayFor(modelItem => item.DateStart)
+            </td>
+            <td style="padding-top:100px;text-align:center;">
+                &rarr;
+            </td>
+            <td style="padding-top:100px;text-align:center;">
+                @Html.DisplayFor(modelItem => item.DateEnd)
+            </td>
+            <td style="padding-top:100px">
+                <a asp-page="./BookingDetails" asp-route-id="@item.BookingId">View Booking</a>
+            </td>
+        </tr>
+}
+        }
+        else{
+        <tr><td style="color:red">You currently have no bookings!!</td></tr>
+        }
+    </tbody>
+</table>

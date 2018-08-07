@@ -40,6 +40,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-page="/CreateListing" asp-route-id="@_userManager.GetUserId(User)">Create a Listing</a></li>
+                        <li><a asp-page="/MyBookings">My Bookings</a></li>
                         <li><a asp-page="/Profile/Index" asp-route-username="@_userManager.GetUserName(User)">My Profile</a></li>
                     }
                 </ul>

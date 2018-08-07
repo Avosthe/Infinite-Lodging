@@ -1,0 +1,53 @@
+﻿@page
+@model SSDAssignment40.Pages.DetailsModelBooking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<h2>Booking Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Listing
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Booking.Listing.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Booking.DateStart)
+        </dt>
+        <dd>
+            @Model.Booking.DateStart.ToString("dd/MM/yyyy")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Booking.DateEnd)
+        </dt>
+        <dd>
+            @Model.Booking.DateEnd.ToString("dd/MM/yyyy")
+        </dd>
+        <dt>
+            Total Price Paid:
+        </dt>
+        <dd>
+            S$@Model.TotalPrice
+        </dd>
+    </dl>
+
+</div>
+<form method="post">
+    <input type="submit" class="btn btn-danger" value="Cancel Booking" />
+</form>
+<br />
+
+<div>
+    <div class="buttoncontainer">
+        <a asp-page="./MyBookings">
+            <div class="clickbuttonnoshadow">
+                <<< My Bookings
+            </div>
+        </a>
+    </div>
+</div>
