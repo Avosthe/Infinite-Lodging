@@ -206,16 +206,16 @@ namespace SSDAssignment40.Pages.Profile
             LodgerUser.Status = (LodgerUser.Status == UserInput.Status) ? LodgerUser.Status : UserInput.Status;
             if(UserInput.GovernmentID != null)
             {
-                if (!(checkPictureHeader(UserInput.GovernmentID)))
-                {
-                    ModelState.AddModelError("GovernmentIDPhoto", "Invalid file format for GovernmentID (Only .jpg/.jpeg/.png are accepted!)");
-                    return Page();
-                }
                 VirusReport vr2 = await ScanForVirus(UserInput.GovernmentID);
                 if (vr2.Positives > 0)
                 {
                     ModelState.AddModelError("GovernmentIDFailedVirusCheck", "GovernmentID failed virus scan!");
                     ModelState.AddModelError("GovernmentIDReportLink", vr2.ReportLink);
+                    return Page();
+                }
+                if (!(checkPictureHeader(UserInput.GovernmentID)))
+                {
+                    ModelState.AddModelError("GovernmentIDPhoto", "Invalid file format for GovernmentID (Only .jpg/.jpeg/.png are accepted!)");
                     return Page();
                 }
                 var gFileName = Guid.NewGuid().ToString() + Path.GetExtension(UserInput.GovernmentID.FileName);
