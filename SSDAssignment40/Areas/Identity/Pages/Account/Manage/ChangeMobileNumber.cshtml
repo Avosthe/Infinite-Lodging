@@ -6,7 +6,7 @@
 @inject UserManager<Lodger> _userManager
 
 @Html.Partial("_StatusMessage", Model.StatusMessage)
-@{ 
+@{
     Lodger LodgerUser = await _userManager.GetUserAsync(User);
 }
 <div class="row">
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label asp-for="InputMobileNumber"></label>
                     <br />
-                    <input asp-for="InputMobileNumber" class="form-control" value="@AnonymizedNumber"/>
+                    <input asp-for="InputMobileNumber" class="form-control" value="@AnonymizedNumber" />
                 </div>
                 <button class="btn btn-default" type="submit">Save</button>
             </form>
@@ -40,3 +40,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

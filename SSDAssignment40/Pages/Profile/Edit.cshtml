@@ -119,7 +119,8 @@
                 .form-group span:last-of-type {
                     color: red;
                 }
-                .field-validation-field{
+
+                .field-validation-field {
                     color: red;
                 }
             </style>
@@ -493,3 +494,7 @@
     }
 
 </script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -16,7 +16,8 @@ namespace SSDAssignment40.Data
     public class SmsSender : ISmsSender
     {
 
-        const string AccessKey = "ZwdyutkaI90t2VcEBdS0jBO2X";
+        const string AccessKey = "KtweagyG3SGDdvj9PNKqn3EVW"; // darren's
+        const string backUpAccessKey = "Y42R0xpWqhGwWa5q9ZEQ2rKMs"; // zach's
         //private class Message
         //{
         //    public string recipients { get; set; }
@@ -50,7 +51,6 @@ namespace SSDAssignment40.Data
                 }
                 return false;
             }
-
             return true;
             //using (var client = new HttpClient())
             //{
