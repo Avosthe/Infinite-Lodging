@@ -73,15 +73,15 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                 return RedirectToPage("/Index", new { area = ""});
             }
             ReturnUrl = returnUrl;
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("MobileNumber"))) return RedirectToPage("/Register/VerifyMobile");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("MobileNumber"))) return RedirectToPage("/Register/VerifyMobile");
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            //var phoneNumber = HttpContext.Session.GetString("MobileNumber");
-            //if (phoneNumber == null) return RedirectToPage("/Index");
-            //HttpContext.Session.Clear();
+            var phoneNumber = HttpContext.Session.GetString("MobileNumber");
+            if (phoneNumber == null) return RedirectToPage("/Index");
+            HttpContext.Session.Clear();
 
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
@@ -95,7 +95,7 @@ namespace SSDAssignment40.Areas.Identity.Pages.Account
                     return Page();
                 }
                 code:
-                var user = new Lodger { UserName = Input.UserName, Email = Input.Email, PhoneNumberConfirmed = true, City = "Singapore", Country = "Singapore", Biography = "This user has not added their biography.", DateJoined = DateTime.Now, Gender = "Male", IPAddress = Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString(), is3AuthEnabled = "False" };
+                var user = new Lodger { UserName = Input.UserName, Email = Input.Email, PhoneNumber = phoneNumber, PhoneNumberConfirmed = true, City = "Singapore", Country = "Singapore", Biography = "This user has not added their biography.", DateJoined = DateTime.Now, Gender = "Male", IPAddress = Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString(), is3AuthEnabled = "False" };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
